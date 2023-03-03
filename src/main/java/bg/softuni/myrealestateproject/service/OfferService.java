@@ -8,6 +8,6 @@ import java.util.List;
 public interface OfferService {
     void addOffer(OfferServiceModel offerServiceModel);
 
-    List<OfferViewModel> findAllOffers();
+    List<OfferViewModel> findAllSaleOffers();
 
 }

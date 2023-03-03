@@ -47,7 +47,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<OfferViewModel> findAllOffers() {
+    public List<OfferViewModel> findAllSaleOffers() {
         return this.offerRepository.findAllSalesOffers()
                 .stream()
                 .map(offerEntity -> {
