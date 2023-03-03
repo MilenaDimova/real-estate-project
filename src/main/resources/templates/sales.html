@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hestia MD | Sales</title>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body class="aa-price-range">
+<!-- Pre Loader -->
+<div id="aa-preloader-area">
+    <div class="pulse"></div>
+</div>
+<!-- SCROLL TOP BUTTON -->
+<a class="scrollToTop" href="#"><i class="fa fa-angle-double-up"></i></a>
+<!-- END SCROLL TOP BUTTON -->
+
+
+<!-- Start header section -->
+<header id="aa-header">
+    <th:block th:include="~{fragments/header}"></th:block>
+</header>
+<!-- End header section -->
+<!-- Start menu section -->
+<section id="aa-menu-area">
+    <nav class="navbar navbar-default main-navbar" role="navigation">
+        <th:block th:include="~{fragments/nav}"></th:block>
+    </nav>
+</section>
+<!-- End menu section -->
+
+<!-- Start Proerty header  -->
+
+<section id="aa-property-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-property-header-inner">
+                    <h2>Hestia MD</h2>
+                    <ol class="breadcrumb">
+                        <li><a th:href="@{/index}">HOME</a></li>
+                        <li class="active">SALES</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Proerty header  -->
+
+<!-- Start Properties  -->
+<section id="aa-properties">
+    <div class="container">
+        <div class="row">
+<!--            <div class="col-md-8">-->
+<!--                -->
+<!--            </div>-->
+            <div class="aa-properties-content">
+                <!-- start properties content head -->
+                <div class="aa-properties-content-head">
+                    <div class="aa-properties-content-head-left">
+                        <form action="" class="aa-sort-form">
+                            <label for="">Sort by</label>
+                            <select name="">
+                                <option value="1" selected="Default">Default</option>
+                                <option value="2">Name</option>
+                                <option value="3">Price</option>
+                                <option value="4">Date</option>
+                            </select>
+                        </form>
+                        <form action="" class="aa-show-form">
+                            <label for="">Show</label>
+                            <select name="">
+                                <option value="1" selected="12">6</option>
+                                <option value="2">12</option>
+                                <option value="3">24</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="aa-properties-content-head-right">
+                        <a id="aa-grid-properties" href="#"><span class="fa fa-th"></span></a>
+                        <a id="aa-list-properties" href="#"><span class="fa fa-list"></span></a>
+                    </div>
+                </div>
+                <!-- Start properties content body -->
+                <div class="aa-properties-content-body" th:each="o : ${offers}" th:object="${o}">
+                    <ul class="aa-properties-nav">
+                        <li>
+                            <article class="aa-properties-item">
+                                <a class="aa-properties-item-img" href="#">
+                                    <img alt="img" src="img/item/6.jpg">
+                                </a>
+                                <div class="aa-tag for-rent" th:text="*{offerType}">
+                                    For Rent
+                                </div>
+                                <div class="aa-properties-item-content">
+                                    <div class="aa-properties-info">
+                                        <span th:text="|*{floor} Floor|">5 Floor</span>
+                                        <span th:text="|*{room} Rooms|">2 Rooms</span>
+                                        <span th:text="|*{bath} Baths|">3 Baths</span>
+                                        <span th:text="|*{quadrature} m2|">1100 SQ FT</span>
+                                    </div>
+                                    <div class="aa-properties-about">
+                                        <h3 th:text="*{area}"><a href="#">Appartment Title</a></h3>
+                                        <p th:text="*{description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
+                                    </div>
+                                    <div class="aa-properties-detial">
+                        <span class="aa-price" th:text="|*{price} BGN|">
+                          $35000
+                        </span>
+                                        <a class="aa-secondary-btn" href="#">View Details</a>
+                                    </div>
+                                </div>
+                            </article>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Start properties content bottom -->
+                <div class="aa-properties-content-bottom">
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li class="active"><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Properties  -->
+
+<!-- Footer -->
+<footer id="aa-footer">
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
+<!-- / Footer -->
+
+
+
+<!-- jQuery library -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<script src="/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/js/bootstrap.js"></script>
+<!-- slick slider -->
+<script type="text/javascript" src="/js/slick.js"></script>
+<!-- Price picker slider -->
+<script type="text/javascript" src="/js/nouislider.js"></script>
+<!-- mixit slider -->
+<script type="text/javascript" src="/js/jquery.mixitup.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>
+<!-- Custom js -->
+<script src="/js/custom.js"></script>
+
+</body>
+</html>
