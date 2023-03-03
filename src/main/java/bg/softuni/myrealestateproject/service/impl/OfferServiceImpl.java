@@ -2,10 +2,14 @@ package bg.softuni.myrealestateproject.service.impl;
 
 import bg.softuni.myrealestateproject.model.entity.OfferEntity;
 import bg.softuni.myrealestateproject.model.service.OfferServiceModel;
+import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.repository.OfferRepository;
 import bg.softuni.myrealestateproject.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OfferServiceImpl implements OfferService {
@@ -40,5 +44,18 @@ public class OfferServiceImpl implements OfferService {
         offer.setOwner(this.userService.findById(offerServiceModel.getOwnerId()));
 
         this.offerRepository.saveAndFlush(offer);
+    }
+
+    @Override
+    public List<OfferViewModel> findAllOffers() {
+        return this.offerRepository.findAllSalesOffers()
+                .stream()
+                .map(offerEntity -> {
+                    OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+
+                    return offerViewModel;
+                })
+                .collect(Collectors.toList());
     }
 }
