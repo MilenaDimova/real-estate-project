@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Home Property | Add Offer</title>
+    <th:block th:include="~{fragments/head}"></th:block>
+
+</head>
+<body>
+<section id="aa-signin">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-signin-area">
+                    <div class="aa-signin-form">
+                        <div class="aa-signin-form-title">
+                            <a class="aa-property-home" href="index.html">Hestia MD</a>
+                            <h4>Create your offer</h4>
+                        </div>
+                        <form class="contactform" th:method="post" th:action="@{/offers/add}" th:object="${offerAddBindingModel}">
+                            <div class="aa-single-field">
+                                <label for="city">City <span class="required">*</span></label>
+                                <select class="selectItem" id="city" name="city">
+                                    <option value="">Select City</option>
+                                    <option th:each="c : ${T(bg.softuni.myrealestateproject.model.enums.CityNameEnum).values()}" th:text="${c}" th:value="${c}"></option>
+                                </select>
+                                <small th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="text-danger"></small>
+                            </div>
+                            <div class="aa-single-field">
+                                <label for="area">Area <span class="required">*</span></label>
+                                <input th:field="*{area}" type="text" required="required" aria-required="true" value="" name="area">
+                                <small th:if="${#fields.hasErrors('area')}" th:errors="*{area}" class="text-danger"></small>
+                            </div>
+                            <div class="aa-single-field">
+                                <label for="offerType">Offer type <span class="required">*</span></label>
+                                <select class="selectItem" id="offerType" name="offerType">
+                                    <option value="">Select Offer Type</option>
+                                    <option th:each="o : ${T(bg.softuni.myrealestateproject.model.enums.OfferTypeEnum).values()}" th:text="${o}" th:value="${o}"></option>
+                                </select>
+                                <small th:if="${#fields.hasErrors('offerType')}" th:errors="*{offerType}" class="text-danger"></small>
+                            </div>
+                            <div class="aa-single-field">
+                                <label for="estateType">Estate type <span class="required">*</span></label>
+                                <select class="selectItem" id="estateType" name="estateType">
+                                    <option value="">Select Estate Type</option>
+                                    <option th:each="e : ${T(bg.softuni.myrealestateproject.model.enums.EstateTypeEnum).values()}" th:text="${e}" th:value="${e}"></option>
+                                </select>
+                                <small th:if="${#fields.hasErrors('estateType')}" th:errors="*{estateType}" class="text-danger"></small>
+                            </div>
+                            <div class="aa-single-field">
+                                <label for="propertyType">Property type <span class="required">*</span></label>
+                                <select class="selectItem" id="propertyType" name="propertyType">
+                                    <option value="">Select Estate Type</option>
+                                    <option th:each="p : ${T(bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum).values()}" th:text="${p}" th:value="${p}"></option>
+                                </select>
+                                <small th:if="${#fields.hasErrors('propertyType')}" th:errors="*{propertyType}" class="text-danger"></small>
+                            </div>
+                            <div class="aa-single-field">
+                                <label for="floor">Floor<span class="required">*</span></label>
+                                <input th:field="*{floor}" type="number" required="required" aria-required="true" value="" name="floor">
+                                <small th:if="${#fields.hasErrors('floor')}" th:errors="*{floor}" class="text-danger"></small>
+                                <label for="room">Rooms <span class="required">*</span></label>
+                                <input th:field="*{room}" type="number" required="required" aria-required="true" value="" name="room">
+                                <small th:if="${#fields.hasErrors('room')}" th:errors="*{room}" class="text-danger"></small>
+
+                                <label for="bes">Beds <span class="required">*</span></label>
+                                <input th:field="*{bed}" type="number" required="required" aria-required="true" value="" name="bed">
+                                <small th:if="${#fields.hasErrors('bed')}" th:errors="*{bed}" class="text-danger"></small>
+                                <label for="bath">Baths <span class="required">*</span></label>
+                                <input th:field="*{bath}" type="number" required="required" aria-required="true" value="" name="bath">
+                                <small th:if="${#fields.hasErrors('bath')}" th:errors="*{bath}" class="text-danger"></small>
+
+                                <label for="quadrature">m2 <span class="required">*</span></label>
+                                <input th:field="*{quadrature}" type="number" required="required" aria-required="true" value="" name="quadrature">
+                                <small th:if="${#fields.hasErrors('quadrature')}" th:errors="*{quadrature}" class="text-danger"></small>
+                                <label for="price">Price <span class="required">*</span></label>
+                                <input th:field="*{price}" type="number" required="required" aria-required="true" value="" name="price">
+                                <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></small>
+                            </div>
+                            <div class="aa-single-field">
+                                <label for="description">Description</label>
+                                <textarea th:field="*{description}" name="description" rows="4" cols="50">
+                                </textarea>
+                            </div>
+                            <div class="aa-single-field">
+                                <label for="activeFrom">Active From <span class="required">*</span></label>
+                                <input th:field="*{activeFrom}" type="date" required="required" aria-required="true" value="" name="activeFrom">
+                                <small th:if="${#fields.hasErrors('activeFrom')}" th:errors="*{activeFrom}" class="text-danger"></small>
+                            </div>
+                            <div class="aa-single-submit">
+                                <input type="submit" value="Create Offer" name="submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- jQuery library -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<script src="/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/js/bootstrap.js"></script>
+<!-- slick slider -->
+<script type="text/javascript" src="/js/slick.js"></script>
+<!-- Price picker slider -->
+<script type="text/javascript" src="/js/nouislider.js"></script>
+<!-- mixit slider -->
+<script type="text/javascript" src="/js/jquery.mixitup.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>
+<!-- Custom js -->
+<script src="/js/custom.js"></script>
+
+</body>
+</html>
