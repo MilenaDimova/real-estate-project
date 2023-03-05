@@ -167,15 +167,15 @@
 		width: 100%;
 		.aa-top-slider{
 			width: 100%;	
-			.slick-arrow{	
+			.slick-arrow{
 				height: 80px;
 				width: 80px;
 			}
 			.slick-prev,
-			.slick-next{  
-				background-color: transparent; 
+			.slick-next{
+				background-color: transparent;
 				border: 1px solid #fff;
-				@include transition(all 0.5s);				
+				@include transition(all 0.5s);
 			}
 			.slick-prev{
 				left: 20px;
@@ -183,9 +183,9 @@
 			.slick-next {
 			  right: 20px;
 			}
-			.slick-prev::before, .slick-next::before {  
+			.slick-prev::before, .slick-next::before {
 			  font-family: "fontAwesome";
-			  font-size: 50px;  
+			  font-size: 50px;
 			}
 			.aa-top-slider-single{
 				width: 100%;

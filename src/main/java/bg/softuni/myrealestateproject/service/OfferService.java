@@ -10,4 +10,5 @@ public interface OfferService {
 
     List<OfferViewModel> findAllSaleOffers();
 
+    OfferViewModel findById(Long id);
 }

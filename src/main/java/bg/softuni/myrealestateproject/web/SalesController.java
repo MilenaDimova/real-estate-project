@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -24,6 +25,15 @@ public class SalesController {
             modelAndView.addObject("offers", this.offerService.findAllSaleOffers());
             modelAndView.setViewName("sales");
         }
+
+        return modelAndView;
+    }
+
+    @GetMapping("/details/")
+    public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
+
+        modelAndView.addObject("property", this.offerService.findById(id));
+        modelAndView.setViewName("property-detail");
 
         return modelAndView;
     }

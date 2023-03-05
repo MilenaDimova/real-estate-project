@@ -74,6 +74,11 @@
                                 <option value="3">24</option>
                             </select>
                         </form>
+<!--                        <form>-->
+<!--                            <label class="aa-single-advance-search">-->
+<!--                                <input type="submit" value="Search" class="aa-search-btn">-->
+<!--                            </label>-->
+<!--                        </form>-->
                     </div>
                     <div class="aa-properties-content-head-right">
                         <a id="aa-grid-properties" href="#"><span class="fa fa-th"></span></a>
@@ -106,7 +111,7 @@
                         <span class="aa-price" th:text="|*{price} BGN|">
                           $35000
                         </span>
-                                        <a class="aa-secondary-btn" href="#">View Details</a>
+                                        <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{id})}">View Details</a>
                                     </div>
                                 </div>
                             </article>

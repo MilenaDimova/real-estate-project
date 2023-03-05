@@ -43,15 +43,15 @@
                                 <label for="estateType">Estate type <span class="required">*</span></label>
                                 <select class="selectItem" id="estateType" name="estateType">
                                     <option value="">Select Estate Type</option>
-                                    <option th:each="e : ${T(bg.softuni.myrealestateproject.model.enums.EstateTypeEnum).values()}" th:text="${e}" th:value="${e}"></option>
+                                    <option th:each="e : ${T(bg.softuni.myrealestateproject.model.enums.EstateTypeEnum).values()}" th:text="${e.toString().replaceAll('_', ' ')}" th:value="${e}"></option>
                                 </select>
                                 <small th:if="${#fields.hasErrors('estateType')}" th:errors="*{estateType}" class="text-danger"></small>
                             </div>
                             <div class="aa-single-field">
                                 <label for="propertyType">Property type <span class="required">*</span></label>
                                 <select class="selectItem" id="propertyType" name="propertyType">
-                                    <option value="">Select Estate Type</option>
-                                    <option th:each="p : ${T(bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum).values()}" th:text="${p}" th:value="${p}"></option>
+                                    <option value="">Select Property Type</option>
+                                    <option th:each="p : ${T(bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum).values()}" th:text="${p.toString().replaceAll('_', ' ')}" th:value="${p}"></option>
                                 </select>
                                 <small th:if="${#fields.hasErrors('propertyType')}" th:errors="*{propertyType}" class="text-danger"></small>
                             </div>
