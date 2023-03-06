@@ -1,6 +1,8 @@
 package bg.softuni.myrealestateproject.service.impl;
 
 import bg.softuni.myrealestateproject.model.entity.OfferEntity;
+import bg.softuni.myrealestateproject.model.entity.OfferTypeEntity;
+import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
 import bg.softuni.myrealestateproject.model.service.OfferServiceModel;
 import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.repository.OfferRepository;
@@ -46,9 +48,11 @@ public class OfferServiceImpl implements OfferService {
         this.offerRepository.saveAndFlush(offer);
     }
 
+
     @Override
-    public List<OfferViewModel> findAllSaleOffers() {
-        return this.offerRepository.findAllSalesOffers()
+    public List<OfferViewModel> findByOfferType(OfferTypeEnum offerTypeEnum) {
+        OfferTypeEntity offerTypeEntity = this.offerTypeService.findOfferType(offerTypeEnum);
+        return this.offerRepository.findAllByOfferType(offerTypeEntity)
                 .stream()
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
@@ -72,5 +76,18 @@ public class OfferServiceImpl implements OfferService {
                     return offerViewModel;
                 })
                 .orElse(null);
+    }
+
+    @Override
+    public List<OfferViewModel> findLatestOffers() {
+        return this.offerRepository.findTop6ByOrderByActiveFromDesc()
+                .stream()
+                .map(offerEntity -> {
+                    OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+
+                    return offerViewModel;
+                })
+                .collect(Collectors.toList());
     }
 }

@@ -93,7 +93,7 @@
                                 <a class="aa-properties-item-img" href="#">
                                     <img alt="img" src="img/item/6.jpg">
                                 </a>
-                                <div class="aa-tag for-rent" th:text="*{offerType}">
+                                <div th:class="'aa-tag ' + ${o.offerType.equals('SALE') ? 'for-sale' : 'for-rent'}" th:text="*{offerType}">
                                     For Rent
                                 </div>
                                 <div class="aa-properties-item-content">
@@ -105,12 +105,11 @@
                                     </div>
                                     <div class="aa-properties-about">
                                         <h3 th:text="*{area}"><a href="#">Appartment Title</a></h3>
-                                        <p th:text="*{description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
+                                        <p th:text="${#strings.abbreviate(o.description, 100)}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
                                     </div>
                                     <div class="aa-properties-detial">
-                        <span class="aa-price" th:text="|*{price} BGN|">
-                          $35000
-                        </span>
+                        <span class="aa-price" th:text="*{price}">
+                        </span><span class="aa-price" th:utext="${'&#8364;'}"></span>
                                         <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{id})}">View Details</a>
                                     </div>
                                 </div>

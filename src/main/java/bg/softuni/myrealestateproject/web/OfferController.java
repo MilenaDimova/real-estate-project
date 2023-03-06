@@ -1,5 +1,6 @@
 package bg.softuni.myrealestateproject.web;
 
+import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
 import bg.softuni.myrealestateproject.model.service.OfferServiceModel;
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.service.UserServiceModel;
@@ -53,9 +54,39 @@ public class OfferController {
 
     }
 
+    @GetMapping("/sales")
+    public ModelAndView sales(HttpSession httpSession, ModelAndView modelAndView) {
+        return setModelAndView(httpSession, modelAndView, OfferTypeEnum.SALE);
+    }
+
+    @GetMapping("/rents")
+    public ModelAndView rents(HttpSession httpSession, ModelAndView modelAndView) {
+        return setModelAndView(httpSession, modelAndView, OfferTypeEnum.RENT);
+    }
+
+    @GetMapping("/details/")
+    public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
+
+        modelAndView.addObject("property", this.offerService.findById(id));
+        modelAndView.setViewName("property-detail");
+
+        return modelAndView;
+    }
+
     @ModelAttribute
     public OfferAddBindingModel offerAddBindingModel() {
         return new OfferAddBindingModel();
+    }
+
+    private ModelAndView setModelAndView(HttpSession httpSession, ModelAndView modelAndView, OfferTypeEnum offerTypeEnum) {
+        if(httpSession.getAttribute("user") == null) {
+            modelAndView.setViewName("index");
+        } else {
+            modelAndView.addObject("offers", this.offerService.findByOfferType(offerTypeEnum));
+            modelAndView.setViewName("offers");
+        }
+
+        return modelAndView;
     }
 
 }
