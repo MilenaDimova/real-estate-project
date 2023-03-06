@@ -68,7 +68,7 @@ public class OfferController {
     public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
 
         modelAndView.addObject("property", this.offerService.findById(id));
-        modelAndView.setViewName("property-detail");
+        modelAndView.setViewName("offer-detail");
 
         return modelAndView;
     }
