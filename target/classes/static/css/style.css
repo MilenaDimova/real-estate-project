@@ -798,6 +798,7 @@ img {
   float: left;
   width: 100%;
   padding: 10px;
+  min-height: 110px;
 }
 .aa-properties-item .aa-properties-item-content .aa-properties-about h3 {
   margin-top: 0px;
@@ -1325,7 +1326,7 @@ img {
 ====================*/
 
 #aa-property-header {
-  background-image: url("../img/property-header-bg.jpg");
+  background-image: url("../img/slider/5.jpg");
   background-attachment: fixed;
   background-position: center center;
   background-size: cover;
