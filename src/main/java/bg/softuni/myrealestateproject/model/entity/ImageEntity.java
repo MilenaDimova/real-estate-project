@@ -10,14 +10,18 @@ import jakarta.persistence.Table;
 public class ImageEntity extends BaseEntity{
     @Column
     private String name;
-
     @Column
-    private int imageOrder;
+    private String url;
 
     @ManyToOne
     private OfferEntity offer;
 
     public ImageEntity() {
+    }
+
+    public ImageEntity(String name, String url) {
+        this.name = name;
+        this.url = url;
     }
 
     public String getName() {
@@ -29,12 +33,12 @@ public class ImageEntity extends BaseEntity{
         return this;
     }
 
-    public int getImageOrder() {
-        return imageOrder;
+    public String getUrl() {
+        return url;
     }
 
-    public ImageEntity setImageOrder(int imageOrder) {
-        this.imageOrder = imageOrder;
+    public ImageEntity setUrl(String url) {
+        this.url = url;
         return this;
     }
 
