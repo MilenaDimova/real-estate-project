@@ -18,9 +18,9 @@ public class LoginController {
     }
 
     @PostMapping("/signin-error")
-    public String onFailedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username, RedirectAttributes redirectAttributes) {
+    public String onFailedLogin(@ModelAttribute("email") String email, RedirectAttributes redirectAttributes) {
 
-        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
+        redirectAttributes.addFlashAttribute("email", email);
         redirectAttributes.addFlashAttribute("bad_credentials", true);
 
         return "redirect:/users/signin";

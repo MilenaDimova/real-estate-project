@@ -17,12 +17,12 @@
                 <h4>Sign in to your account</h4>
               </div>
               <form class="contactform" th:method="post" th:action="@{/users/signin}">
-                <div class="aa-single-field" th:if="${bad_credentials}">
+                <div class="aa-single-field errors alert alert-danger" th:if="${bad_credentials}">
                   Invalid email or password.
                 </div>
                 <div class="aa-single-field">
                   <label for="email">Email <span class="required">*</span></label>
-                  <input type="email" id="email" required="required" aria-required="true" value="" name="email">
+                  <input type="email" id="email" required="required" aria-required="true" th:value="${email}" name="email">
                 </div>
                 <div class="aa-single-field">
                   <label for="password">Password <span class="required">*</span></label>
