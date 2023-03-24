@@ -54,12 +54,12 @@
             <div class="col-md-8">
                 <div class="aa-properties-content">
                     <!-- Start properties content body -->
-                    <div class="aa-properties-details" th:object="${property}">
+                    <div class="aa-properties-details" th:object="${offer}">
                         <div class="aa-properties-details-img">
-                            <th:block th:if="${property.getImagesIds().size() == 0}">
+                            <th:block th:if="${offer.getImagesIds().size() == 0}">
                                 <img th:src="@{/images/no-image.png}" alt="img">
                             </th:block>
-                            <div th:each="imgId : ${property.getImagesIds()}">
+                            <div th:each="imgId : ${offer.getImagesIds()}">
                                 <img th:src="@{${'/images/download/' + imgId}}" alt="img">
                             </div>
                         </div>
