@@ -3,7 +3,7 @@
   <head>
 
     <title>Hestia MD | Home</title>
-    <th:block th:include="~{fragments/head}"></th:block>
+    <th:block th:insert="~{fragments/head}"></th:block>
 
   </head>
   <body class="aa-price-range">
@@ -17,14 +17,14 @@
 
   <!-- Start header section -->
   <header id="aa-header">
-    <th:block th:include="~{fragments/header}"></th:block>
+    <th:block th:insert="~{fragments/header}"></th:block>
   </header>
   <!-- End header section -->
 
   <!-- Start menu section -->
   <section id="aa-menu-area">
     <nav class="navbar navbar-default main-navbar" role="navigation">
-      <th:block th:include="~{fragments/nav}"></th:block>
+      <th:block th:insert="~{fragments/nav}"></th:block>
     </nav>
   </section>
   <!-- End menu section -->
@@ -36,7 +36,7 @@
           <div class="aa-top-slider">
               <!-- Top slider single slide -->
               <div class="aa-top-slider-single">
-                  <img src="img/slider/5.jpg" alt="img">
+                  <img src="images/slider/5.jpg" alt="img">
                   <!-- Top slider content -->
 <!--                  <div class="aa-top-slider-content">-->
 <!--                      <span class="aa-top-slider-catg">Duplex</span>-->
@@ -51,22 +51,22 @@
               <!-- / Top slider single slide -->
               <!-- Top slider single slide -->
               <div class="aa-top-slider-single">
-                  <img src="img/slider/4.jpg" alt="img">
+                  <img src="images/slider/4.jpg" alt="img">
               </div>
               <!-- / Top slider single slide -->
               <!-- Top slider single slide -->
               <div class="aa-top-slider-single">
-                  <img src="img/slider/3.jpg" alt="img">
+                  <img src="images/slider/3.jpg" alt="img">
               </div>
               <!-- / Top slider single slide -->
               <!-- Top slider single slide -->
               <div class="aa-top-slider-single">
-                  <img src="img/slider/2.jpg" alt="img">
+                  <img src="images/slider/2.jpg" alt="img">
               </div>
               <!-- / Top slider single slide -->
               <!-- Top slider single slide -->
               <div class="aa-top-slider-single">
-                  <img src="img/slider/1.jpg" alt="img">
+                  <img src="images/slider/1.jpg" alt="img">
               </div>
               <!-- / Top slider single slide -->
           </div>
@@ -172,16 +172,16 @@
         <div class="aa-title">
           <h2>Latest Properties</h2>
           <span></span>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum sit ea nobis quae vero voluptatibus.</p>
+          <p>To be able to view all our offers as well as those published directly by their owners, please login with your account.</p>
         </div>
         <div class="aa-latest-properties-content">
           <div class="row">
-            <div class="col-md-4" th:each="p : ${properties}" th:object="${p}">
+            <div class="col-md-4" th:each="o : ${offers}" th:object="${o}">
               <article class="aa-properties-item">
-                <a href="#" class="aa-properties-item-img">
-                  <img src="img/item/1.jpg" alt="img">
+                <a th:href="@{/offers/details/(id = *{id})}" class="aa-properties-item-img">
+                  <img width="370" height="220" th:src="*{getHeadingImageUrl()}" alt="img">
                 </a>
-                <div th:class="'aa-tag ' + ${p.offerType.equals('SALE') ? 'for-sale' : 'for-rent'}" th:text="*{offerType}">
+                <div th:class="'aa-tag ' + ${o.offerType.equals('SALE') ? 'for-sale' : 'for-rent'}" th:text="*{offerType}">
                   For Sale
                 </div>
                 <div class="aa-properties-item-content">
@@ -193,7 +193,7 @@
                   </div>
                   <div class="aa-properties-about">
                     <h3 th:text="*{area}"><a href="#">Apartment Title</a></h3>
-                    <p th:text="${#strings.abbreviate(p.description, 100)}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
+                    <p th:text="${#strings.abbreviate(o.description, 100)}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
                   </div>
                   <div class="aa-properties-detial">
                     <span class="aa-price" th:text="*{price}">
@@ -310,7 +310,7 @@
                 <li>
                   <div class="aa-single-agents">
                     <div class="aa-agents-img">
-                      <img src="img/agents/agent-1.png" alt="agent member image">
+                      <img src="images/agents/agent-1.png" alt="agent member image">
                     </div>
                     <div class="aa-agetns-info">
                       <h4><a href="#">Philip Smith</a></h4>
@@ -327,7 +327,7 @@
                 <li>
                   <div class="aa-single-agents">
                     <div class="aa-agents-img">
-                      <img src="img/agents/agent-5.png" alt="agent member image">
+                      <img src="images/agents/agent-5.png" alt="agent member image">
                     </div>
                     <div class="aa-agetns-info">
                       <h4><a href="#">Adam Barney</a></h4>
@@ -344,7 +344,7 @@
                 <li>
                   <div class="aa-single-agents">
                     <div class="aa-agents-img">
-                      <img src="img/agents/agent-3.png" alt="agent member image">
+                      <img src="images/agents/agent-3.png" alt="agent member image">
                     </div>
                     <div class="aa-agetns-info">
                       <h4><a href="#">Paul Walker</a></h4>
@@ -361,7 +361,7 @@
                 <li>
                   <div class="aa-single-agents">
                     <div class="aa-agents-img">
-                      <img src="img/agents/agent-4.png" alt="agent member image">
+                      <img src="images/agents/agent-4.png" alt="agent member image">
                     </div>
                     <div class="aa-agetns-info">
                       <h4><a href="#">John Smith</a></h4>
@@ -378,7 +378,7 @@
                  <li>
                   <div class="aa-single-agents">
                     <div class="aa-agents-img">
-                      <img src="img/agents/agent-1.png" alt="agent member image">
+                      <img src="images/agents/agent-1.png" alt="agent member image">
                     </div>
                     <div class="aa-agetns-info">
                       <h4><a href="#">Philip Smith</a></h4>
@@ -395,7 +395,7 @@
                 <li>
                   <div class="aa-single-agents">
                     <div class="aa-agents-img">
-                      <img src="img/agents/agent-5.png" alt="agent member image">
+                      <img src="images/agents/agent-5.png" alt="agent member image">
                     </div>
                     <div class="aa-agetns-info">
                       <h4><a href="#">Adam Barney</a></h4>
@@ -412,7 +412,7 @@
                 <li>
                   <div class="aa-single-agents">
                     <div class="aa-agents-img">
-                      <img src="img/agents/agent-3.png" alt="agent member image">
+                      <img src="images/agents/agent-3.png" alt="agent member image">
                     </div>
                     <div class="aa-agetns-info">
                       <h4><a href="#">Paul Walker</a></h4>
@@ -429,7 +429,7 @@
                 <li>
                   <div class="aa-single-agents">
                     <div class="aa-agents-img">
-                      <img src="img/agents/agent-4.png" alt="agent member image">
+                      <img src="images/agents/agent-4.png" alt="agent member image">
                     </div>
                     <div class="aa-agetns-info">
                       <h4><a href="#">John Smith</a></h4>
@@ -470,7 +470,7 @@
                 <li>
                   <div class="aa-testimonial-single">
                     <div class="aa-testimonial-img">
-                      <img src="img/testimonial-1.png" alt="testimonial img">
+                      <img src="images/testimonial-1.png" alt="testimonial img">
                     </div>
                     <div class="aa-testimonial-info">
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt fuga ab natus, dolorem?</p>
@@ -484,7 +484,7 @@
                  <li>
                   <div class="aa-testimonial-single">
                     <div class="aa-testimonial-img">
-                      <img src="img/testimonial-3.png" alt="testimonial img">
+                      <img src="images/testimonial-3.png" alt="testimonial img">
                     </div>
                     <div class="aa-testimonial-info">
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt fuga ab natus, dolorem?</p>
@@ -498,7 +498,7 @@
                  <li>
                   <div class="aa-testimonial-single">
                     <div class="aa-testimonial-img">
-                      <img src="img/testimonial-2.png" alt="testimonial img">
+                      <img src="images/testimonial-2.png" alt="testimonial img">
                     </div>
                     <div class="aa-testimonial-info">
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt fuga ab natus, dolorem?</p>
@@ -586,7 +586,7 @@
 
   <!-- Footer -->
   <footer id="aa-footer">
-    <th:block th:include="~{fragments/footer}"></th:block>
+    <th:block th:insert="~{fragments/footer}"></th:block>
   </footer>
   <!-- / Footer -->
 

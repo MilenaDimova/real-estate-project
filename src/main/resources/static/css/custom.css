@@ -15,3 +15,13 @@
     padding: 5px;
     width: 100%;
 }
+
+div.aa-header-right form button.logout-button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    color: white;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}

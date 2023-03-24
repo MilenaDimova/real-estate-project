@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Hestia MD | Sales</title>
-    <th:block th:include="~{fragments/head}"></th:block>
+    <th:block th:insert="~{fragments/head}"></th:block>
 </head>
 <body class="aa-price-range">
 <!-- Pre Loader -->
@@ -16,13 +16,13 @@
 
 <!-- Start header section -->
 <header id="aa-header">
-    <th:block th:include="~{fragments/header}"></th:block>
+    <th:block th:insert="~{fragments/header}"></th:block>
 </header>
 <!-- End header section -->
 <!-- Start menu section -->
 <section id="aa-menu-area">
     <nav class="navbar navbar-default main-navbar" role="navigation">
-        <th:block th:include="~{fragments/nav}"></th:block>
+        <th:block th:insert="~{fragments/nav}"></th:block>
     </nav>
 </section>
 <!-- End menu section -->
@@ -36,7 +36,7 @@
                 <div class="aa-property-header-inner">
                     <h2>Hestia MD</h2>
                     <ol class="breadcrumb">
-                        <li><a th:href="@{/index}">HOME</a></li>
+                        <li><a href="/">HOME</a></li>
                         <li class="active">SALES</li>
                     </ol>
                 </div>
@@ -50,9 +50,9 @@
 <section id="aa-properties">
     <div class="container">
         <div class="row">
-<!--            <div class="col-md-8">-->
-<!--                -->
-<!--            </div>-->
+            <!--            <div class="col-md-8">-->
+            <!--                -->
+            <!--            </div>-->
             <div class="aa-properties-content">
                 <!-- start properties content head -->
                 <div class="aa-properties-content-head">
@@ -74,26 +74,27 @@
                                 <option value="3">24</option>
                             </select>
                         </form>
-<!--                        <form>-->
-<!--                            <label class="aa-single-advance-search">-->
-<!--                                <input type="submit" value="Search" class="aa-search-btn">-->
-<!--                            </label>-->
-<!--                        </form>-->
+                        <!--                        <form>-->
+                        <!--                            <label class="aa-single-advance-search">-->
+                        <!--                                <input type="submit" value="Search" class="aa-search-btn">-->
+                        <!--                            </label>-->
+                        <!--                        </form>-->
                     </div>
-                    <div class="aa-properties-content-head-right">
-                        <a id="aa-grid-properties" href="#"><span class="fa fa-th"></span></a>
-                        <a id="aa-list-properties" href="#"><span class="fa fa-list"></span></a>
-                    </div>
+                    <!--                    <div class="aa-properties-content-head-right">-->
+                    <!--                        <a id="aa-grid-properties" href="#"><span class="fa fa-th"></span></a>-->
+                    <!--                        <a id="aa-list-properties" href="#"><span class="fa fa-list"></span></a>-->
+                    <!--                    </div>-->
                 </div>
                 <!-- Start properties content body -->
-                <div class="aa-properties-content-body" th:each="o : ${offers}" th:object="${o}">
+                <div class="aa-properties-content-body" th:each="o : ${offers.getContent()}" th:object="${o}">
                     <ul class="aa-properties-nav">
                         <li>
                             <article class="aa-properties-item">
-                                <a class="aa-properties-item-img" href="#">
-                                    <img alt="img" src="img/item/6.jpg">
+                                <a class="aa-properties-item-img" th:href="@{/offers/details/(id = *{id})}">
+                                    <img alt="img" width="400" height="280" th:src="*{getHeadingImageUrl()}">
                                 </a>
-                                <div th:class="'aa-tag ' + ${o.offerType.equals('SALE') ? 'for-sale' : 'for-rent'}" th:text="*{offerType}">
+                                <div th:class="'aa-tag ' + ${o.offerType.equals('SALE') ? 'for-sale' : 'for-rent'}"
+                                     th:text="*{offerType}">
                                     For Rent
                                 </div>
                                 <div class="aa-properties-item-content">
@@ -105,12 +106,15 @@
                                     </div>
                                     <div class="aa-properties-about">
                                         <h3 th:text="*{area}"><a href="#">Appartment Title</a></h3>
-                                        <p th:text="${#strings.abbreviate(o.description, 100)}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
+                                        <p th:text="${#strings.abbreviate(o.description, 100)}">Lorem ipsum dolor
+                                            sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus
+                                            quibusdam odit vitae.</p>
                                     </div>
                                     <div class="aa-properties-detial">
-                        <span class="aa-price" th:text="*{price}">
-                        </span><span class="aa-price" th:utext="${'&#8364;'}"></span>
-                                        <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{id})}">View Details</a>
+                    <span class="aa-price" th:text="*{price}">
+                    </span><span class="aa-price" th:utext="${'&#8364;'}"></span>
+                                        <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{id})}">View
+                                            Details</a>
                                     </div>
                                 </div>
                             </article>
@@ -121,20 +125,33 @@
                 <div class="aa-properties-content-bottom">
                     <nav>
                         <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
+                            <li class="page-item" th:classappend="${offers.isFirst()} ? 'disabled' : ''">
+                                <a th:unless="${offers.isFirst()}"
+                                   th:href="@{'/offers/' + ${controllerAction}(size=${offers.getSize()},page=0)}"
+                                   class="page-link" href="#">First</a>
+                                <a th:if="${offers.isFirst()}"
+                                   class="page-link" href="#">First</a>
                             </li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li class="active"><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
+                            <li class="page-item" th:classappend="${offers.hasPrevious() ? '' : 'disabled'}">
+                                <a th:if="${offers.hasPrevious()}"
+                                   th:href="@{'/offers/' + ${controllerAction}(size=${offers.getSize()},page=${offers.getNumber() - 1})}"
+                                   class="page-link" href="#">Previous</a>
+                                <a th:unless="${offers.hasPrevious()}"
+                                   class="page-link" href="#">Previous</a>
+                            </li>
+                            <li class="page-item" th:classappend="${offers.hasNext() ? '' : 'disabled'}">
+                                <a th:if="${offers.hasNext()}"
+                                   th:href="@{'/offers/' + ${controllerAction}(size=${offers.getSize()},page=${offers.getNumber() + 1})}"
+                                   class="page-link" href="#">Next</a>
+                                <a th:unless="${offers.hasNext()}"
+                                   class="page-link" href="#">Next</a>
+                            </li>
+                            <li class="page-item" th:classappend="${offers.isLast()} ? 'disabled' : ''">
+                                <a th:unless="${offers.isLast()}"
+                                   th:href="@{'/offers/' + ${controllerAction}(size=${offers.getSize()},page=${offers.getTotalPages() - 1})}"
+                                   class="page-link" href="#">Last</a>
+                                <a th:if="${offers.isLast()}"
+                                   class="page-link" href="#">Last</a>
                             </li>
                         </ul>
                     </nav>
@@ -147,10 +164,9 @@
 
 <!-- Footer -->
 <footer id="aa-footer">
-    <th:block th:include="~{fragments/footer}"></th:block>
+    <th:block th:insert="~{fragments/footer}"></th:block>
 </footer>
 <!-- / Footer -->
-
 
 
 <!-- jQuery library -->

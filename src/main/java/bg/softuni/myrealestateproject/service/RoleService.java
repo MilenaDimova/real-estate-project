@@ -1,5 +1,32 @@
 package bg.softuni.myrealestateproject.service;
 
-public interface RoleService {
-    void initRoles();
+import bg.softuni.myrealestateproject.model.entity.RoleEntity;
+import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
+import bg.softuni.myrealestateproject.repository.RoleRepository;
+import bg.softuni.myrealestateproject.service.DataBaseInitService;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+
+@Service
+public class RoleService implements DataBaseInitService {
+    private final RoleRepository roleRepository;
+
+    public RoleService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+
+    @Override
+    public void dbInit() {
+        Arrays.stream(RoleTypeEnum.values())
+                .forEach(roleTypeEnum -> {
+                    this.roleRepository.save(new RoleEntity(roleTypeEnum));
+                });
+    }
+
+    @Override
+    public boolean isDbInit() {
+        return this.roleRepository.count() == 0;
+    }
+
 }

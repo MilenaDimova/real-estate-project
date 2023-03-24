@@ -1,88 +1,92 @@
 package bg.softuni.myrealestateproject.model.service;
 
-public class UserServiceModel {
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-    private Long id;
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String confirmPassword;
-    private String phoneNumber;
+import java.util.Collection;
 
-    public UserServiceModel() {
+public class UserServiceModel implements UserDetails{
+    private final Long id;
+    private final String username;
+    private final String firstName;
+    private final String lastName;
+    private final String password;
+    private final String phoneNumber;
+    private final Collection<GrantedAuthority> authorities;
+
+
+    public UserServiceModel(Long id, String username, String firstName, String lastName, String password, String phoneNumber, Collection<GrantedAuthority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.authorities = authorities;
     }
 
     public Long getId() {
         return id;
     }
 
-    public UserServiceModel setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public UserServiceModel setUsername(String username) {
-        this.username = username;
-        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public UserServiceModel setFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
-    public UserServiceModel setLastName(String lastName) {
-        this.lastName = lastName;
-        return this;
-    }
+//    public String getFullName() {
+//        StringBuilder fullName = new StringBuilder();
+//        if (getFirstName() != null) {
+//            fullName.append(getFirstName());
+//        }
+//        if (getLastName() != null) {
+//            if (!fullName.isEmpty()) {
+//                fullName.append(" ");
+//            }
+//            fullName.append(getLastName());
+//        }
+//
+//        return fullName.toString();
+//    }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public UserServiceModel setEmail(String email) {
-        this.email = email;
-        return this;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public UserServiceModel setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public UserServiceModel setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-        return this;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
-    public UserServiceModel setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+
 }

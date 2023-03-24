@@ -1,6 +1,7 @@
 package bg.softuni.myrealestateproject.model.view;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class OfferViewModel {
     private Long id;
@@ -15,6 +16,8 @@ public class OfferViewModel {
     private String area;
     private String description;
     private BigDecimal price;
+    private OwnerViewModel owner;
+    private List<Long> imagesIds;
 
     public OfferViewModel() {
     }
@@ -125,5 +128,33 @@ public class OfferViewModel {
     public OfferViewModel setPrice(BigDecimal price) {
         this.price = price;
         return this;
+    }
+
+    public OwnerViewModel getOwner() {
+        return owner;
+    }
+
+    public OfferViewModel setOwner(OwnerViewModel owner) {
+        this.owner = owner;
+        return this;
+    }
+
+    public List<Long> getImagesIds() {
+        return imagesIds;
+    }
+
+    public OfferViewModel setImagesIds(List<Long> imagesIds) {
+        this.imagesIds = imagesIds;
+        return this;
+    }
+
+    public String getHeadingImageUrl() {
+        String url = "/images/download/";
+        if (this.getImagesIds() != null && this.getImagesIds().size() > 0) {
+            url += this.getImagesIds().get(0).toString();
+        } else {
+            url = "/images/no-image.png";
+        }
+        return url;
     }
 }

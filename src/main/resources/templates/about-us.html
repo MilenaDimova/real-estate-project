@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Hestia MD | About Us</title>
-    <th:block th:include="~{fragments/head}"></th:block>
+    <th:block th:insert="~{fragments/head}"></th:block>
 </head>
 <body>
 
@@ -17,13 +17,13 @@
 
 <!-- Start header section -->
 <header id="aa-header">
-    <th:block th:include="~{fragments/header}"></th:block>
+    <th:block th:insert="~{fragments/header}"></th:block>
 </header>
 <!-- End header section -->
 <!-- Start menu section -->
 <section id="aa-menu-area">
     <nav class="navbar navbar-default main-navbar" role="navigation">
-        <th:block th:include="~{fragments/nav}"></th:block>
+        <th:block th:insert="~{fragments/nav}"></th:block>
     </nav>
 </section>
 <!-- End menu section -->
@@ -35,7 +35,7 @@
                 <div class="aa-property-header-inner">
                     <h2>Hestia MD</h2>
                     <ol class="breadcrumb">
-                        <li><a th:href="@{/index}">HOME</a></li>
+                        <li><a href="/">HOME</a></li>
                         <li class="active">About Us</li>
                     </ol>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="aa-about-us-left">
-                                <img src="img/about-us.png" alt="image">
+                                <img src="images/about-us.jpg" alt="image">
                             </div>
                         </div>
                         <div class="col-md-7">
@@ -168,7 +168,7 @@
                             <li>
                                 <div class="aa-testimonial-single">
                                     <div class="aa-testimonial-img">
-                                        <img src="img/testimonial-1.png" alt="testimonial img">
+                                        <img src="images/testimonial-1.png" alt="testimonial img">
                                     </div>
                                     <div class="aa-testimonial-info">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt fuga ab natus, dolorem?</p>
@@ -192,7 +192,7 @@
 
 <!-- Footer -->
 <footer id="aa-footer">
-    <th:block th:include="~{fragments/footer}"></th:block>
+    <th:block th:insert="~{fragments/footer}"></th:block>
 </footer>
 <!-- / Footer -->
 

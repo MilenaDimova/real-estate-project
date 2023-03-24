@@ -1,18 +1,21 @@
 package bg.softuni.myrealestateproject.web;
 
-import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
-import bg.softuni.myrealestateproject.model.service.OfferServiceModel;
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
-import bg.softuni.myrealestateproject.model.service.UserServiceModel;
+import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
 import bg.softuni.myrealestateproject.service.OfferService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/offers")
@@ -26,17 +29,13 @@ public class OfferController {
     }
 
     @GetMapping("/add")
-    public String add(HttpSession httpSession) {
-        if (httpSession.getAttribute("user") == null) {
-            return "redirect:/users/signin";
-        }
-
+    public String add() {
         return "add-offer";
     }
 
     @PostMapping("/add")
     private String addConfirm(@Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes, HttpSession httpSession) {
+                              RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails userDetails) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerAddBindingModel", offerAddBindingModel);
@@ -45,23 +44,29 @@ public class OfferController {
             return "redirect:add";
         }
 
-        OfferServiceModel offerServiceModel = this.modelMapper.map(offerAddBindingModel, OfferServiceModel.class);
-        offerServiceModel.setOwnerId(((UserServiceModel)httpSession.getAttribute("user")).getId());
+        this.offerService.addOffer(offerAddBindingModel, userDetails);
 
-        this.offerService.addOffer(offerServiceModel);
+        return "redirect:/";
 
-        return "redirect:/index";
+    }
 
+    @ModelAttribute
+    public OfferAddBindingModel offerAddBindingModel() {
+        return new OfferAddBindingModel();
     }
 
     @GetMapping("/sales")
-    public ModelAndView sales(HttpSession httpSession, ModelAndView modelAndView) {
-        return setModelAndView(httpSession, modelAndView, OfferTypeEnum.SALE);
+    public ModelAndView sales(ModelAndView modelAndView, @PageableDefault(sort = "price", page = 0, size = 4) Pageable pageable) {
+        modelAndView.addObject("controllerAction", "sales");
+        return setModelAndView(modelAndView, OfferTypeEnum.SALE, pageable);
     }
 
+
     @GetMapping("/rents")
-    public ModelAndView rents(HttpSession httpSession, ModelAndView modelAndView) {
-        return setModelAndView(httpSession, modelAndView, OfferTypeEnum.RENT);
+    public ModelAndView rents(ModelAndView modelAndView, @PageableDefault(sort = "price", page = 0, size = 4) Pageable pageable) {
+
+        modelAndView.addObject("controllerAction", "rents");
+        return setModelAndView(modelAndView, OfferTypeEnum.RENT, pageable);
     }
 
     @GetMapping("/details/")
@@ -73,20 +78,51 @@ public class OfferController {
         return modelAndView;
     }
 
-    @ModelAttribute
-    public OfferAddBindingModel offerAddBindingModel() {
-        return new OfferAddBindingModel();
-    }
 
-    private ModelAndView setModelAndView(HttpSession httpSession, ModelAndView modelAndView, OfferTypeEnum offerTypeEnum) {
-        if(httpSession.getAttribute("user") == null) {
-            modelAndView.setViewName("index");
-        } else {
-            modelAndView.addObject("offers", this.offerService.findByOfferType(offerTypeEnum));
-            modelAndView.setViewName("offers");
-        }
+    private ModelAndView setModelAndView(ModelAndView modelAndView, OfferTypeEnum offerTypeEnum, Pageable pageable) {
+        modelAndView.addObject("offers", this.offerService.findByOfferType(offerTypeEnum, pageable));
+        modelAndView.setViewName("offers");
 
         return modelAndView;
     }
 
+
+    @GetMapping("/update/")
+    public ModelAndView update(@RequestParam("id") Long id, ModelAndView modelAndView,
+                               @Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult, Map<String, Object> modelMap) {
+        if (offerAddBindingModel.isHasErrors()) {
+            modelAndView.addObject("property", offerAddBindingModel);
+        } else {
+            var offerAddBindingModelDB = this.offerService.updateOfferById(id);
+            modelMap.put("offerAddBindingModel", offerAddBindingModelDB);
+            modelAndView.addObject("property", offerAddBindingModelDB);
+        }
+
+        modelAndView.setViewName("update-offer");
+
+        return modelAndView;
+    }
+
+    @PostMapping("/update/")
+    public ModelAndView updateConfirm(@Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes, ModelAndView modelAndView) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("offerAddBindingModel", offerAddBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerAddBindingModel", bindingResult);
+            offerAddBindingModel.setHasErrors(true);
+            modelAndView.setViewName(String.format("redirect:/offers/update/?id=%d", offerAddBindingModel.getId()));
+            return modelAndView;
+        }
+        offerAddBindingModel.setHasErrors(false);
+        offerAddBindingModel =  this.offerService.updateOffer(offerAddBindingModel);
+        if (offerAddBindingModel.isHasErrors()) {
+            //modelAndView.setViewName("Some error page....");
+            var a = 1;
+        } else {
+            modelAndView.setViewName(String.format("redirect:/offers/details/?id=%d", offerAddBindingModel.getId()));
+        }
+
+        return modelAndView;
+    }
 }

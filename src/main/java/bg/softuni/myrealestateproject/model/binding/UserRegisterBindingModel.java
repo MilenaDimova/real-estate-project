@@ -6,10 +6,6 @@ import jakarta.validation.constraints.Size;
 
 public class UserRegisterBindingModel {
 
-    @NotBlank
-    @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters!")
-    private String username;
-
     @NotBlank(message = "First name is required!")
     private String firstName;
 
@@ -31,16 +27,6 @@ public class UserRegisterBindingModel {
 
     public UserRegisterBindingModel() {
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public UserRegisterBindingModel setUsername(String username) {
-        this.username = username;
-        return this;
-    }
-
     public String getFirstName() {
         return firstName;
     }

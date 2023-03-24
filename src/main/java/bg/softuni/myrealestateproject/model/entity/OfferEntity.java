@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "offers")
 public class OfferEntity extends BaseEntity{
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private UserEntity owner;
 
     @ManyToOne(optional = false)
@@ -55,7 +55,7 @@ public class OfferEntity extends BaseEntity{
     @Column
     boolean isApproved;
 
-    @OneToMany(mappedBy = "offer")
+    @OneToMany(mappedBy = "offer", fetch = FetchType.LAZY)
     private List<ImageEntity> images = new ArrayList<>();
 
     public OfferEntity() {
@@ -204,4 +204,5 @@ public class OfferEntity extends BaseEntity{
         this.area = area;
         return this;
     }
+
 }

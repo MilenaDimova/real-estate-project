@@ -1,44 +1,50 @@
 package bg.softuni.myrealestateproject.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "images")
 public class ImageEntity extends BaseEntity{
     @Column
-    private String name;
-    @Column
-    private String url;
+    private String fileName;
 
-    @ManyToOne
+    @Column
+    private String contentType;
+
+    @Lob
+    @Column(length = Integer.MAX_VALUE)
+    private byte[] data;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private OfferEntity offer;
 
     public ImageEntity() {
     }
 
-    public ImageEntity(String name, String url) {
-        this.name = name;
-        this.url = url;
+    public String getFileName() {
+        return fileName;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public ImageEntity setName(String name) {
-        this.name = name;
+    public ImageEntity setFileName(String fileName) {
+        this.fileName = fileName;
         return this;
     }
 
-    public String getUrl() {
-        return url;
+    public String getContentType() {
+        return contentType;
     }
 
-    public ImageEntity setUrl(String url) {
-        this.url = url;
+    public ImageEntity setContentType(String contentType) {
+        this.contentType = contentType;
+        return this;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public ImageEntity setData(byte[] data) {
+        this.data = data;
         return this;
     }
 

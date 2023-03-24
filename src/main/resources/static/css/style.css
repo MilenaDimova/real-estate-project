@@ -905,7 +905,7 @@ img {
 ====================*/
 
 #aa-promo-banner {
-  background-image: url("../img/promo-banner.jpg");
+  background-image: url("../images/promo-banner.jpg");
   background-attachment: fixed;
   background-position: center center;
   background-size: cover;
@@ -1042,7 +1042,7 @@ img {
 
 #aa-client-testimonial {
   background-attachment: fixed;
-  background-image: url("../img/testimonial-bg.jpg");
+  background-image: url("../images/testimonial-bg.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1326,7 +1326,7 @@ img {
 ====================*/
 
 #aa-property-header {
-  background-image: url("../img/slider/5.jpg");
+  background-image: url("../images/slider/5.jpg");
   background-attachment: fixed;
   background-position: center center;
   background-size: cover;
@@ -1423,7 +1423,7 @@ img {
 #aa-properties .aa-properties-content .aa-properties-content-body {
   display: inline;
   float: left;
-  width: 100%;
+  width: 50%;
 }
 #aa-properties .aa-properties-content .aa-properties-content-body .aa-properties-nav {
   margin-left: -30px;
@@ -1434,10 +1434,10 @@ img {
   transition: all 0.5s;
 }
 #aa-properties .aa-properties-content .aa-properties-content-body .aa-properties-nav li {
-  display: block;
+  display: inline;
   float: left;
-  margin: 0 0 20px 30px;
-  width: 46.1%;
+  margin: 0 0 20px 45px;
+  width: 90%;
 }
 #aa-properties .aa-properties-content .aa-properties-content-body .aa-list-view {
   margin-left: 0;
@@ -1626,7 +1626,7 @@ img {
   width: 100%;
 }
 .aa-properties-details .aa-properties-details-img img {
-  height: 500px;
+  height: 550px;
   width: 100%;
 }
 .aa-properties-details .aa-properties-details-img .slick-prev, .aa-properties-details .aa-properties-details-img .slick-next {
@@ -2475,7 +2475,7 @@ img {
 ====================*/
 
 #aa-signin {
-  background-image: url("../img/signin-bg.jpg");
+  background-image: url("../images/slider/4.jpg");
   background-position: center center;
   background-size: cover;
   bottom: 0;

@@ -6,11 +6,15 @@ import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
 import bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OfferAddBindingModel {
+    private Long id;
 
     @NotNull(message = "City is required!")
     private CityNameEnum city;
@@ -51,13 +55,26 @@ public class OfferAddBindingModel {
     private BigDecimal price;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @FutureOrPresent(message = "The offer cannot be created in the past!")
     private LocalDate activeFrom;
 
     private String description;
 
+    private List<MultipartFile> uploadedImages;
+
+    private boolean hasErrors;
+
     public OfferAddBindingModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public OfferAddBindingModel setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public CityNameEnum getCity() {
@@ -160,6 +177,9 @@ public class OfferAddBindingModel {
     }
 
     public LocalDate getActiveFrom() {
+        if (this.activeFrom == null) {
+            return LocalDate.now();
+        }
         return activeFrom;
     }
 
@@ -174,6 +194,24 @@ public class OfferAddBindingModel {
 
     public OfferAddBindingModel setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public List<MultipartFile> getUploadedImages() {
+        return uploadedImages;
+    }
+
+    public OfferAddBindingModel setUploadedImages(List<MultipartFile> images) {
+        this.uploadedImages = images.stream().filter(i -> !i.isEmpty()).collect(Collectors.toList());
+        return this;
+    }
+
+    public boolean isHasErrors() {
+        return hasErrors;
+    }
+
+    public OfferAddBindingModel setHasErrors(boolean hasErrors) {
+        this.hasErrors = hasErrors;
         return this;
     }
 }
