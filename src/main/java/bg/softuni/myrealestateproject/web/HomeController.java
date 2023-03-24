@@ -26,7 +26,7 @@ public class HomeController {
     @GetMapping("/details/")
     public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
 
-        modelAndView.addObject("property", this.offerService.findById(id));
+        modelAndView.addObject("offer", this.offerService.findById(id));
         modelAndView.setViewName("offer-detail");
         return modelAndView;
     }
