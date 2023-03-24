@@ -31,9 +31,4 @@ public class HomeController {
         return modelAndView;
     }
 
-//    @GetMapping("/")
-//    public String allOffers(Model model, @PageableDefault(page = 0, size = 5) Pageable pageable) {
-//        model.addAttribute("offers", this.offerService.getAllOffers(pageable));
-//        return "index";
-//    }
 }
