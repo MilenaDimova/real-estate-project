@@ -1,6 +1,7 @@
 package bg.softuni.myrealestateproject.web;
 
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
+import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
 import bg.softuni.myrealestateproject.service.OfferService;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -124,5 +126,26 @@ public class OfferController {
         }
 
         return modelAndView;
+    }
+
+    @GetMapping("/search")
+    public String search(@Valid SearchOfferBindingModel searchOfferBindingModel, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("searchOfferBindingModel", searchOfferBindingModel);
+            model.addAttribute("org.springframework.validation.BindingResult.searchOfferBindingModel", bindingResult);
+
+            return "search-offers";
+        }
+
+        if (!model.containsAttribute("searchOfferBindingModel")) {
+            model.addAttribute("searchOfferBindingModel", searchOfferBindingModel);
+        }
+
+        if (!searchOfferBindingModel.isEmpty()) {
+            model.addAttribute("offers", offerService.searchOffers(searchOfferBindingModel));
+        }
+
+        return "search-offers";
     }
 }

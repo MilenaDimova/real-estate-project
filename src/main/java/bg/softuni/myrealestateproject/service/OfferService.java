@@ -1,11 +1,13 @@
 package bg.softuni.myrealestateproject.service;
 
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
+import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
 import bg.softuni.myrealestateproject.model.entity.*;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
 import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.model.view.OwnerViewModel;
 import bg.softuni.myrealestateproject.repository.OfferRepository;
+import bg.softuni.myrealestateproject.repository.OfferSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -133,4 +135,17 @@ public class OfferService {
     }
 
 
+    public List<OfferViewModel> searchOffers(SearchOfferBindingModel searchOfferBindingModel) {
+        List<OfferEntity> filteredOffers = this.offerRepository.findAll(new OfferSpecification(searchOfferBindingModel));
+
+        return filteredOffers.stream()
+                .map(offerEntity -> {
+                    OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+                    offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
+
+                    return offerViewModel;
+                })
+                .collect(Collectors.toList());
+    }
 }

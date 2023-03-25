@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Hestia MD | Home</title>
+    <th:block th:insert="~{fragments/head}"></th:block>
+
+</head>
+<body class="aa-price-range">
+<!-- Pre Loader -->
+<div id="aa-preloader-area">
+    <div class="pulse"></div>
+</div>
+<!-- SCROLL TOP BUTTON -->
+<a class="scrollToTop" href="#"><i class="fa fa-angle-double-up"></i></a>
+<!-- END SCROLL TOP BUTTON -->
+
+<!-- Start header section -->
+<header id="aa-header">
+    <th:block th:insert="~{fragments/header}"></th:block>
+</header>
+<!-- End header section -->
+
+<!-- Start menu section -->
+<section id="aa-menu-area">
+    <nav class="navbar navbar-default main-navbar" role="navigation">
+        <th:block th:insert="~{fragments/nav}"></th:block>
+    </nav>
+</section>
+<!-- End menu section -->
+
+<!-- Start slider  -->
+<section id="aa-slider">
+    <div class="aa-slider-area">
+        <!-- Top slider -->
+        <div class="aa-top-slider">
+            <!-- Top slider single slide -->
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/5.jpg" alt="img">
+            </div>
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/4.jpg" alt="img">
+            </div>
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/3.jpg" alt="img">
+            </div>
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/2.jpg" alt="img">
+            </div>
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/1.jpg" alt="img">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End slider  -->
+
+<!-- Advance Search -->
+<section id="aa-advance-search">
+    <div class="container">
+        <div class="aa-advance-search-area">
+            <form th:method="get" th:action="@{/offers/search}" th:object="${searchOfferBindingModel}">
+                <div class="form">
+                    <div class="aa-advance-search-top">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="aa-single-advance-search">
+                                    <select class="selectItem" id="offerType" name="offerType">
+                                        <option value="">Offer Type</option>
+                                        <option th:each="o : ${T(bg.softuni.myrealestateproject.model.enums.OfferTypeEnum).values()}"
+                                                th:text="${o}" th:value="${o}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="aa-single-advance-search">
+                                    <select class="selectItem" id="city" name="city">
+                                        <option value="">City</option>
+                                        <option th:each="c : ${T(bg.softuni.myrealestateproject.model.enums.CityNameEnum).values()}"
+                                                th:text="${c}" th:value="${c}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="aa-single-advance-search">
+                                    <select class="selectItem" id="estateType" name="estateType">
+                                        <option value="">Estate Type</option>
+                                        <option th:each="e : ${T(bg.softuni.myrealestateproject.model.enums.EstateTypeEnum).values()}"
+                                                th:text="${e.toString().replaceAll('_', ' ')}" th:value="${e}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="aa-single-advance-search">
+                                    <select class="selectItem" id="propertyType" name="propertyType">
+                                        <option value="">Property Type</option>
+                                        <option th:each="p : ${T(bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum).values()}"
+                                                th:text="${p.toString().replaceAll('_', ' ')}" th:value="${p}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="aa-single-advance-search">
+                                    <input class="aa-search-btn" type="submit" value="Search">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="aa-advance-search-bottom">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input
+                                        th:field="*{minPrice}"
+                                        type="search"
+                                        placeholder="Min price..."
+                                        aria-label="Search"
+                                        id="minPrice"
+                                />
+                                <input
+                                        th:field="*{maxPrice}"
+                                        type="search"
+                                        placeholder="Min price..."
+                                        aria-label="Search"
+                                        id="maxPrice"
+                                />
+<!--                                <div class="aa-single-filter-search">-->
+<!--                                    <span>AREA (m2)</span>-->
+<!--                                    <span>FROM</span>-->
+<!--                                    <span id="skip-value-lower" class="example-val">30.00</span>-->
+<!--                                    <span>TO</span>-->
+<!--                                    <span id="skip-value-upper" class="example-val">100.00</span>-->
+<!--                                    <div id="aa-sqrfeet-range"-->
+<!--                                         class="noUi-target noUi-ltr noUi-horizontal noUi-background">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                            </div>
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="aa-single-filter-search">-->
+<!--                                    <span>PRICE (€)</span>-->
+<!--                                    <span>FROM</span>-->
+<!--                                    <span id="skip-value-lower2" class="example-val">30.00</span>-->
+<!--                                    <span>TO</span>-->
+<!--                                    <span id="skip-value-upper2" class="example-val">100.00</span>-->
+<!--                                    <div id="aa-price-range"-->
+<!--                                         class="noUi-target noUi-ltr noUi-horizontal noUi-background">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- / Advance Search -->
+
+<!-- Latest property -->
+<section id="aa-latest-property">
+    <div class="container">
+        <div class="aa-latest-property-area">
+            <div class="aa-title">
+                <h2>Searched Properties</h2>
+                <span></span>
+                <p>To be able to view all our offers as well as those published directly by their owners, please login
+                    with your account.</p>
+            </div>
+            <div class="aa-latest-properties-content">
+                <div class="row">
+                    <div class="col-md-4" th:each="o : ${offers}" th:object="${o}">
+                        <article class="aa-properties-item">
+                            <a th:href="@{/offers/details/(id = *{id})}" class="aa-properties-item-img">
+                                <img width="370" height="220" th:src="*{getHeadingImageUrl()}" alt="img">
+                            </a>
+                            <div th:class="'aa-tag ' + ${o.offerType.equals('SALE') ? 'for-sale' : 'for-rent'}"
+                                 th:text="*{offerType}">
+                                For Sale
+                            </div>
+                            <div class="aa-properties-item-content">
+                                <div class="aa-properties-info">
+                                    <span th:text="|*{floor} Floor|">5 Floor</span>
+                                    <span th:text="|*{room} Rooms|">2 Rooms</span>
+                                    <span th:text="|*{bath} Baths|">3 Baths</span>
+                                    <span th:text="|*{quadrature} m2|">1100 SQ FT</span>
+                                </div>
+                                <div class="aa-properties-about">
+                                    <h3 th:text="*{area}"><a href="#">Apartment Title</a></h3>
+                                    <p th:text="${#strings.abbreviate(o.description, 100)}">Lorem ipsum dolor sit amet,
+                                        consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit
+                                        vitae.</p>
+                                </div>
+                                <div class="aa-properties-detial">
+                    <span class="aa-price" th:text="*{price}">
+                    </span><span class="aa-price" th:utext="${'&#8364;'}"></span>
+                                    <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{id})}">View
+                                        Details</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Latest property -->
+
+
+<!-- Footer -->
+<footer id="aa-footer">
+    <th:block th:insert="~{fragments/footer}"></th:block>
+</footer>
+<!-- / Footer -->
+
+
+<!-- jQuery library -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<script src="/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/js/bootstrap.js"></script>
+<!-- slick slider -->
+<script type="text/javascript" src="/js/slick.js"></script>
+<!-- Price picker slider -->
+<script type="text/javascript" src="/js/nouislider.js"></script>
+<!-- mixit slider -->
+<script type="text/javascript" src="/js/jquery.mixitup.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>
+<!-- Custom js -->
+<script src="/js/custom.js"></script>
+
+</body>
+</html>
