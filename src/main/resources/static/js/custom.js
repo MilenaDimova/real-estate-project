@@ -1,51 +1,51 @@
-/** 
+/**
   * Template Name: Home Property
-  * Version: 1.0  
+  * Version: 1.0
   * Template Scripts
   * Author: MarkUps
   * Author URI: http://www.markups.io/
 
   Custom JS
-  
 
-  1. FIXED NAVBAR 
+
+  1. FIXED NAVBAR
   2. AGENTS SLIDER
-  3. TESTIMONIAL SLIDER  
+  3. TESTIMONIAL SLIDER
   4. CLIENT BRAND SLIDER (SLICK SLIDER)
   5. TOP SLIDER (SLICK SLIDER)
   6. LATEST PRODUCT SLIDER (SLICK SLIDER)
   7. HOVER DROPDOWN MENU
   8. ADVANCE SEARCH FILTER  (noUiSlider SLIDER)
-  9. MIXIT FILTER ( FOR GALLERY ) 
+  9. MIXIT FILTER ( FOR GALLERY )
   10. FANCYBOX ( FOR PORTFOLIO POPUP VIEW )
   11. SCROLL TOP BUTTON
   12. PRELOADER
-  13. GRID AND LIST LAYOUT CHANGER 
+  13. GRID AND LIST LAYOUT CHANGER
   14.RELATED ITEM SLIDER (SLICK SLIDER)
 
-  
+
 **/
 
 jQuery(function($){
 
 
   /* ----------------------------------------------------------- */
-  /*  1. FIXED NAVBAR 
+  /*  1. FIXED NAVBAR
   /* ----------------------------------------------------------- */
-    
-    
+
+
   jQuery(window).bind('scroll', function () {
     if (jQuery(window).scrollTop() > 200) {
         jQuery('.main-navbar').addClass('navbar-fixed-top');
-        
+
       } else {
-          jQuery('.main-navbar').removeClass('navbar-fixed-top');          
+          jQuery('.main-navbar').removeClass('navbar-fixed-top');
       }
   });
-  
+
   /* ----------------------------------------------------------- */
   /*  2. AGENTS SLIDER
-  /* ----------------------------------------------------------- */    
+  /* ----------------------------------------------------------- */
 
     jQuery('.aa-agents-slider').slick({
       dots: false,
@@ -87,19 +87,19 @@ jQuery(function($){
     });
 
   /* ----------------------------------------------------------- */
-  /*  3. TESTIMONIAL SLIDER 
-  /* ----------------------------------------------------------- */    
+  /*  3. TESTIMONIAL SLIDER
+  /* ----------------------------------------------------------- */
 
     jQuery('.aa-testimonial-slider').slick({
-        dots: false,      
+        dots: false,
         infinite: true,
-        speed: 500,      
+        speed: 500,
         cssEase: 'linear'
       });
 
   /* ----------------------------------------------------------- */
   /*  4. CLIENT BRAND SLIDER (SLICK SLIDER)
-  /* ----------------------------------------------------------- */  
+  /* ----------------------------------------------------------- */
 
    jQuery('.aa-client-brand-slider').slick({
       dots: false,
@@ -140,10 +140,10 @@ jQuery(function($){
       ]
     });
 
-  
+
   /* ----------------------------------------------------------- */
   /*  5. TOP SLIDER (SLICK SLIDER)
-  /* ----------------------------------------------------------- */    
+  /* ----------------------------------------------------------- */
 
     jQuery('.aa-top-slider').slick({
       dots: false,
@@ -153,24 +153,24 @@ jQuery(function($){
       fade: true,
       cssEase: 'linear'
     });
-    
+
   /* ----------------------------------------------------------- */
   /*  6. LATEST PRODUCT SLIDER (SLICK SLIDER)
-  /* ----------------------------------------------------------- */      
+  /* ----------------------------------------------------------- */
 
     jQuery('.aa-properties-details-img').slick({
       dots: false,
       infinite: true,
       arrows: true,
-      speed: 500,      
+      speed: 500,
       cssEase: 'linear'
     });
 
-      
+
   /* ----------------------------------------------------------- */
   /*  7. HOVER DROPDOWN MENU
-  /* ----------------------------------------------------------- */ 
-  
+  /* ----------------------------------------------------------- */
+
   // for hover dropdown menu
     jQuery('ul.nav li.dropdown').hover(function() {
       jQuery(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(200);
@@ -178,93 +178,101 @@ jQuery(function($){
       jQuery(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(200);
     });
 
- 
+
   /* ----------------------------------------------------------- */
   /* 8. ADVANCE SEARCH FILTER  (noUiSlider SLIDER)
-  /* ----------------------------------------------------------- */        
+  /* ----------------------------------------------------------- */
 
     jQuery(function(){
       if(jQuery('body').is('.aa-price-range')){
         // FOR AREA SECTION
        var skipSlider = document.getElementById('aa-sqrfeet-range');
+
+          let skipValues = [
+              document.getElementById('minQuadrature'),
+              document.getElementById('maxQuadrature')
+          ];
+
+          let skipValuesSpans = [
+              document.getElementById('skip-value-lower'),
+              document.getElementById('skip-value-upper')
+          ];
+
         noUiSlider.create(skipSlider, {
             range: {
-              'min': 0,
-              '10%': 100,
-              '20%': 200,
-              '30%': 300,
-              '40%': 400,
-              '50%': 500,
-              '60%': 600,
-              '70%': 700,
-              '80%': 800,
-              '90%': 900,
-              'max': 1000
+              'min': 0, //parseInt($("#minQuadratureDefault").val()),
+              'max': Math.ceil($("#maxQuadratureDefault").val())
             },
-            snap: true,
+            //snap: true,
             connect: true,
-            start: [200, 700]
+            start: [
+                //parseInt($("#minQuadratureModel").val() !== '' ? $("#minQuadratureModel").val() : $("#minQuadratureDefault").val()),
+                Math.floor($("#minQuadratureModel").val() !== '' ? $("#minQuadratureModel").val() : 0),
+                Math.ceil($("#maxQuadratureModel").val() !== '' ? $("#maxQuadratureModel").val() : $("#maxQuadratureDefault").val()),
+            ]
         });
-        // for value print
-        var skipValues = [
-          document.getElementById('skip-value-lower'),
-          document.getElementById('skip-value-upper')
-        ];
 
         skipSlider.noUiSlider.on('update', function( values, handle ) {
-          skipValues[handle].innerHTML = values[handle];
+           skipValuesSpans[handle].innerHTML = parseInt(values[handle]).toString();
+           $(skipValues[handle]).val(parseInt(values[handle]));
         });
 
         // FOR PRICE SECTION
+
+          // for value print
+          let skipValues2 = [
+              document.getElementById('minPrice'),
+              document.getElementById('maxPrice')
+          ];
+
+          let skipValuesSpans2 = [
+              document.getElementById('skip-value-lower2'),
+              document.getElementById('skip-value-upper2')
+          ];
 
         var skipSlider2 = document.getElementById('aa-price-range');
         noUiSlider.create(skipSlider2, {
             range: {
                 'min': 0,
-                '10%': 100,
-                '20%': 200,
-                '30%': 300,
-                '40%': 400,
-                '50%': 500,
-                '60%': 600,
-                '70%': 700,
-                '80%': 800,
-                '90%': 900,
-                'max': 1000
+                'max': Math.ceil($("#maxPriceDefault").val())
             },
-            snap: true,
             connect: true,
-            start: [200, 700]
+            start: [
+                Math.floor($("#minPriceModel").val() !== '' ? $("#minPriceModel").val() : 0),
+                Math.ceil($("#maxPriceModel").val() !== '' ? $("#maxPriceModel").val() : $("#maxPriceDefault").val()),
+            ]
+            // start: [200, 700],
+            // connect: true,
+            // range: {
+            //     'min': 0,
+            //     'max': 1000
+            // }
         });
-        // for value print
-        var skipValues2 = [
-          document.getElementById('skip-value-lower2'),
-          document.getElementById('skip-value-upper2')
-        ];
 
         skipSlider2.noUiSlider.on('update', function( values, handle ) {
-          skipValues2[handle].innerHTML = values[handle];
+            skipValuesSpans2[handle].innerHTML = parseInt(values[handle]).toString();
+            $(skipValues2[handle]).val(parseInt(values[handle]));
         });
       }
     });
 
   /* ----------------------------------------------------------- */
-  /*  9. MIXIT FILTER ( FOR GALLERY ) 
-  /* ----------------------------------------------------------- */  
+  /*  9. MIXIT FILTER ( FOR GALLERY )
+  /* ----------------------------------------------------------- */
 
     jQuery(function(){
       jQuery('#mixit-container').mixItUp();
     });
 
   /* ----------------------------------------------------------- */
-  /*  10. FANCYBOX ( FOR PORTFOLIO POPUP VIEW ) 
-  /* ----------------------------------------------------------- */ 
-      
+  /*  10. FANCYBOX ( FOR PORTFOLIO POPUP VIEW )
+  /* ----------------------------------------------------------- */
+
     jQuery(document).ready(function() {
       jQuery(".fancybox").fancybox();
-    });  
-   
-    
+    });
+
+
   /* ----------------------------------------------------------- */
   /*  11. SCROLL TOP BUTTON
   /* ----------------------------------------------------------- */
@@ -278,26 +286,26 @@ jQuery(function($){
         jQuery('.scrollToTop').fadeOut();
       }
     });
-     
+
     //Click event to scroll to top
 
     jQuery('.scrollToTop').click(function(){
       jQuery('html, body').animate({scrollTop : 0},800);
       return false;
     });
-  
+
   /* ----------------------------------------------------------- */
   /*  12. PRELOADER
   /* ----------------------------------------------------------- */
 
-   jQuery(window).load(function() { // makes sure the whole site is loaded      
-      jQuery('#aa-preloader-area').delay(300).fadeOut('slow'); // will fade out      
+   jQuery(window).load(function() { // makes sure the whole site is loaded
+      jQuery('#aa-preloader-area').delay(300).fadeOut('slow'); // will fade out
     })
-   
+
 
 
   /* ----------------------------------------------------------- */
-  /*  13. GRID AND LIST LAYOUT CHANGER 
+  /*  13. GRID AND LIST LAYOUT CHANGER
   /* ----------------------------------------------------------- */
 
   jQuery("#aa-list-properties").click(function(e){
@@ -312,7 +320,7 @@ jQuery(function($){
 
   /* ----------------------------------------------------------- */
   /*  14. RELATED ITEM SLIDER (SLICK SLIDER)
-  /* ----------------------------------------------------------- */      
+  /* ----------------------------------------------------------- */
 
     jQuery('.aa-related-item-slider').slick({
       dots: false,
@@ -348,8 +356,8 @@ jQuery(function($){
         // settings: "unslick"
         // instead of a settings object
       ]
-    }); 
+    });
 
- 
+
 });
 

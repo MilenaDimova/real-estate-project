@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @Controller
@@ -130,6 +131,8 @@ public class OfferController {
 
     @GetMapping("/search")
     public String search(@Valid SearchOfferBindingModel searchOfferBindingModel, BindingResult bindingResult, Model model) {
+        model.addAttribute("maxQuadratureDefault", this.offerService.findMaxQuadrature());
+        model.addAttribute("maxPriceDefault", this.offerService.findMaxPrice());
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("searchOfferBindingModel", searchOfferBindingModel);

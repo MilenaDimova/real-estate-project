@@ -1,78 +1,83 @@
 package bg.softuni.myrealestateproject.model.binding;
 
+import bg.softuni.myrealestateproject.model.enums.CityNameEnum;
+import bg.softuni.myrealestateproject.model.enums.EstateTypeEnum;
+import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
+import bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum;
+
 public class SearchOfferBindingModel {
 
-    private String  offerType;
+    private OfferTypeEnum offerType;
 
-    private String city;
+    private CityNameEnum city;
 
-    private String estateType;
+    private EstateTypeEnum estateType;
 
-    private String propertyType;
+    private PropertyTypeEnum propertyType;
 
+    private Integer minQuadrature;
 
-//    private Integer minQuadrature;
-//
-//    private Integer maxQuadrature;
-//
+    private Integer maxQuadrature;
+
     private Integer minPrice;
 
     private Integer maxPrice;
 
-    public String getOfferType() {
+    public OfferTypeEnum getOfferType() {
         return offerType;
     }
 
-    public SearchOfferBindingModel setOfferType(String offerType) {
+    public SearchOfferBindingModel setOfferType(OfferTypeEnum offerType) {
         this.offerType = offerType;
         return this;
     }
 
-    public String getCity() {
+
+    public CityNameEnum getCity() {
         return city;
     }
 
-    public SearchOfferBindingModel setCity(String city) {
+    public SearchOfferBindingModel setCity(CityNameEnum city) {
         this.city = city;
         return this;
     }
 
-    public String getEstateType() {
+    public EstateTypeEnum getEstateType() {
         return estateType;
     }
 
-    public SearchOfferBindingModel setEstateType(String estateType) {
+    public SearchOfferBindingModel setEstateType(EstateTypeEnum estateType) {
         this.estateType = estateType;
         return this;
     }
 
-    public String getPropertyType() {
+    public PropertyTypeEnum getPropertyType() {
         return propertyType;
     }
 
-    public SearchOfferBindingModel setPropertyType(String propertyType) {
+    public SearchOfferBindingModel setPropertyType(PropertyTypeEnum propertyType) {
         this.propertyType = propertyType;
         return this;
     }
 
-//    public Integer getMinQuadrature() {
-//        return minQuadrature;
-//    }
-//
-//    public SearchOfferBindingModel setMinQuadrature(Integer minQuadrature) {
-//        this.minQuadrature = minQuadrature;
-//        return this;
-//    }
-//
-//    public Integer getMaxQuadrature() {
-//        return maxQuadrature;
-//    }
-//
-//    public SearchOfferBindingModel setMaxQuadrature(Integer maxQuadrature) {
-//        this.maxQuadrature = maxQuadrature;
-//        return this;
-//    }
-//
+        public Integer getMinQuadrature() {
+        return minQuadrature;
+    }
+
+    public SearchOfferBindingModel setMinQuadrature(Integer minQuadrature) {
+        this.minQuadrature = minQuadrature;
+        return this;
+    }
+
+    public Integer getMaxQuadrature() {
+        return maxQuadrature;
+    }
+
+    public SearchOfferBindingModel setMaxQuadrature(Integer maxQuadrature) {
+        this.maxQuadrature = maxQuadrature;
+        return this;
+    }
+
     public Integer getMinPrice() {
         return minPrice;
     }
@@ -92,9 +97,11 @@ public class SearchOfferBindingModel {
     }
 
     public boolean isEmpty() {
-        boolean check =  ((offerType == null || offerType.isEmpty()) && (city == null || city.isEmpty())
-                && (estateType == null || estateType.isEmpty()) && (propertyType == null || propertyType.isEmpty()) && minPrice == null && maxPrice == null);
-        return check;
-//        && minQuadrature == null || maxQuadrature == null && minPrice == null || maxPrice == null);
+        return ((offerType == null || offerType.name().isEmpty())
+                && (city == null || city.name().isEmpty())
+                && (estateType == null || estateType.name().isEmpty())
+                && (propertyType == null || propertyType.name().isEmpty())
+                && minPrice == null && maxPrice == null
+                && minQuadrature == null || maxQuadrature == null);
     }
 }

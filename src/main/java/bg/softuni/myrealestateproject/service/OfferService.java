@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -136,7 +137,8 @@ public class OfferService {
 
 
     public List<OfferViewModel> searchOffers(SearchOfferBindingModel searchOfferBindingModel) {
-        List<OfferEntity> filteredOffers = this.offerRepository.findAll(new OfferSpecification(searchOfferBindingModel));
+        OfferSpecification specification = new OfferSpecification(searchOfferBindingModel);
+        List<OfferEntity> filteredOffers = this.offerRepository.findAll(specification);
 
         return filteredOffers.stream()
                 .map(offerEntity -> {
@@ -147,5 +149,13 @@ public class OfferService {
                     return offerViewModel;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public Float findMaxQuadrature() {
+        return this.offerRepository.findMaxQuadrature();
+    }
+
+    public BigDecimal findMaxPrice() {
+        return this.offerRepository.findMaxPrice();
     }
 }

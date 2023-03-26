@@ -68,7 +68,8 @@
                                     <select class="selectItem" id="offerType" name="offerType">
                                         <option value="">Offer Type</option>
                                         <option th:each="o : ${T(bg.softuni.myrealestateproject.model.enums.OfferTypeEnum).values()}"
-                                                th:text="${o}" th:value="${o}"></option>
+                                                th:text="${o}" th:value="${o}"
+                                                th:selected="${o.equals(searchOfferBindingModel.getOfferType())}"></option>
                                     </select>
                                 </div>
                             </div>
@@ -77,7 +78,8 @@
                                     <select class="selectItem" id="city" name="city">
                                         <option value="">City</option>
                                         <option th:each="c : ${T(bg.softuni.myrealestateproject.model.enums.CityNameEnum).values()}"
-                                                th:text="${c}" th:value="${c}"></option>
+                                                th:text="${c}" th:value="${c}"
+                                                th:selected="${c.equals(searchOfferBindingModel.getCity())}"></option>
                                     </select>
                                 </div>
                             </div>
@@ -86,7 +88,8 @@
                                     <select class="selectItem" id="estateType" name="estateType">
                                         <option value="">Estate Type</option>
                                         <option th:each="e : ${T(bg.softuni.myrealestateproject.model.enums.EstateTypeEnum).values()}"
-                                                th:text="${e.toString().replaceAll('_', ' ')}" th:value="${e}"></option>
+                                                th:text="${e.toString().replaceAll('_', ' ')}" th:value="${e}"
+                                                th:selected="${e.equals(searchOfferBindingModel.getEstateType())}"></option>
                                     </select>
                                 </div>
                             </div>
@@ -95,7 +98,8 @@
                                     <select class="selectItem" id="propertyType" name="propertyType">
                                         <option value="">Property Type</option>
                                         <option th:each="p : ${T(bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum).values()}"
-                                                th:text="${p.toString().replaceAll('_', ' ')}" th:value="${p}"></option>
+                                                th:text="${p.toString().replaceAll('_', ' ')}" th:value="${p}"
+                                                th:selected="${p.equals(searchOfferBindingModel.getPropertyType())}"></option>
                                     </select>
                                 </div>
                             </div>
@@ -109,43 +113,40 @@
                     <div class="aa-advance-search-bottom">
                         <div class="row">
                             <div class="col-md-6">
-                                <input
-                                        th:field="*{minPrice}"
-                                        type="search"
-                                        placeholder="Min price..."
-                                        aria-label="Search"
-                                        id="minPrice"
-                                />
-                                <input
-                                        th:field="*{maxPrice}"
-                                        type="search"
-                                        placeholder="Min price..."
-                                        aria-label="Search"
-                                        id="maxPrice"
-                                />
-<!--                                <div class="aa-single-filter-search">-->
-<!--                                    <span>AREA (m2)</span>-->
-<!--                                    <span>FROM</span>-->
-<!--                                    <span id="skip-value-lower" class="example-val">30.00</span>-->
-<!--                                    <span>TO</span>-->
-<!--                                    <span id="skip-value-upper" class="example-val">100.00</span>-->
-<!--                                    <div id="aa-sqrfeet-range"-->
-<!--                                         class="noUi-target noUi-ltr noUi-horizontal noUi-background">-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                <div class="aa-single-filter-search">
+                                    <span>AREA (m2)</span>
+                                    <span>FROM</span>
+                                    <span id="skip-value-lower" class="example-val">30.00</span>
+<!--                                    <input th:value="${minQuadratureDefault}" hidden id="minQuadratureDefault">-->
+                                    <input th:value="*{minQuadrature}" hidden id="minQuadratureModel">
+                                    <input th:value="*{minQuadrature}" hidden type="search" name="minQuadrature" id="minQuadrature"  class="example-val">
+                                    <span>TO</span>
+                                    <input th:value="${maxQuadratureDefault}" hidden id="maxQuadratureDefault">
+                                    <input th:value="*{maxQuadrature}" hidden id="maxQuadratureModel">
+                                    <input th:field="*{maxQuadrature}" hidden type="search" name="maxQuadrature" id="maxQuadrature"  class="example-val">
+                                    <span id="skip-value-upper" class="example-val">100.00</span>
+                                    <div id="aa-sqrfeet-range"
+                                         class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                                    </div>
+                                </div>
                             </div>
-<!--                            <div class="col-md-6">-->
-<!--                                <div class="aa-single-filter-search">-->
-<!--                                    <span>PRICE (€)</span>-->
-<!--                                    <span>FROM</span>-->
-<!--                                    <span id="skip-value-lower2" class="example-val">30.00</span>-->
-<!--                                    <span>TO</span>-->
-<!--                                    <span id="skip-value-upper2" class="example-val">100.00</span>-->
-<!--                                    <div id="aa-price-range"-->
-<!--                                         class="noUi-target noUi-ltr noUi-horizontal noUi-background">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <div class="col-md-6">
+                                <div class="aa-single-filter-search">
+                                    <span>PRICE (€)</span>
+                                    <span>FROM</span>
+                                    <span id="skip-value-lower2" class="example-val">30.00</span>
+                                    <input th:value="*{minPrice}" hidden id="minPriceModel">
+                                    <input th:value="*{minPrice}" hidden type="search" name="minPrice" id="minPrice"  class="example-val">
+                                    <span>TO</span>
+                                    <input th:value="${maxPriceDefault}" hidden id="maxPriceDefault">
+                                    <input th:value="*{maxPrice}" hidden id="maxPriceModel">
+                                    <input th:field="*{maxPrice}" hidden type="search" name="maxPrice" id="maxPrice"  class="example-val">
+                                    <span id="skip-value-upper2" class="example-val">100.00</span>
+                                    <div id="aa-price-range"
+                                         class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
