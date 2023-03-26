@@ -117,7 +117,6 @@
                                     <span>AREA (m2)</span>
                                     <span>FROM</span>
                                     <span id="skip-value-lower" class="example-val">30.00</span>
-<!--                                    <input th:value="${minQuadratureDefault}" hidden id="minQuadratureDefault">-->
                                     <input th:value="*{minQuadrature}" hidden id="minQuadratureModel">
                                     <input th:value="*{minQuadrature}" hidden type="search" name="minQuadrature" id="minQuadrature"  class="example-val">
                                     <span>TO</span>
@@ -163,8 +162,7 @@
             <div class="aa-title">
                 <h2>Searched Properties</h2>
                 <span></span>
-                <p>To be able to view all our offers as well as those published directly by their owners, please login
-                    with your account.</p>
+                <p th:if="${offers != null && offers.size == 0}">No offers found for these criteria</p>
             </div>
             <div class="aa-latest-properties-content">
                 <div class="row">
