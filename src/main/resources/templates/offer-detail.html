@@ -70,6 +70,7 @@
                             <p th:text="*{description}"></p>
                             <h4>Property Features</h4>
                             <ul>
+                                <li th:text="|*{area} District|"></li>
                                 <li th:text="|*{quadrature} m2|"></li>
                                 <li th:text="|*{floor} Floor|">4 Floor</li>
                                 <li th:text="|*{room} Rooms|">4 Floor</li>
@@ -94,8 +95,11 @@
 <!--                                <a href="/">Back Home</a>-->
 <!--                                -->
 <!--                            </ul>-->
-                            <a class="aa-secondary-btn" th:href="@{/}">Back Home</a>
-                            <a class="aa-secondary-btn" th:href="@{/offers/update/(id = *{id})}">Edit Offer</a>
+                            <form th:action="@{/offers/delete/{id}(id=*{id})}" th:method="delete">
+                                <input class="aa-secondary-btn" type="submit" value="Delete">
+                            </form>
+<!--                            <a class="aa-secondary-btn" th:href="@{/}">Back Home</a>-->
+<!--                            <a class="aa-secondary-btn" th:href="@{/offers/update/(id = *{id})}">Edit Offer</a>-->
                         </div>
                     </div>
                 </div>

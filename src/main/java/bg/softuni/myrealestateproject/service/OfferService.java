@@ -4,6 +4,7 @@ import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
 import bg.softuni.myrealestateproject.model.entity.*;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
+import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
 import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.model.view.OwnerViewModel;
 import bg.softuni.myrealestateproject.repository.OfferRepository;
@@ -47,7 +48,7 @@ public class OfferService {
         this.modelMapper = modelMapper;
     }
 
-    public OfferViewModel findById(Long id) {
+    public Optional<OfferViewModel> findById(Long id) {
 
         return this.offerRepository.findById(id)
                 .map(offerEntity -> {
@@ -59,8 +60,31 @@ public class OfferService {
                     offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
 
                     return offerViewModel;
-                })
-                .orElse(null);
+                });
+    }
+
+    public boolean isOwner(String username, Long offerId) {
+        boolean isOwner = this.offerRepository.findById(offerId)
+                .filter(o -> o.getOwner().getEmail().equals(username))
+                .isPresent();
+
+        if (isOwner) {
+            return true;
+        }
+
+        return this.userService.findByEmail(username)
+                .filter(this::isAdmin)
+                .isPresent();
+    }
+
+    private boolean isAdmin(UserEntity user) {
+        return user.getRoles()
+                .stream()
+                .anyMatch(r -> r.getRoleType() == RoleTypeEnum.ADMIN);
+    }
+
+    public void deleteOfferById(Long id) {
+        this.offerRepository.deleteById(id);
     }
 
     public List<OfferViewModel> findLatestOffers() {

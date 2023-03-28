@@ -1,13 +1,16 @@
 package bg.softuni.myrealestateproject.web;
 
+import bg.softuni.myrealestateproject.exception.ObjectNotFoundException;
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
+import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.service.OfferService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/offers")
@@ -75,12 +79,22 @@ public class OfferController {
     @GetMapping("/details/")
     public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
 
-        modelAndView.addObject("offer", this.offerService.findById(id));
+        OfferViewModel optionalOffer = this.offerService.findById(id)
+                        .orElseThrow(() -> new ObjectNotFoundException("Offer with id " + id + " was not found!"));
+
+        modelAndView.addObject("offer", optionalOffer);
         modelAndView.setViewName("offer-detail");
 
         return modelAndView;
     }
 
+    @PreAuthorize("isOwner(#id)")
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        this.offerService.deleteOfferById(id);
+
+        return "redirect:/";
+    }
 
     private ModelAndView setModelAndView(ModelAndView modelAndView, OfferTypeEnum offerTypeEnum, Pageable pageable) {
         modelAndView.addObject("offers", this.offerService.findByOfferType(offerTypeEnum, pageable));
