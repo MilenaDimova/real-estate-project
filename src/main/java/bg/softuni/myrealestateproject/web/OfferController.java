@@ -3,13 +3,17 @@ package bg.softuni.myrealestateproject.web;
 import bg.softuni.myrealestateproject.exception.ObjectNotFoundException;
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
+import bg.softuni.myrealestateproject.model.entity.UserEntity;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
 import bg.softuni.myrealestateproject.model.view.OfferViewModel;
+import bg.softuni.myrealestateproject.service.ImageService;
 import bg.softuni.myrealestateproject.service.OfferService;
+import bg.softuni.myrealestateproject.service.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,10 +32,14 @@ import java.util.Optional;
 @RequestMapping("/offers")
 public class OfferController {
     private final OfferService offerService;
+    private final UserService userService;
+    private final ImageService imageService;
     private final ModelMapper modelMapper;
 
-    public OfferController(OfferService offerService, ModelMapper modelMapper) {
+    public OfferController(OfferService offerService, UserService userService, ImageService imageService, ModelMapper modelMapper) {
         this.offerService = offerService;
+        this.userService = userService;
+        this.imageService = imageService;
         this.modelMapper = modelMapper;
     }
 
@@ -41,7 +49,7 @@ public class OfferController {
     }
 
     @PostMapping("/add")
-    private String addConfirm(@Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
+    public String addConfirm(@Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
                               RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails userDetails) {
 
         if (bindingResult.hasErrors()) {
@@ -88,9 +96,10 @@ public class OfferController {
         return modelAndView;
     }
 
-    @PreAuthorize("isOwner(#id)")
-    @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    @PreAuthorize("@offerService.isOwner(#principal.name, #id) || @offerService.isAdmin(#principal.name)")
+    @DeleteMapping("/delete/")
+    public String delete(Principal principal, @RequestParam("id") Long id) {
+        this.imageService.deleteAllImagesByOfferId(id);
         this.offerService.deleteOfferById(id);
 
         return "redirect:/";
@@ -120,6 +129,7 @@ public class OfferController {
         return modelAndView;
     }
 
+    @PreAuthorize("@offerService.isOwner(#principal.name, #id) || @offerService.isAdmin(#principal.name)")
     @PostMapping("/update/")
     public ModelAndView updateConfirm(@Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes, ModelAndView modelAndView) {
