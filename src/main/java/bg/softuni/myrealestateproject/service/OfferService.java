@@ -64,23 +64,14 @@ public class OfferService {
     }
 
     public boolean isOwner(String username, Long offerId) {
-        boolean isOwner = this.offerRepository.findById(offerId)
+        return this.offerRepository.findById(offerId)
                 .filter(o -> o.getOwner().getEmail().equals(username))
-                .isPresent();
-
-        if (isOwner) {
-            return true;
-        }
-
-        return this.userService.findByEmail(username)
-                .filter(this::isAdmin)
                 .isPresent();
     }
 
-    private boolean isAdmin(UserEntity user) {
-        return user.getRoles()
-                .stream()
-                .anyMatch(r -> r.getRoleType() == RoleTypeEnum.ADMIN);
+    public boolean isAdmin(String username) {
+        Optional<UserEntity> user = this.userService.findByEmail(username);
+        return user.isPresent() && user.get().getRoles().stream().anyMatch(r -> r.getRoleType() == RoleTypeEnum.ADMIN);
     }
 
     public void deleteOfferById(Long id) {

@@ -85,21 +85,14 @@
                             </ul>
                         </div>
                         <!-- Properties social share -->
+<!--                        sec:authorize="hasRole('ADMIN')" th:if="${offer.owner.id == #authentication.getPrincipal()}"-->
                         <div class="aa-properties-social">
-<!--                            <ul>-->
-<!--                                <li>Share</li>-->
-<!--                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>-->
-<!--                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>-->
-<!--                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
-<!--                                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>-->
-<!--                                <a href="/">Back Home</a>-->
-<!--                                -->
-<!--                            </ul>-->
-                            <form th:action="@{/offers/delete/{id}(id=*{id})}" th:method="delete">
-                                <input class="aa-secondary-btn" type="submit" value="Delete">
-                            </form>
-<!--                            <a class="aa-secondary-btn" th:href="@{/}">Back Home</a>-->
-<!--                            <a class="aa-secondary-btn" th:href="@{/offers/update/(id = *{id})}">Edit Offer</a>-->
+                            <th:block>
+                                <form th:action="@{/offers/delete/(id = *{id})}" th:method="delete">
+                                    <a class="aa-secondary-btn" th:href="@{/offers/update/(id = *{id})}">Edit Offer</a>
+                                    <input class="aa-secondary-btn" type="submit" value="Delete">
+                                </form>
+                            </th:block>
                         </div>
                     </div>
                 </div>

@@ -13,4 +13,10 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
 
     @Query("SELECT i.id FROM ImageEntity as i WHERE i.offer.id = :offerId")
     List<Long> findAllImagesByOfferId(Long offerId);
+
+    boolean existsByOfferId(Long offerId);
+
+    @Query("SELECT i FROM ImageEntity AS i WHERE i.offer.id = :id")
+    List<ImageEntity> getAllImagesWithOfferId(Long id);
+
 }

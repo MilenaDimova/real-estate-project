@@ -52,4 +52,14 @@ public class ImageService {
     }
 
 
+    public boolean hasImageByOfferId(Long offerId) {
+        return this.imageRepository.existsByOfferId(offerId);
+    }
+
+    public void deleteAllImagesByOfferId(Long id) {
+        List<ImageEntity> allImagesWithOfferId = this.imageRepository.getAllImagesWithOfferId(id);
+        this.imageRepository.deleteAll(allImagesWithOfferId);
+    }
+
+
 }
