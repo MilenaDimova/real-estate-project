@@ -17,14 +17,14 @@
               <a class="aa-property-home" href="index.html">Hestia MD</a>
               <h4>Update your offer</h4>
             </div>
-            <form class="contactform" th:method="post" th:action="@{/offers/update/}" th:object="${offerAddBindingModel}" enctype="multipart/form-data">
+            <form class="contactform" th:action="@{/offers/update/(id = *{id})}" th:method="put" th:object="${offerAddBindingModel}" enctype="multipart/form-data">
               <div class="aa-single-field">
                 <input th:field="${property.id}" hidden>
                 <label for="city">City <span class="required">*</span></label>
                 <select class="selectItem" id="city" name="city">
                   <option value="">Select City</option>
                   <option th:each="c : ${T(bg.softuni.myrealestateproject.model.enums.CityNameEnum).values()}" th:text="${c}" th:value="${c}"
-                          th:selected="${c.equals(property.getCity())}"></option>
+                          th:selected="${c.name().equals(property.getCity().name())}"></option>
                 </select>
                 <small th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="text-danger"></small>
               </div>
@@ -38,7 +38,7 @@
                 <select class="selectItem" id="offerType" name="offerType">
                   <option value="">Select Offer Type</option>
                   <option th:each="o : ${T(bg.softuni.myrealestateproject.model.enums.OfferTypeEnum).values()}" th:text="${o}" th:value="${o}"
-                          th:selected="${o.equals(property.getOfferType())}"></option>
+                          th:selected="${o.name().equals(property.getOfferType().name())}"></option>
                 </select>
                 <small th:if="${#fields.hasErrors('offerType')}" th:errors="*{offerType}" class="text-danger"></small>
               </div>
@@ -47,7 +47,7 @@
                 <select class="selectItem" id="estateType" name="estateType">
                   <option value="">Select Estate Type</option>
                   <option th:each="e : ${T(bg.softuni.myrealestateproject.model.enums.EstateTypeEnum).values()}" th:text="${e.toString().replaceAll('_', ' ')}" th:value="${e}"
-                          th:selected="${e.equals(property.getEstateType())}"></option>
+                          th:selected="${e.name().equals(property.getEstateType().name())}"></option>
                 </select>
                 <small th:if="${#fields.hasErrors('estateType')}" th:errors="*{estateType}" class="text-danger"></small>
               </div>
@@ -56,7 +56,7 @@
                 <select class="selectItem" id="propertyType" name="propertyType">
                   <option value="">Select Property Type</option>
                   <option th:each="p : ${T(bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum).values()}" th:text="${p.toString().replaceAll('_', ' ')}" th:value="${p}"
-                          th:selected="${p.equals(property.getPropertyType())}"></option>
+                          th:selected="${p.name().equals(property.getPropertyType().name())}"></option>
                 </select>
                 <small th:if="${#fields.hasErrors('propertyType')}" th:errors="*{propertyType}" class="text-danger"></small>
               </div>
@@ -96,7 +96,7 @@
                 <small th:if="${#fields.hasErrors('activeFrom')}" th:errors="*{activeFrom}" class="text-danger"></small>
               </div>
               <div class="aa-single-submit">
-                <input type="submit" value="Update Offer" name="submit">
+                <input class="aa-secondary-btn" type="submit" value="Save">
               </div>
             </form>
           </div>
