@@ -3,20 +3,16 @@ package bg.softuni.myrealestateproject.web;
 import bg.softuni.myrealestateproject.exception.ObjectNotFoundException;
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
-import bg.softuni.myrealestateproject.model.entity.UserEntity;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
+import bg.softuni.myrealestateproject.model.service.CurrentUser;
 import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.service.ImageService;
 import bg.softuni.myrealestateproject.service.OfferService;
-import bg.softuni.myrealestateproject.service.UserService;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,21 +22,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/offers")
 public class OfferController {
     private final OfferService offerService;
-    private final UserService userService;
     private final ImageService imageService;
-    private final ModelMapper modelMapper;
 
-    public OfferController(OfferService offerService, UserService userService, ImageService imageService, ModelMapper modelMapper) {
+    public OfferController(OfferService offerService, ImageService imageService) {
         this.offerService = offerService;
-        this.userService = userService;
         this.imageService = imageService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/add")
@@ -50,7 +41,7 @@ public class OfferController {
 
     @PostMapping("/add")
     public String addConfirm(@Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails userDetails) {
+                              RedirectAttributes redirectAttributes, @AuthenticationPrincipal CurrentUser userDetails) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerAddBindingModel", offerAddBindingModel);
@@ -113,8 +104,9 @@ public class OfferController {
     }
 
 
+    @PreAuthorize("@offerService.isOwner(#principal.name, #offerAddBindingModel.id) || @offerService.isAdmin(#principal.name)")
     @GetMapping("/update/")
-    public ModelAndView update(@RequestParam("id") Long id, ModelAndView modelAndView,
+    public ModelAndView update(Principal principal, @RequestParam("id") Long id, ModelAndView modelAndView,
                                @Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult, Map<String, Object> modelMap) {
         if (offerAddBindingModel.isHasErrors()) {
             modelAndView.addObject("property", offerAddBindingModel);
@@ -129,11 +121,10 @@ public class OfferController {
         return modelAndView;
     }
 
-    @PreAuthorize("@offerService.isOwner(#principal.name, #id) || @offerService.isAdmin(#principal.name)")
-    @PostMapping("/update/")
-    public ModelAndView updateConfirm(@Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
+    @PreAuthorize("@offerService.isOwner(#principal.name, #offerAddBindingModel.id) || @offerService.isAdmin(#principal.name)")
+    @PutMapping ("/update/")
+    public ModelAndView updateConfirm(Principal principal, @Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes, ModelAndView modelAndView) {
-
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerAddBindingModel", offerAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerAddBindingModel", bindingResult);
@@ -145,7 +136,6 @@ public class OfferController {
         offerAddBindingModel =  this.offerService.updateOffer(offerAddBindingModel);
         if (offerAddBindingModel.isHasErrors()) {
             //modelAndView.setViewName("Some error page....");
-            var a = 1;
         } else {
             modelAndView.setViewName(String.format("redirect:/offers/details/?id=%d", offerAddBindingModel.getId()));
         }
