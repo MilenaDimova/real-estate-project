@@ -24,7 +24,7 @@
                                 <th:block sec:authorize="isAuthenticated()">
 
                                     <form method="post" th:action="@{/users/logout}">
-                                        <a class="aa-login">Welcome, <th:block sec:authentication="name"></th:block>!</a>
+                                        <a class="aa-login">Welcome, <th:block th:text="${#authentication.principal.firstName}"></th:block>!</a>
                                         <button type="submit" name="submit" value="value" class="logout-button">Logout</button>
                                     </form>
                                 </th:block>
