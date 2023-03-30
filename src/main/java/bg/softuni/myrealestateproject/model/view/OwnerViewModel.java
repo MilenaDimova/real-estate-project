@@ -1,6 +1,7 @@
 package bg.softuni.myrealestateproject.model.view;
 
 public class OwnerViewModel {
+    private Long id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -18,6 +19,15 @@ public class OwnerViewModel {
         }
 
         return fullName.toString();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public OwnerViewModel setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getFirstName() {
