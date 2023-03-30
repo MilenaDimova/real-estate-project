@@ -6,6 +6,8 @@ import bg.softuni.myrealestateproject.service.ApplicationUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +20,7 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 import org.springframework.security.web.context.SecurityContextRepository;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfiguration {
 
     @Bean
@@ -25,7 +28,7 @@ public class SecurityConfiguration {
         httpSecurity.authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/fonts/**", "/users/signin-error").permitAll()
-                .requestMatchers("/", "/users/signin", "/users/register", "/offers/sales", "/offers/rents", "/offers/search", "/contact", "/about-us").permitAll()
+                .requestMatchers("/", "/users/signin", "/users/register", "/offers/sales", "/offers/rents", "/offers/search", "/contact", "/about-us", "/offers/details/**").permitAll()
                 .requestMatchers("/offers/add", "/offers/search").hasRole(RoleTypeEnum.USER.name())
                 .requestMatchers("/offers/add", "/offers/search").hasRole(RoleTypeEnum.ADMIN.name())
                 .anyRequest()
@@ -54,6 +57,7 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    @Primary
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return new ApplicationUserDetailsService(userRepository);
