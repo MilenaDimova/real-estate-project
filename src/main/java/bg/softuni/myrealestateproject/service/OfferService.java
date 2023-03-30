@@ -53,7 +53,7 @@ public class OfferService {
         return this.offerRepository.findById(id)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
-
+                    offerViewModel.setCity(offerEntity.getCity().getCity().name());
                     offerViewModel.setEstateType(offerEntity.getEstateType().getEstateType().name());
                     offerViewModel.setPropertyType(offerEntity.getPropertyType().getPropertyType().name());
                     offerViewModel.setOwner(this.modelMapper.map(offerEntity.getOwner(), OwnerViewModel.class));

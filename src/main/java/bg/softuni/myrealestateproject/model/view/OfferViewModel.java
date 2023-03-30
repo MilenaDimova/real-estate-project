@@ -5,6 +5,8 @@ import java.util.List;
 
 public class OfferViewModel {
     private Long id;
+
+    private String city;
     private String offerType;
     private String estateType;
     private String propertyType;
@@ -28,6 +30,15 @@ public class OfferViewModel {
 
     public OfferViewModel setId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public OfferViewModel setCity(String city) {
+        this.city = city;
         return this;
     }
 

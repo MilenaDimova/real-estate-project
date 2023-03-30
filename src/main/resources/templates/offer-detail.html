@@ -64,9 +64,8 @@
                             </div>
                         </div>
                         <div class="aa-properties-info">
-                            <h2 th:text="*{estateType.replaceAll('_', ' ')}"></h2>
-                            <span class="aa-price" th:text="*{price}"></span><span class="aa-price"
-                                                                                   th:utext="${'&#8364;'}"></span>
+                            <h2 th:text="|${offer.estateType.replaceAll('_', ' ')} in ${offer.city}|"></h2>
+                            <span class="aa-price" th:text="*{price}"></span><span class="aa-price" th:utext="${'&#8364;'}"></span>
                             <p th:text="*{description}"></p>
                             <h4>Property Features</h4>
                             <ul>
@@ -78,22 +77,25 @@
                                 <li th:text="|*{bath} Baths|">3 Baths</li>
                                 <li th:text="*{propertyType.substring(0, 1) + propertyType.substring(1).toLowerCase().replaceAll('_', ' ')}"></li>
                             </ul>
-                            <h4 sec:authorize="hasRole('USER')">Owner Information</h4>
-                            <ul>
-                                <li th:text="|Name: *{owner.fullName}|"></li>
-                                <li th:text="|Phone number: *{owner.phoneNumber}|"></li>
-                            </ul>
-                        </div>
-                        <!-- Properties social share -->
-<!--                        sec:authorize="hasRole('ADMIN')" th:if="${offer.owner.id == #authentication.getPrincipal()}"-->
-                        <div class="aa-properties-social">
-                            <th:block>
-                                <form th:action="@{/offers/delete/(id = *{id})}" th:method="delete">
-                                    <a class="aa-secondary-btn" th:href="@{/offers/update/(id = *{id})}">Edit Offer</a>
-                                    <input class="aa-secondary-btn" type="submit" value="Delete">
-                                </form>
+                            <th:block sec:authorize="hasRole('USER')">
+                                <h4>Owner Information</h4>
+                                <ul>
+                                    <li th:text="|Name: *{owner.fullName}|"></li>
+                                    <li th:text="|Phone number: *{owner.phoneNumber}|"></li>
+                                </ul>
                             </th:block>
+
                         </div>
+                        <th:block sec:authorize="hasRole('USER')">
+                            <div class="aa-properties-social" th:if="${(offer.owner.id == #authentication.principal.id) || #authentication.principal.isAdmin()}">
+                                <th:block>
+                                    <form th:action="@{/offers/delete/(id = *{id})}" th:method="delete">
+                                        <input id="UpdateOfferBtn" type="button" value="Edit" class="aa-secondary-btn" th:data="*{id}">
+                                        <input class="aa-secondary-btn" type="submit" value="Delete">
+                                    </form>
+                                </th:block>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </div>
@@ -123,6 +125,12 @@
 <script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>
 <!-- Custom js -->
 <script src="/js/custom.js"></script>
-
+<script>
+    const btn = document.getElementById("UpdateOfferBtn");
+    btn.addEventListener('click', ev => {
+        let offerId = ev.target.getAttribute('data');
+        window.location.href = "/offers/update/?id=" + offerId;
+    })
+</script>
 </body>
 </html>
