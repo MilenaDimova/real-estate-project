@@ -19,7 +19,7 @@ public interface OfferRepository extends JpaRepository<OfferEntity, Long>, JpaSp
     @Query("SELECT o FROM OfferEntity as o WHERE o.status.statusType = 'APPROVED'")
     Page<OfferEntity> findAllOffersWithApprovedStatus(Pageable pageable);
 
-    Page<OfferEntity> findAllByOfferType(OfferTypeEntity offerType, Pageable pageable);
+    Page<OfferEntity> findAllByStatusAndOfferType(StatusEntity statusEntity, OfferTypeEntity offerType, Pageable pageable);
 
     @Query("SELECT MAX(o.quadrature) FROM OfferEntity as o")
     Float findMaxQuadrature();

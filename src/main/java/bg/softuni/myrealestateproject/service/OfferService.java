@@ -91,9 +91,10 @@ public class OfferService {
                 });
     }
 
-    public Page<OfferViewModel> findByOfferType(OfferTypeEnum offerTypeEnum, Pageable pageable) {
+    public Page<OfferViewModel> findByApprovedStatusAndOfferType(OfferTypeEnum offerTypeEnum, Pageable pageable) {
+        StatusEntity statusApprovedEntity = this.statusService.findStatusApproved();
         OfferTypeEntity offerTypeEntity = this.offerTypeService.findOfferType(offerTypeEnum);
-        return this.offerRepository.findAllByOfferType(offerTypeEntity, pageable)
+        return this.offerRepository.findAllByStatusAndOfferType(statusApprovedEntity, offerTypeEntity, pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
