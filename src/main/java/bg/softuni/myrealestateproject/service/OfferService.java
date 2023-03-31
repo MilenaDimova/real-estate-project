@@ -158,6 +158,7 @@ public class OfferService {
         List<OfferEntity> filteredOffers = this.offerRepository.findAll(specification);
 
         return filteredOffers.stream()
+                .filter(o -> o.getStatus().getStatusType().name().equals("APPROVED"))
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
