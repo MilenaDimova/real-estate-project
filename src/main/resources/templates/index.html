@@ -1,263 +1,315 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
 
     <title>Hestia MD | Home</title>
     <th:block th:insert="~{fragments/head}"></th:block>
 
-  </head>
-  <body class="aa-price-range">
-  <!-- Pre Loader -->
-  <div id="aa-preloader-area">
+</head>
+<body class="aa-price-range">
+<!-- Pre Loader -->
+<div id="aa-preloader-area">
     <div class="pulse"></div>
-  </div>
-  <!-- SCROLL TOP BUTTON -->
-    <a class="scrollToTop" href="#"><i class="fa fa-angle-double-up"></i></a>
-  <!-- END SCROLL TOP BUTTON -->
+</div>
+<!-- SCROLL TOP BUTTON -->
+<a class="scrollToTop" href="#"><i class="fa fa-angle-double-up"></i></a>
+<!-- END SCROLL TOP BUTTON -->
 
-  <!-- Start header section -->
-  <header id="aa-header">
+<!-- Start header section -->
+<header id="aa-header">
     <th:block th:insert="~{fragments/header}"></th:block>
-  </header>
-  <!-- End header section -->
+</header>
+<!-- End header section -->
 
-  <!-- Start menu section -->
-  <section id="aa-menu-area">
+<!-- Start menu section -->
+<section id="aa-menu-area">
     <nav class="navbar navbar-default main-navbar" role="navigation">
-      <th:block th:insert="~{fragments/nav}"></th:block>
+        <th:block th:insert="~{fragments/nav}"></th:block>
     </nav>
-  </section>
-  <!-- End menu section -->
+</section>
+<!-- End menu section -->
 
-  <!-- Start slider  -->
-  <section id="aa-slider">
-      <div class="aa-slider-area">
-          <!-- Top slider -->
-          <div class="aa-top-slider">
-              <!-- Top slider single slide -->
-              <div class="aa-top-slider-single">
-                  <img src="/images/slider/5.jpg" alt="img">
-              </div>
-              <div class="aa-top-slider-single">
-                  <img src="/images/slider/4.jpg" alt="img">
-              </div>
-              <div class="aa-top-slider-single">
-                  <img src="/images/slider/3.jpg" alt="img">
-              </div>
-              <div class="aa-top-slider-single">
-                  <img src="/images/slider/2.jpg" alt="img">
-              </div>
-              <div class="aa-top-slider-single">
-                  <img src="/images/slider/1.jpg" alt="img">
-              </div>
-              <!-- / Top slider single slide -->
-          </div>
-      </div>
-  </section>
-  <!-- End slider  -->
-
-  <!-- Latest property -->
-  <section id="aa-latest-property">
-    <div class="container">
-      <div class="aa-latest-property-area">
-        <div class="aa-title">
-          <h2>Latest Properties</h2>
-          <span></span>
-          <p>To be able to view all our offers as well as those published directly by their owners, please login with your account.</p>
+<!-- Start slider  -->
+<section id="aa-slider">
+    <div class="aa-slider-area">
+        <!-- Top slider -->
+        <div class="aa-top-slider">
+            <!-- Top slider single slide -->
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/5.jpg" alt="img">
+            </div>
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/4.jpg" alt="img">
+            </div>
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/3.jpg" alt="img">
+            </div>
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/2.jpg" alt="img">
+            </div>
+            <div class="aa-top-slider-single">
+                <img src="/images/slider/1.jpg" alt="img">
+            </div>
+            <!-- / Top slider single slide -->
         </div>
-        <div class="aa-latest-properties-content">
-          <div class="row">
-            <div class="col-md-4" th:each="o : ${offers}" th:object="${o}">
-              <article class="aa-properties-item">
-                <a th:href="@{/offers/details/(id = *{id})}" class="aa-properties-item-img">
-                  <img width="370" height="220" th:src="*{getHeadingImageUrl()}" alt="img">
-                </a>
-                <div th:class="'aa-tag ' + ${o.offerType.equals('SALE') ? 'for-sale' : 'for-rent'}" th:text="*{offerType}">
-                  For Sale
-                </div>
-                <div class="aa-properties-item-content">
-                  <div class="aa-properties-info">
-                    <span th:text="|*{floor} Floor|">5 Floor</span>
-                    <span th:text="|*{room} Rooms|">2 Rooms</span>
-                    <span th:text="|*{bath} Baths|">3 Baths</span>
-                    <span th:text="|*{quadrature} m2|">1100 SQ FT</span>
-                  </div>
-                  <div class="aa-properties-about">
-                    <h3 th:text="*{area}"><a href="#">Apartment Title</a></h3>
-                    <p th:text="${#strings.abbreviate(o.description, 100)}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
-                  </div>
-                  <div class="aa-properties-detial">
+    </div>
+</section>
+<!-- End slider  -->
+
+<!-- Latest property -->
+<section id="aa-latest-property">
+    <div class="container">
+        <div class="aa-latest-property-area">
+            <div class="aa-title">
+                <h2>Latest Properties</h2>
+                <span></span>
+                <p>To be able to view all our offers as well as those published directly by their owners, please login with your account.</p>
+            </div>
+            <div class="aa-latest-properties-content">
+                <div class="row">
+                    <div class="col-md-4" th:each="o : ${offers}" th:object="${o}">
+                        <article class="aa-properties-item">
+                            <a th:href="@{/offers/details/(id = *{id})}" class="aa-properties-item-img">
+                                <img width="370" height="220" th:src="*{getHeadingImageUrl()}" alt="img">
+                            </a>
+                            <div th:class="'aa-tag ' + ${o.offerType.equals('SALE') ? 'for-sale' : 'for-rent'}"
+                                 th:text="*{offerType}">
+                                For Sale
+                            </div>
+                            <div class="aa-properties-item-content">
+                                <div class="aa-properties-info">
+                                    <span th:text="|*{floor} Floor|">5 Floor</span>
+                                    <span th:text="|*{room} Rooms|">2 Rooms</span>
+                                    <span th:text="|*{bath} Baths|">3 Baths</span>
+                                    <span th:text="|*{quadrature} m2|">1100 SQ FT</span>
+                                </div>
+                                <div class="aa-properties-about">
+                                    <h3 th:text="*{area}"><a href="#">Apartment Title</a></h3>
+                                    <p th:text="${#strings.abbreviate(o.description, 100)}">Lorem ipsum dolor sit amet,
+                                        consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit
+                                        vitae.</p>
+                                </div>
+                                <div class="aa-properties-detial">
                     <span class="aa-price" th:text="*{price}">
                     </span><span class="aa-price" th:utext="${'&#8364;'}"></span>
-                    <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{id})}">View Details</a>
-                  </div>
+                                    <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{id})}">View Details</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
                 </div>
-              </article>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
-  <!-- / Latest property -->
+</section>
+<!-- / Latest property -->
+<!-- Start properties content bottom -->
+<div class="aa-properties-content-bottom">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${offers.isFirst()} ? 'disabled' : ''">
+                <a th:unless="${offers.isFirst()}"
+                   th:href="@{'/' + ${controllerAction}(size=${offers.getSize()},page=0)}"
+                   class="page-link" href="#">First</a>
+                <a th:if="${offers.isFirst()}"
+                   class="page-link" href="#">First</a>
+            </li>
+            <li class="page-item" th:classappend="${offers.hasPrevious() ? '' : 'disabled'}">
+                <a th:if="${offers.hasPrevious()}"
+                   th:href="@{'/' + ${controllerAction}(size=${offers.getSize()},page=${offers.getNumber() - 1})}"
+                   class="page-link" href="#">Previous</a>
+                <a th:unless="${offers.hasPrevious()}"
+                   class="page-link" href="#">Previous</a>
+            </li>
+            <li class="page-item" th:classappend="${offers.hasNext() ? '' : 'disabled'}">
+                <a th:if="${offers.hasNext()}"
+                   th:href="@{'/' + ${controllerAction}(size=${offers.getSize()},page=${offers.getNumber() + 1})}"
+                   class="page-link" href="#">Next</a>
+                <a th:unless="${offers.hasNext()}"
+                   class="page-link" href="#">Next</a>
+            </li>
+            <li class="page-item" th:classappend="${offers.isLast()} ? 'disabled' : ''">
+                <a th:unless="${offers.isLast()}"
+                   th:href="@{'/' + ${controllerAction}(size=${offers.getSize()},page=${offers.getTotalPages() - 1})}"
+                   class="page-link" href="#">Last</a>
+                <a th:if="${offers.isLast()}"
+                   class="page-link" href="#">Last</a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
-  <!-- Service section -->
-  <section id="aa-service">
+<!-- Service section -->
+<section id="aa-service">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="aa-service-area">
-            <div class="aa-title">
-              <h2>Our Service</h2>
-              <span></span>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum sit ea nobis quae vero voluptatibus.</p>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-service-area">
+                    <div class="aa-title">
+                        <h2>Our Service</h2>
+                        <span></span>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum sit ea nobis quae vero
+                            voluptatibus.</p>
+                    </div>
+                    <!-- service content -->
+                    <div class="aa-service-content">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="aa-single-service">
+                                    <div class="aa-service-icon">
+                                        <span class="fa fa-home"></span>
+                                    </div>
+                                    <div class="aa-single-service-content">
+                                        <h4><a href="#">Property Sale</a></h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto repellendus
+                                            quasi asperiores itaque dolorem at.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="aa-single-service">
+                                    <div class="aa-service-icon">
+                                        <span class="fa fa-check"></span>
+                                    </div>
+                                    <div class="aa-single-service-content">
+                                        <h4><a href="#">Property Rent</a></h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto repellendus
+                                            quasi asperiores itaque dolorem at.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="aa-single-service">
+                                    <div class="aa-service-icon">
+                                        <span class="fa fa-crosshairs"></span>
+                                    </div>
+                                    <div class="aa-single-service-content">
+                                        <h4><a href="#">Property Development</a></h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto repellendus
+                                            quasi asperiores itaque dolorem at.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="aa-single-service">
+                                    <div class="aa-service-icon">
+                                        <span class="fa fa-bar-chart-o"></span>
+                                    </div>
+                                    <div class="aa-single-service-content">
+                                        <h4><a href="#">Market Analysis</a></h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto repellendus
+                                            quasi asperiores itaque dolorem at.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- service content -->
-            <div class="aa-service-content">
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="aa-single-service">
-                    <div class="aa-service-icon">
-                      <span class="fa fa-home"></span>
-                    </div>
-                    <div class="aa-single-service-content">
-                      <h4><a href="#">Property Sale</a></h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto repellendus quasi asperiores itaque dolorem at.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="aa-single-service">
-                    <div class="aa-service-icon">
-                      <span class="fa fa-check"></span>
-                    </div>
-                    <div class="aa-single-service-content">
-                      <h4><a href="#">Property Rent</a></h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto repellendus quasi asperiores itaque dolorem at.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="aa-single-service">
-                    <div class="aa-service-icon">
-                      <span class="fa fa-crosshairs"></span>
-                    </div>
-                    <div class="aa-single-service-content">
-                      <h4><a href="#">Property Development</a></h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto repellendus quasi asperiores itaque dolorem at.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="aa-single-service">
-                    <div class="aa-service-icon">
-                      <span class="fa fa-bar-chart-o"></span>
-                    </div>
-                    <div class="aa-single-service-content">
-                      <h4><a href="#">Market Analysis</a></h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto repellendus quasi asperiores itaque dolorem at.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
-  <!-- / Service section -->
+</section>
+<!-- / Service section -->
 
-  <!-- Client Testimonial -->
-  <section id="aa-client-testimonial">
+<!-- Client Testimonial -->
+<section id="aa-client-testimonial">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="aa-client-testimonial-area">
-            <div class="aa-title">
-              <h2>What Client Say</h2>
-              <span></span>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus eaque quas debitis animi ipsum, veritatis!</p>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-client-testimonial-area">
+                    <div class="aa-title">
+                        <h2>What Client Say</h2>
+                        <span></span>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus eaque quas debitis
+                            animi ipsum, veritatis!</p>
+                    </div>
+                    <!-- testimonial content -->
+                    <div class="aa-testimonial-content">
+                        <!-- testimonial slider -->
+                        <ul class="aa-testimonial-slider">
+                            <li>
+                                <div class="aa-testimonial-single">
+                                    <div class="aa-testimonial-img">
+                                        <img src="images/testimonial-1.png" alt="testimonial img">
+                                    </div>
+                                    <div class="aa-testimonial-info">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate
+                                            consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae
+                                            voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt
+                                            fuga ab natus, dolorem?</p>
+                                    </div>
+                                    <div class="aa-testimonial-bio">
+                                        <p>David Muller</p>
+                                        <span>Web Designer</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="aa-testimonial-single">
+                                    <div class="aa-testimonial-img">
+                                        <img src="images/testimonial-3.png" alt="testimonial img">
+                                    </div>
+                                    <div class="aa-testimonial-info">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate
+                                            consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae
+                                            voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt
+                                            fuga ab natus, dolorem?</p>
+                                    </div>
+                                    <div class="aa-testimonial-bio">
+                                        <p>David Muller</p>
+                                        <span>Web Designer</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="aa-testimonial-single">
+                                    <div class="aa-testimonial-img">
+                                        <img src="images/testimonial-2.png" alt="testimonial img">
+                                    </div>
+                                    <div class="aa-testimonial-info">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate
+                                            consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae
+                                            voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt
+                                            fuga ab natus, dolorem?</p>
+                                    </div>
+                                    <div class="aa-testimonial-bio">
+                                        <p>David Muller</p>
+                                        <span>Web Designer</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <!-- testimonial content -->
-            <div class="aa-testimonial-content">
-              <!-- testimonial slider -->
-              <ul class="aa-testimonial-slider">
-                <li>
-                  <div class="aa-testimonial-single">
-                    <div class="aa-testimonial-img">
-                      <img src="images/testimonial-1.png" alt="testimonial img">
-                    </div>
-                    <div class="aa-testimonial-info">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt fuga ab natus, dolorem?</p>
-                    </div>
-                    <div class="aa-testimonial-bio">
-                      <p>David Muller</p>
-                      <span>Web Designer</span>
-                    </div>
-                  </div>
-                </li>
-                 <li>
-                  <div class="aa-testimonial-single">
-                    <div class="aa-testimonial-img">
-                      <img src="images/testimonial-3.png" alt="testimonial img">
-                    </div>
-                    <div class="aa-testimonial-info">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt fuga ab natus, dolorem?</p>
-                    </div>
-                    <div class="aa-testimonial-bio">
-                      <p>David Muller</p>
-                      <span>Web Designer</span>
-                    </div>
-                  </div>
-                </li>
-                 <li>
-                  <div class="aa-testimonial-single">
-                    <div class="aa-testimonial-img">
-                      <img src="images/testimonial-2.png" alt="testimonial img">
-                    </div>
-                    <div class="aa-testimonial-info">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt fuga ab natus, dolorem?</p>
-                    </div>
-                    <div class="aa-testimonial-bio">
-                      <p>David Muller</p>
-                      <span>Web Designer</span>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
-  <!-- Client Testimonial -->
+</section>
+<!-- Client Testimonial -->
 
 
-  <!-- Footer -->
-  <footer id="aa-footer">
+<!-- Footer -->
+<footer id="aa-footer">
     <th:block th:insert="~{fragments/footer}"></th:block>
-  </footer>
-  <!-- / Footer -->
+</footer>
+<!-- / Footer -->
 
 
+<!-- jQuery library -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<script src="js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.js"></script>
+<!-- slick slider -->
+<script type="text/javascript" src="js/slick.js"></script>
+<!-- Price picker slider -->
+<script type="text/javascript" src="js/nouislider.js"></script>
+<!-- mixit slider -->
+<script type="text/javascript" src="js/jquery.mixitup.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="js/jquery.fancybox.pack.js"></script>
+<!-- Custom js -->
+<script src="js/custom.js"></script>
 
-  <!-- jQuery library -->
-  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-  <script src="js/jquery.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="js/bootstrap.js"></script>
-  <!-- slick slider -->
-  <script type="text/javascript" src="js/slick.js"></script>
-  <!-- Price picker slider -->
-  <script type="text/javascript" src="js/nouislider.js"></script>
-   <!-- mixit slider -->
-  <script type="text/javascript" src="js/jquery.mixitup.js"></script>
-  <!-- Add fancyBox -->
-  <script type="text/javascript" src="js/jquery.fancybox.pack.js"></script>
-  <!-- Custom js -->
-  <script src="js/custom.js"></script>
-
-  </body>
+</body>
 </html>

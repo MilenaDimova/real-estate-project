@@ -62,14 +62,14 @@ public class OfferController {
     }
 
     @GetMapping("/sales")
-    public ModelAndView sales(ModelAndView modelAndView, @PageableDefault(sort = "price", page = 0, size = 4) Pageable pageable) {
+    public ModelAndView sales(ModelAndView modelAndView, @PageableDefault(sort = "price", size = 4) Pageable pageable) {
         modelAndView.addObject("controllerAction", "sales");
         return setModelAndView(modelAndView, OfferTypeEnum.SALE, pageable);
     }
 
 
     @GetMapping("/rents")
-    public ModelAndView rents(ModelAndView modelAndView, @PageableDefault(sort = "price", page = 0, size = 4) Pageable pageable) {
+    public ModelAndView rents(ModelAndView modelAndView, @PageableDefault(sort = "price", size = 4) Pageable pageable) {
 
         modelAndView.addObject("controllerAction", "rents");
         return setModelAndView(modelAndView, OfferTypeEnum.RENT, pageable);

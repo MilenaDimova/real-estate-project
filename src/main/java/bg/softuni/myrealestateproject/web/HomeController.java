@@ -1,6 +1,10 @@
 package bg.softuni.myrealestateproject.web;
 
+import bg.softuni.myrealestateproject.model.enums.StatusTypeEnum;
 import bg.softuni.myrealestateproject.service.OfferService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,8 +19,9 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public ModelAndView home(ModelAndView modelAndView) {
-        modelAndView.addObject("offers", this.offerService.findLatestOffers());
+    public ModelAndView home(ModelAndView modelAndView, @PageableDefault(sort = {"activeFrom", "price"}, direction = Sort.Direction.DESC, size = 6) Pageable pageable) {
+        modelAndView.addObject("offers", this.offerService.findLatestOffers(pageable));
+        modelAndView.addObject("controllerAction", "");
         modelAndView.setViewName("index");
 
         return modelAndView;

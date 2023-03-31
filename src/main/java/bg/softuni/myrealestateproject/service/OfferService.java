@@ -4,9 +4,11 @@ import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
 import bg.softuni.myrealestateproject.model.entity.OfferEntity;
 import bg.softuni.myrealestateproject.model.entity.OfferTypeEntity;
+import bg.softuni.myrealestateproject.model.entity.StatusEntity;
 import bg.softuni.myrealestateproject.model.entity.UserEntity;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
 import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
+import bg.softuni.myrealestateproject.model.enums.StatusTypeEnum;
 import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.model.view.OwnerViewModel;
 import bg.softuni.myrealestateproject.repository.OfferRepository;
@@ -78,17 +80,15 @@ public class OfferService {
         this.offerRepository.deleteById(id);
     }
 
-    public List<OfferViewModel> findLatestOffers() {
-        return this.offerRepository.findTop6ByOrderByActiveFromDesc()
-                .stream()
+    public Page<OfferViewModel> findLatestOffers(Pageable pageable) {
+        return this.offerRepository.findAllOffersWithApprovedStatus(pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
                     offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
 
                     return offerViewModel;
-                })
-                .collect(Collectors.toList());
+                });
     }
 
     public Page<OfferViewModel> findByOfferType(OfferTypeEnum offerTypeEnum, Pageable pageable) {
