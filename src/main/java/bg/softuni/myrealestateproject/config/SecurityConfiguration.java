@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/", "/users/signin", "/users/register", "/offers/sales", "/offers/rents", "/offers/search").permitAll()
                 .requestMatchers("/contact", "/about-us", "/offers/details/**", "/maintenance").permitAll()
                 .requestMatchers("/offers/add", "/offers/search").hasRole(RoleTypeEnum.USER.name())
-                .requestMatchers("/offers/add", "/offers/search").hasRole(RoleTypeEnum.ADMIN.name())
+                .requestMatchers("/offers/add", "/offers/search", "/admin/offers").hasRole(RoleTypeEnum.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()

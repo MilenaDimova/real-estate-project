@@ -28,16 +28,17 @@
                 <th:block sec:authorize="isAuthenticated()">
                     <li><a href="/offers/add">ADD OFFER</a></li>
                 </th:block>
-<!--                <li class="dropdown">-->
-<!--                    <a class="dropdown-toggle" data-toggle="dropdown" href="blog-archive.html">BLOG <span class="caret"></span></a>-->
-<!--                    <ul class="dropdown-menu" role="menu">-->
-<!--                        <li><a href="blog-archive.html">BLOG</a></li>-->
-<!--                        <li><a href="blog-single.html">BLOG DETAILS</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
                 <li><a href="/contact">CONTACT</a></li>
                 <li><a href="/about-us">ABOUT US</a></li>
-<!--                <li><a href="404.html">404 PAGE</a></li>-->
+                <th:block sec:authorize="hasRole('ADMIN')">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">ADMIN <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/offers/sales">USERS</a></li>
+                            <li><a href="/admin/offers">OFFERS</a></li>
+                        </ul>
+                    </li>
+                </th:block>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
