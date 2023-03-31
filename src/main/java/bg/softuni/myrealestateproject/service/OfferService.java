@@ -176,4 +176,19 @@ public class OfferService {
     public BigDecimal findMaxPrice() {
         return this.offerRepository.findMaxPrice();
     }
+
+    public Page<OfferViewModel> findAllOffers(Pageable pageable) {
+        Page<OfferViewModel> offerViewModels = this.offerRepository.findAll(pageable)
+                .map(offerEntity -> {
+                    OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
+                    offerViewModel.setStatusType(offerEntity.getStatus().getStatusType().name());
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+                    offerViewModel.setActiveFrom(offerEntity.getActiveFrom().toString());
+
+                    return offerViewModel;
+                });
+
+        return offerViewModels;
+
+    }
 }

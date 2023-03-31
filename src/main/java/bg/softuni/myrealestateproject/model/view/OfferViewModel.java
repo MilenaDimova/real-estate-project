@@ -5,11 +5,12 @@ import java.util.List;
 
 public class OfferViewModel {
     private Long id;
-
     private String city;
     private String offerType;
     private String estateType;
     private String propertyType;
+    private String statusType;
+    private String activeFrom;
     private int floor;
     private int bed;
     private int room;
@@ -66,6 +67,24 @@ public class OfferViewModel {
 
     public OfferViewModel setPropertyType(String propertyType) {
         this.propertyType = propertyType;
+        return this;
+    }
+
+    public String getStatusType() {
+        return statusType;
+    }
+
+    public OfferViewModel setStatusType(String statusType) {
+        this.statusType = statusType;
+        return this;
+    }
+
+    public String getActiveFrom() {
+        return activeFrom;
+    }
+
+    public OfferViewModel setActiveFrom(String activeFrom) {
+        this.activeFrom = activeFrom;
         return this;
     }
 

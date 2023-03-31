@@ -15,7 +15,7 @@ public class MaintenanceInterceptor implements HandlerInterceptor {
         var requestURI = request.getRequestURI();
         if (!requestURI.equals("/maintenance")) {
             LocalTime now = LocalTime.now();
-            if (now.getHour() < 1) {
+            if (now.getHour() < 0) {
                 response.sendRedirect("/maintenance");
                 return false;
             }
