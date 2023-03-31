@@ -17,6 +17,10 @@ public interface OfferRepository extends JpaRepository<OfferEntity, Long>, JpaSp
 
     List<OfferEntity> findTop6ByOrderByActiveFromDesc();
 
+
+//    @Query("SELECT o FROM OfferEntity as o WHERE o.isApproved = true")
+//    List<OfferEntity> findAllApprovedOffers();
+
     Page<OfferEntity> findAllByOfferType(OfferTypeEntity offerType, Pageable pageable);
 
     @Query("SELECT MAX(o.quadrature) FROM OfferEntity as o")

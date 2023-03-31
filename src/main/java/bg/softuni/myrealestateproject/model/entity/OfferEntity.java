@@ -43,7 +43,7 @@ public class OfferEntity extends BaseEntity{
     @Column(nullable = false)
     private String area;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private PropertyTypeEntity propertyType;
 
     @Column(nullable = false)
@@ -52,8 +52,8 @@ public class OfferEntity extends BaseEntity{
     @Column(nullable = false)
     private LocalDate activeFrom;
 
-    @Column
-    boolean isApproved;
+    @ManyToOne(optional = false)
+    private StatusEntity status;
 
     @OneToMany(mappedBy = "offer", fetch = FetchType.LAZY)
     private List<ImageEntity> images = new ArrayList<>();
@@ -124,12 +124,12 @@ public class OfferEntity extends BaseEntity{
         return this;
     }
 
-    public boolean isApproved() {
-        return isApproved;
+    public StatusEntity getStatus() {
+        return status;
     }
 
-    public OfferEntity setApproved(boolean approved) {
-        isApproved = approved;
+    public OfferEntity setStatus(StatusEntity status) {
+        this.status = status;
         return this;
     }
 

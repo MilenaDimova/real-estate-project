@@ -2,7 +2,9 @@ package bg.softuni.myrealestateproject.service;
 
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
-import bg.softuni.myrealestateproject.model.entity.*;
+import bg.softuni.myrealestateproject.model.entity.OfferEntity;
+import bg.softuni.myrealestateproject.model.entity.OfferTypeEntity;
+import bg.softuni.myrealestateproject.model.entity.UserEntity;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
 import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
 import bg.softuni.myrealestateproject.model.view.OfferViewModel;
@@ -12,7 +14,6 @@ import bg.softuni.myrealestateproject.repository.OfferSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.modelmapper.Converters.Collection.map;
 
 @Service
 public class OfferService {
@@ -31,18 +29,20 @@ public class OfferService {
     private final OfferTypeService offerTypeService;
     private final EstateTypeService estateTypeService;
     private final PropertyTypeService propertyTypeService;
+    private final StatusService statusService;
     private final ImageService imageService;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
     public OfferService(OfferRepository offerRepository, CityService cityService, OfferTypeService offerTypeService,
                         EstateTypeService estateTypeService, PropertyTypeService propertyTypeService,
-                        ImageService imageService, UserService userService, ModelMapper modelMapper) {
+                        StatusService statusService, ImageService imageService, UserService userService, ModelMapper modelMapper) {
         this.offerRepository = offerRepository;
         this.cityService = cityService;
         this.offerTypeService = offerTypeService;
         this.estateTypeService = estateTypeService;
         this.propertyTypeService = propertyTypeService;
+        this.statusService = statusService;
         this.imageService = imageService;
         this.userService = userService;
         this.modelMapper = modelMapper;
@@ -112,6 +112,7 @@ public class OfferService {
         offer.setOfferType(this.offerTypeService.findOfferType(offerAddBindingModel.getOfferType()));
         offer.setEstateType(this.estateTypeService.findEstateType(offerAddBindingModel.getEstateType()));
         offer.setPropertyType(this.propertyTypeService.findPropertyType(offerAddBindingModel.getPropertyType()));
+        offer.setStatus(this.statusService.findStatusPending());
         offer.setOwner(owner);
 
         OfferEntity offerEntity = this.offerRepository.save(offer);
