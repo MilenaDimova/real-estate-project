@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 public class OfferAddBindingModel {
     private Long id;
 
-    @NotNull(message = "Status is required!")
     private StatusTypeEnum statusType;
 
     @NotNull(message = "City is required!")
