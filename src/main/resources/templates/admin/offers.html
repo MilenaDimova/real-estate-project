@@ -30,8 +30,8 @@
                         <table class="w-full whitespace-no-wrap" >
                             <thead>
                             <tr class="text-xl font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                <th class="px-4 py-3">Owner</th>
                                 <th class="px-4 py-3">Offer</th>
+                                <th class="px-4 py-3">City</th>
                                 <th class="px-4 py-3">Price</th>
                                 <th class="px-4 py-3">Status</th>
                                 <th class="px-4 py-3">Active From</th>
@@ -43,15 +43,12 @@
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-2xl">
                                         <div>
-                                            <p class="font-semibold" th:text="*{owner.fullName}">Hans Burger</p>
-                                            <p class="text-lg text-gray-600 dark:text-gray-400" th:text="*{offerType}">
-                                                10x Developer
-                                            </p>
+                                            <p class="font-semibold" th:text="*{estateType.replaceAll('_', ' ')}"></p>
+                                            <p class="text-lg text-gray-600 dark:text-gray-400" th:text="*{offerType}"></p>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 text-2xl">
-                                    <a th:href="@{/offers/details/(id = *{id})}" th:text="View"></a>
+                                <td class="px-4 py-3 text-2xl" th:text="*{city}">
                                 </td>
                                 <td class="px-4 py-3 text-2xl">
                                     <span th:text="|*{price} |" ></span><span th:utext="${'&#8364;'}"></span>

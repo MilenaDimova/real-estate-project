@@ -184,6 +184,8 @@ public class OfferService {
         Page<OfferViewModel> offerViewModels = this.offerRepository.findAll(pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
+                    offerViewModel.setCity(offerEntity.getCity().getCity().name());
+                    offerViewModel.setEstateType(offerEntity.getEstateType().getEstateType().name());
                     offerViewModel.setStatusType(offerEntity.getStatus().getStatusType().name());
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
                     offerViewModel.setActiveFrom(offerEntity.getActiveFrom().toString());
