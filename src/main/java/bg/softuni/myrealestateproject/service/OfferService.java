@@ -81,7 +81,7 @@ public class OfferService {
     }
 
     public Page<OfferViewModel> findLatestOffers(Pageable pageable) {
-        return this.offerRepository.findAllOffersWithApprovedStatus(pageable)
+        return this.offerRepository.findAllOffersWithActiveStatus(pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
@@ -91,8 +91,8 @@ public class OfferService {
                 });
     }
 
-    public Page<OfferViewModel> findByApprovedStatusAndOfferType(OfferTypeEnum offerTypeEnum, Pageable pageable) {
-        StatusEntity statusApprovedEntity = this.statusService.findStatusApproved();
+    public Page<OfferViewModel> findByActiveStatusAndOfferType(OfferTypeEnum offerTypeEnum, Pageable pageable) {
+        StatusEntity statusApprovedEntity = this.statusService.findStatusActive();
         OfferTypeEntity offerTypeEntity = this.offerTypeService.findOfferType(offerTypeEnum);
         return this.offerRepository.findAllByStatusAndOfferType(statusApprovedEntity, offerTypeEntity, pageable)
                 .map(offerEntity -> {
@@ -161,7 +161,7 @@ public class OfferService {
         List<OfferEntity> filteredOffers = this.offerRepository.findAll(specification);
 
         return filteredOffers.stream()
-                .filter(o -> o.getStatus().getStatusType().name().equals("APPROVED"))
+                .filter(o -> o.getStatus().getStatusType().name().equals("ACTIVE"))
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());

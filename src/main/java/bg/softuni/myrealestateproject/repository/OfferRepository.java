@@ -16,8 +16,8 @@ import java.util.List;
 @Repository
 public interface OfferRepository extends JpaRepository<OfferEntity, Long>, JpaSpecificationExecutor<OfferEntity> {
 
-    @Query("SELECT o FROM OfferEntity as o WHERE o.status.statusType = 'APPROVED'")
-    Page<OfferEntity> findAllOffersWithApprovedStatus(Pageable pageable);
+    @Query("SELECT o FROM OfferEntity as o WHERE o.status.statusType = 'ACTIVE'")
+    Page<OfferEntity> findAllOffersWithActiveStatus(Pageable pageable);
 
     Page<OfferEntity> findAllByStatusAndOfferType(StatusEntity statusEntity, OfferTypeEntity offerType, Pageable pageable);
 

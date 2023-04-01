@@ -97,7 +97,7 @@ public class OfferController {
     }
 
     private ModelAndView setModelAndView(ModelAndView modelAndView, OfferTypeEnum offerTypeEnum, Pageable pageable) {
-        modelAndView.addObject("offers", this.offerService.findByApprovedStatusAndOfferType(offerTypeEnum, pageable));
+        modelAndView.addObject("offers", this.offerService.findByActiveStatusAndOfferType(offerTypeEnum, pageable));
         modelAndView.setViewName("offers");
 
         return modelAndView;
