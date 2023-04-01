@@ -181,7 +181,7 @@ public class OfferService {
     }
 
     public Page<OfferViewModel> findAllOffers(Pageable pageable) {
-        Page<OfferViewModel> offerViewModels = this.offerRepository.findAll(pageable)
+        return this.offerRepository.findAll(pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setCity(offerEntity.getCity().getCity().name());
@@ -192,8 +192,6 @@ public class OfferService {
 
                     return offerViewModel;
                 });
-
-        return offerViewModels;
 
     }
 }
