@@ -17,6 +17,8 @@ public class UserEntity extends BaseEntity{
     private String password;
     @Column(nullable = false, unique = true)
     private String phoneNumber;
+    @ManyToOne
+    private StatusEntity status;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<RoleEntity> roles = new ArrayList<>();
 
@@ -74,6 +76,15 @@ public class UserEntity extends BaseEntity{
 
     public UserEntity setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    public StatusEntity getStatus() {
+        return status;
+    }
+
+    public UserEntity setStatus(StatusEntity status) {
+        this.status = status;
         return this;
     }
 }
