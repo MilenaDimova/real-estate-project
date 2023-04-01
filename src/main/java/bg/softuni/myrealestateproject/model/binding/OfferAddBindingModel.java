@@ -1,9 +1,6 @@
 package bg.softuni.myrealestateproject.model.binding;
 
-import bg.softuni.myrealestateproject.model.enums.CityNameEnum;
-import bg.softuni.myrealestateproject.model.enums.EstateTypeEnum;
-import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
-import bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum;
+import bg.softuni.myrealestateproject.model.enums.*;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +12,9 @@ import java.util.stream.Collectors;
 
 public class OfferAddBindingModel {
     private Long id;
+
+    @NotNull(message = "Status is required!")
+    private StatusTypeEnum statusType;
 
     @NotNull(message = "City is required!")
     private CityNameEnum city;
@@ -212,6 +212,15 @@ public class OfferAddBindingModel {
 
     public OfferAddBindingModel setHasErrors(boolean hasErrors) {
         this.hasErrors = hasErrors;
+        return this;
+    }
+
+    public StatusTypeEnum getStatusType() {
+        return statusType;
+    }
+
+    public OfferAddBindingModel setStatusType(StatusTypeEnum statusType) {
+        this.statusType = statusType;
         return this;
     }
 }

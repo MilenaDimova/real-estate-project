@@ -133,7 +133,7 @@ public class OfferService {
     }
 
 
-    public OfferAddBindingModel updateOffer(OfferAddBindingModel offerAddBindingModel) {
+    public OfferAddBindingModel updateOffer(OfferAddBindingModel offerAddBindingModel, boolean isAdmin) {
         Optional<OfferEntity> offerEntity = this.offerRepository.findById(offerAddBindingModel.getId());
 
         try {
@@ -143,6 +143,9 @@ public class OfferService {
                 offerEntity.get().setOfferType(this.offerTypeService.findOfferType(offerAddBindingModel.getOfferType()));
                 offerEntity.get().setEstateType(this.estateTypeService.findEstateType(offerAddBindingModel.getEstateType()));
                 offerEntity.get().setPropertyType(this.propertyTypeService.findPropertyType(offerAddBindingModel.getPropertyType()));
+                if (isAdmin) {
+                    offerEntity.get().setStatus(this.statusService.findStatusType(offerAddBindingModel.getStatusType()));
+                }
             }
             this.offerRepository.saveAndFlush(offerEntity.get());
         } catch (Exception ex) {

@@ -35,4 +35,8 @@ public class StatusService implements DataBaseInitService{
     public StatusEntity findStatusApproved() {
         return this.statusRepository.findByStatusType(StatusTypeEnum.APPROVED);
     }
+
+    public StatusEntity findStatusType(StatusTypeEnum statusTypeEnum) {
+        return this.statusRepository.findByStatusType(statusTypeEnum);
+    }
 }

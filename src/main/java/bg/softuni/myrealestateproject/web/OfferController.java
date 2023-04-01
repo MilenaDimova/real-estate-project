@@ -109,6 +109,7 @@ public class OfferController {
     public ModelAndView update(Principal principal, @RequestParam("id") Long id, ModelAndView modelAndView,
                                @Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult, Map<String, Object> modelMap) {
         if (offerAddBindingModel.isHasErrors()) {
+            modelMap.put("offerAddBindingModel", offerAddBindingModel);
             modelAndView.addObject("property", offerAddBindingModel);
         } else {
             var offerAddBindingModelDB = this.offerService.updateOfferById(id);
@@ -124,7 +125,7 @@ public class OfferController {
     @PreAuthorize("@offerService.isOwner(#principal.name, #offerAddBindingModel.id) || @offerService.isAdmin(#principal.name)")
     @PutMapping ("/update/")
     public ModelAndView updateConfirm(Principal principal, @Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes, ModelAndView modelAndView) {
+                                RedirectAttributes redirectAttributes, ModelAndView modelAndView, @AuthenticationPrincipal CurrentUser userDetails) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerAddBindingModel", offerAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerAddBindingModel", bindingResult);
@@ -133,7 +134,7 @@ public class OfferController {
             return modelAndView;
         }
         offerAddBindingModel.setHasErrors(false);
-        offerAddBindingModel =  this.offerService.updateOffer(offerAddBindingModel);
+        offerAddBindingModel =  this.offerService.updateOffer(offerAddBindingModel, userDetails.isAdmin());
         if (offerAddBindingModel.isHasErrors()) {
             //modelAndView.setViewName("Some error page....");
         } else {
