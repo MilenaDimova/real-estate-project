@@ -18,6 +18,15 @@
                             <h4>Create your offer</h4>
                         </div>
                         <form class="contactform" th:method="post" th:action="@{/offers/add}" th:object="${offerAddBindingModel}" enctype="multipart/form-data">
+                            <div class="aa-single-field" th:if="${#authentication.principal.isAdmin()}">
+                                <label for="statusType">Status <span class="required">*</span></label>
+                                <select class="selectItem" id="statusType" name="statusType">
+                                    <option value="">Select Status</option>
+                                    <option th:each="s : ${T(bg.softuni.myrealestateproject.model.enums.StatusTypeEnum).values()}" th:text="${s}" th:value="${s}"
+                                            th:selected="${s.equals(offerAddBindingModel.getStatusType())}"></option>
+                                </select>
+                                <small th:if="${#fields.hasErrors('statusType')}" th:errors="*{statusType}" class="text-danger"></small>
+                            </div>
                             <div class="aa-single-field">
                                 <label for="city">City <span class="required">*</span></label>
                                 <select class="selectItem" id="city" name="city">
