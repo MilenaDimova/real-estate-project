@@ -1,11 +1,14 @@
 package bg.softuni.myrealestateproject.service;
 
 import bg.softuni.myrealestateproject.model.binding.UserRegisterBindingModel;
-import bg.softuni.myrealestateproject.model.entity.RoleEntity;
 import bg.softuni.myrealestateproject.model.entity.UserEntity;
 import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
+import bg.softuni.myrealestateproject.model.view.OwnerViewModel;
 import bg.softuni.myrealestateproject.repository.RoleRepository;
 import bg.softuni.myrealestateproject.repository.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements DataBaseInitService {
@@ -23,12 +28,14 @@ public class UserService implements DataBaseInitService {
     private final UserDetailsService userDetailsService;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository, UserDetailsService userDetailsService, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserDetailsService userDetailsService, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.userDetailsService = userDetailsService;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -76,5 +83,23 @@ public class UserService implements DataBaseInitService {
 
     public Optional<UserEntity> findByEmail(String username) {
         return this.userRepository.findByEmail(username);
+    }
+
+    public Page<OwnerViewModel> findAllUsers(Pageable pageable) {
+        return this.userRepository.findAll(pageable)
+                .map(userEntity -> {
+                    List<String> outputRoles = userEntity.getRoles()
+                            .stream()
+                            .map((role) -> role.getRoleType().name())
+                            .toList();
+
+                    OwnerViewModel ownerViewModel = this.modelMapper.map(userEntity, OwnerViewModel.class);
+                    ownerViewModel.setFirstName(userEntity.getFirstName());
+                    ownerViewModel.setEmail(userEntity.getEmail());
+                    ownerViewModel.setPhoneNumber(userEntity.getPhoneNumber());
+                    ownerViewModel.setRoles(outputRoles);
+
+                    return ownerViewModel;
+                });
     }
 }

@@ -1,10 +1,15 @@
 package bg.softuni.myrealestateproject.model.view;
 
+import java.util.List;
+
 public class OwnerViewModel {
     private Long id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private String email;
+
+    private List<String> roles;
 
     public String getFullName() {
         StringBuilder fullName = new StringBuilder();
@@ -55,6 +60,24 @@ public class OwnerViewModel {
 
     public OwnerViewModel setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public OwnerViewModel setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public OwnerViewModel setRoles(List<String> roles) {
+        this.roles = roles;
         return this;
     }
 }

@@ -2,8 +2,8 @@ package bg.softuni.myrealestateproject.web;
 
 import bg.softuni.myrealestateproject.service.ImageService;
 import bg.softuni.myrealestateproject.service.OfferService;
+import bg.softuni.myrealestateproject.service.UserService;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,10 +19,12 @@ import java.security.Principal;
 @RequestMapping("/admin")
 public class AdminController {
     private final OfferService offerService;
+    private final UserService userService;
     private final ImageService imageService;
 
-    public AdminController(OfferService offerService, ImageService imageService) {
+    public AdminController(OfferService offerService, UserService userService, ImageService imageService) {
         this.offerService = offerService;
+        this.userService = userService;
         this.imageService = imageService;
     }
 
@@ -42,5 +44,14 @@ public class AdminController {
         this.offerService.deleteOfferById(id);
 
         return "redirect:/admin/offers";
+    }
+
+    @GetMapping("/users")
+    public ModelAndView adminUsers(ModelAndView modelAndView, @PageableDefault(size = 7) Pageable pageable) {
+        modelAndView.addObject("users", this.userService.findAllUsers(pageable));
+        modelAndView.addObject("controllerAction", "");
+        modelAndView.setViewName("admin/users");
+
+        return modelAndView;
     }
 }
