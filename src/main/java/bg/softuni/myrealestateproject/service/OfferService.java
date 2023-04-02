@@ -113,7 +113,11 @@ public class OfferService {
         offer.setOfferType(this.offerTypeService.findOfferType(offerAddBindingModel.getOfferType()));
         offer.setEstateType(this.estateTypeService.findEstateType(offerAddBindingModel.getEstateType()));
         offer.setPropertyType(this.propertyTypeService.findPropertyType(offerAddBindingModel.getPropertyType()));
-        offer.setStatus(this.statusService.findStatusPending());
+        if (owner != null && owner.getRoles().stream().anyMatch(r -> r.getRoleType() == RoleTypeEnum.ADMIN)) {
+            offer.setStatus(this.statusService.findStatusType(offerAddBindingModel.getStatusType()));
+        } else {
+            offer.setStatus(this.statusService.findStatusPending());
+        }
         offer.setOwner(owner);
 
         OfferEntity offerEntity = this.offerRepository.save(offer);
