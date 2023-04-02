@@ -52,7 +52,7 @@ public class OfferController {
 
         this.offerService.addOffer(offerAddBindingModel, userDetails);
 
-        return "redirect:/";
+        return "add-offer-message";
 
     }
 
