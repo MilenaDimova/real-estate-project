@@ -25,3 +25,12 @@ div.aa-header-right form button.logout-button {
     overflow: hidden;
     outline: none;
 }
+
+div.add-offer-message {
+    margin-top: 60px;
+    text-align: center;
+}
+
+div.back-button {
+    margin-top: 20px;
+}
