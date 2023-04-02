@@ -52,7 +52,7 @@ public class OfferEntity extends BaseEntity{
     @Column(nullable = false)
     private LocalDate activeFrom;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private StatusEntity status;
 
     @OneToMany(mappedBy = "offer", fetch = FetchType.LAZY)
