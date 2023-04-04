@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class UpdateProfileBindingModel {
 
+    private Long id;
     @NotBlank(message = "First name is required!")
     private String firstName;
 
@@ -23,6 +24,15 @@ public class UpdateProfileBindingModel {
     private boolean existPhoneNumber;
 
     public UpdateProfileBindingModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public UpdateProfileBindingModel setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getFirstName() {

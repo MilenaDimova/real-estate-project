@@ -7,10 +7,12 @@ import bg.softuni.myrealestateproject.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -95,6 +97,14 @@ public class ProfileController {
         updateProfileBindingModel.setHasErrors(false);
         this.userService.updateProfile(updateProfileBindingModel, userDetails.getId());
         modelAndView.setViewName("redirect:/profile");
+
+        return modelAndView;
+    }
+
+    @GetMapping("/offers")
+    public ModelAndView profileOffers(Principal principal, ModelAndView modelAndView) {
+        modelAndView.addObject("userOffers", this.userService.getUserProfileOffers(principal.getName()));
+        modelAndView.setViewName("user/offers");
 
         return modelAndView;
     }

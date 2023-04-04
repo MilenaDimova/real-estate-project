@@ -4,6 +4,7 @@ import bg.softuni.myrealestateproject.model.binding.UpdateProfileBindingModel;
 import bg.softuni.myrealestateproject.model.binding.UserRegisterBindingModel;
 import bg.softuni.myrealestateproject.model.entity.UserEntity;
 import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
+import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.model.view.OwnerViewModel;
 import bg.softuni.myrealestateproject.repository.RoleRepository;
 import bg.softuni.myrealestateproject.repository.UserRepository;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements DataBaseInitService {
@@ -28,13 +30,15 @@ public class UserService implements DataBaseInitService {
     private final UserDetailsService userDetailsService;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ImageService imageService;
     private final ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository, UserDetailsService userDetailsService, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, UserDetailsService userDetailsService, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ImageService imageService, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.userDetailsService = userDetailsService;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.imageService = imageService;
         this.modelMapper = modelMapper;
     }
 
@@ -157,4 +161,18 @@ public class UserService implements DataBaseInitService {
         SecurityContextHolder.getContext().setAuthentication(this.getAuthenticationToken(currentUser.getEmail()));
     }
 
+    public List<OfferViewModel> getUserProfileOffers(String email) {
+        UserEntity userEntity = this.userRepository.findByEmail(email).get();
+        return userEntity.getOffers()
+                .stream()
+                .filter(o -> o.getStatus().getStatusType().name().equals("ACTIVE"))
+                .map(offerEntity -> {
+                    OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+                    offerViewModel.setDescription(offerEntity.getDescription());
+                    offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
+
+                    return offerViewModel;
+                }).toList();
+    }
 }
