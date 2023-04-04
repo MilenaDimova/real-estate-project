@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+    <title>Home Property | My Offer</title>
+    <th:block th:insert="~{fragments/head}"></th:block>
+
+</head>
+<body>
+<section id="aa-signin">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-signin-area">
+                    <div class="aa-signin-form">
+                        <div class="aa-signin-form-title">
+                            <a class="aa-property-home" href="/">Hestia MD</a>
+                            <h4>Your Profile</h4>
+                        </div>
+                        <div sec:authorize="hasRole('USER')" th:object="${userProfile}">
+                            <div class="add-offer-message">
+                                <h4 th:text="|First name: *{firstName}|"></h4>
+                                <h4 th:text="|Last name: *{lastName}|"></h4>
+                                <h4 th:text="|Email: *{email}|"></h4>
+                                <h4 th:text="|Phone number: *{phoneNumber}|"></h4>
+                                <h4 th:text="|Your active offers: *{countActiveOffer}|"></h4>
+                                <a class="update-profile-btn" th:href="@{/profile/update}">Update Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- jQuery library -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<script src="/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/js/bootstrap.js"></script>
+<!-- slick slider -->
+<script type="text/javascript" src="/js/slick.js"></script>
+<!-- Price picker slider -->
+<script type="text/javascript" src="/js/nouislider.js"></script>
+<!-- mixit slider -->
+<script type="text/javascript" src="/js/jquery.mixitup.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>
+<!-- Custom js -->
+<script src="/js/custom.js"></script>
+<script>
+    const btn = document.getElementById("UpdateOfferBtn");
+    btn.addEventListener('click', ev => {
+        let offerId = ev.target.getAttribute('data');
+        window.location.href = "/offers/update/?id=" + offerId;
+    })
+</script>
+
+</body>
+</html>

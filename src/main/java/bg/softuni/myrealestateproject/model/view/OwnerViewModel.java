@@ -9,6 +9,8 @@ public class OwnerViewModel {
     private String phoneNumber;
     private String email;
 
+    private int countActiveOffer;
+    private List<OfferViewModel> offers;
     private List<String> roles;
 
     public String getFullName() {
@@ -45,7 +47,10 @@ public class OwnerViewModel {
     }
 
     public String getLastName() {
-        return lastName;
+        if (this.lastName.isBlank()) {
+           this.lastName = "*Not filled*";
+        }
+        return this.lastName;
     }
 
     public OwnerViewModel setLastName(String lastName) {
@@ -69,6 +74,24 @@ public class OwnerViewModel {
 
     public OwnerViewModel setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public int getCountActiveOffer() {
+        return countActiveOffer;
+    }
+
+    public OwnerViewModel setCountActiveOffer(int countActiveOffer) {
+        this.countActiveOffer = countActiveOffer;
+        return this;
+    }
+
+    public List<OfferViewModel> getOffers() {
+        return offers;
+    }
+
+    public OwnerViewModel setOffers(List<OfferViewModel> offers) {
+        this.offers = offers;
         return this;
     }
 

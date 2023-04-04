@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/fonts/**", "/users/signin-error").permitAll()
                 .requestMatchers("/", "/users/signin", "/users/register", "/offers/sales", "/offers/rents", "/offers/search").permitAll()
                 .requestMatchers("/contact", "/about-us", "/offers/details/**", "/maintenance").permitAll()
-                .requestMatchers("/offers/**").hasRole(RoleTypeEnum.USER.name())
+                .requestMatchers("/offers/**", "/profile/**", "/profile").hasRole(RoleTypeEnum.USER.name())
                 .requestMatchers("/offers/**", "/admin/**").hasRole(RoleTypeEnum.ADMIN.name())
                 .anyRequest()
                 .authenticated()

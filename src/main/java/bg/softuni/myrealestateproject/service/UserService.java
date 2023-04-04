@@ -1,5 +1,6 @@
 package bg.softuni.myrealestateproject.service;
 
+import bg.softuni.myrealestateproject.model.binding.UpdateProfileBindingModel;
 import bg.softuni.myrealestateproject.model.binding.UserRegisterBindingModel;
 import bg.softuni.myrealestateproject.model.entity.UserEntity;
 import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
@@ -11,16 +12,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService implements DataBaseInitService {
@@ -57,8 +57,7 @@ public class UserService implements DataBaseInitService {
         return this.userRepository.count() == 0;
     }
 
-    public void registerUser(UserRegisterBindingModel userRegisterBindingModel,
-                             Consumer<Authentication> successfulLoginProcessor) {
+    public void registerUser(UserRegisterBindingModel userRegisterBindingModel, Consumer<Authentication> successfulLoginProcessor) {
 
         UserEntity userEntity = new UserEntity()
                 .setFirstName(userRegisterBindingModel.getFirstName())
@@ -70,7 +69,11 @@ public class UserService implements DataBaseInitService {
 
         userRepository.save(userEntity);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userRegisterBindingModel.getEmail());
+        successfulLoginProcessor.accept(this.getAuthenticationToken(userRegisterBindingModel.getEmail()));
+    }
+
+    private Authentication getAuthenticationToken(String email) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails,
@@ -78,7 +81,7 @@ public class UserService implements DataBaseInitService {
                 userDetails.getAuthorities()
         );
 
-        successfulLoginProcessor.accept(authentication);
+        return authentication;
     }
 
     public Optional<UserEntity> findByEmail(String username) {
@@ -102,4 +105,56 @@ public class UserService implements DataBaseInitService {
                     return ownerViewModel;
                 });
     }
+
+    public OwnerViewModel getUserProfileInformation(String email) {
+        return this.userRepository.findByEmail(email)
+                .map(userEntity -> {
+                    int activeOffers = userEntity.getOffers().stream()
+                            .filter(o -> o.getStatus().getStatusType().name().equals("ACTIVE")).toList()
+                            .size();
+
+                    OwnerViewModel ownerViewModel = this.modelMapper.map(userEntity, OwnerViewModel.class);
+                    ownerViewModel.setFirstName(userEntity.getFirstName());
+                    ownerViewModel.setLastName(userEntity.getLastName());
+                    ownerViewModel.setEmail(userEntity.getEmail());
+                    ownerViewModel.setPhoneNumber(ownerViewModel.getPhoneNumber());
+                    ownerViewModel.setCountActiveOffer(activeOffers);
+
+                    return ownerViewModel;
+                }).orElse(null);
+    }
+
+    public OwnerViewModel findById(Long id) {
+        return this.userRepository.findById(id)
+                .map(userEntity -> {
+                    OwnerViewModel ownerViewModel = this.modelMapper.map(userEntity, OwnerViewModel.class);
+                    ownerViewModel.setFirstName(userEntity.getFirstName());
+                    ownerViewModel.setLastName(userEntity.getLastName());
+                    ownerViewModel.setEmail(userEntity.getEmail());
+                    ownerViewModel.setPhoneNumber(ownerViewModel.getPhoneNumber());
+
+                    return ownerViewModel;
+                }).orElse(null);
+    }
+
+    public boolean existUserByEmail(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
+
+    public boolean existUserByPhoneNumber(String phoneNumber) {
+        return this.userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    public void updateProfile(UpdateProfileBindingModel updateProfileBindingModel, Long userDetailsId) {
+        UserEntity currentUser = this.userRepository.findById(userDetailsId).get();
+        currentUser.setEmail(updateProfileBindingModel.getEmail());
+        currentUser.setFirstName(updateProfileBindingModel.getFirstName());
+        currentUser.setLastName(updateProfileBindingModel.getLastName());
+        currentUser.setPhoneNumber(updateProfileBindingModel.getPhoneNumber());
+
+        this.userRepository.saveAndFlush(currentUser);
+
+        SecurityContextHolder.getContext().setAuthentication(this.getAuthenticationToken(currentUser.getEmail()));
+    }
+
 }

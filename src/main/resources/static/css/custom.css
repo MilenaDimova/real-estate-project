@@ -34,3 +34,17 @@ div.add-offer-message {
 div.back-button {
     margin-top: 20px;
 }
+
+
+
+.update-profile-btn {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    margin-top: 20px;
+    padding: 12px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
