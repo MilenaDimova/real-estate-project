@@ -74,16 +74,7 @@
                                 <option value="3">24</option>
                             </select>
                         </form>
-                        <!--                        <form>-->
-                        <!--                            <label class="aa-single-advance-search">-->
-                        <!--                                <input type="submit" value="Search" class="aa-search-btn">-->
-                        <!--                            </label>-->
-                        <!--                        </form>-->
                     </div>
-                    <!--                    <div class="aa-properties-content-head-right">-->
-                    <!--                        <a id="aa-grid-properties" href="#"><span class="fa fa-th"></span></a>-->
-                    <!--                        <a id="aa-list-properties" href="#"><span class="fa fa-list"></span></a>-->
-                    <!--                    </div>-->
                 </div>
                 <!-- Start properties content body -->
                 <div class="aa-properties-content-body" th:each="o : ${offers.getContent()}" th:object="${o}">
@@ -113,8 +104,7 @@
                                     <div class="aa-properties-detial">
                     <span class="aa-price" th:text="*{price}">
                     </span><span class="aa-price" th:utext="${'&#8364;'}"></span>
-                                        <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{id})}">View
-                                            Details</a>
+                                        <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{id})}">View Details</a>
                                     </div>
                                 </div>
                             </article>
