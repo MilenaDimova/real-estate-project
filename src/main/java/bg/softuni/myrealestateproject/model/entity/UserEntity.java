@@ -22,6 +22,9 @@ public class UserEntity extends BaseEntity{
     @ManyToMany(fetch = FetchType.EAGER)
     private List<RoleEntity> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<OfferEntity> offers;
+
     public UserEntity() {
     }
 
@@ -67,6 +70,15 @@ public class UserEntity extends BaseEntity{
 
     public UserEntity setRoles(List<RoleEntity> roles) {
         this.roles = roles;
+        return this;
+    }
+
+    public List<OfferEntity> getOffers() {
+        return offers;
+    }
+
+    public UserEntity setOffers(List<OfferEntity> offers) {
+        this.offers = offers;
         return this;
     }
 
