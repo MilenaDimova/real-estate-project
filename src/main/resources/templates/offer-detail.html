@@ -80,7 +80,9 @@
                             <th:block sec:authorize="hasRole('USER')">
                                 <h4>Owner Information</h4>
                                 <ul>
-                                    <li th:text="|Name: *{owner.fullName}|"></li>
+                                    <li th:text="|Name: *{owner.fullName}|">
+<!--                                        <a th:href="@{/profile/offers/(id = *{owner.id})}" th:text="|Name: *{owner.fullName}|"></a>-->
+                                    </li>
                                     <li th:text="|Phone number: *{owner.phoneNumber}|"></li>
                                 </ul>
                             </th:block>
