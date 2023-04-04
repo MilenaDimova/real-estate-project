@@ -13,11 +13,13 @@ public class CurrentUser extends User {
         this.id = userEntity.getId();
         this.firstName = userEntity.getFirstName();
         this.lastName = userEntity.getLastName();
+        this.phoneNumber = userEntity.getPhoneNumber();
     }
 
     private Long id;
     private String firstName;
     private String lastName;
+    private String phoneNumber;
 
     public Long getId() {
         return id;
@@ -43,6 +45,15 @@ public class CurrentUser extends User {
 
     public CurrentUser setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public CurrentUser setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
         return this;
     }
 
