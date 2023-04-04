@@ -39,6 +39,15 @@
                         </ul>
                     </li>
                 </th:block>
+                <th:block sec:authorize="hasRole('USER')">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">PROFILE <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/profile">INFORMATION</a></li>
+                            <li><a href="/profile/offers">OFFERS</a></li>
+                        </ul>
+                    </li>
+                </th:block>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
