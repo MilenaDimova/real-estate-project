@@ -142,6 +142,14 @@ public class OfferController {
         return modelAndView;
     }
 
+    @PreAuthorize("@offerService.isOwner(#principal.name, #id) || @offerService.isAdmin(#principal.name)")
+    @PutMapping("/republish/")
+    public String republish(Principal principal, @RequestParam("id") Long id) {
+        this.offerService.republishOffer(id);
+
+        return "redirect:/";
+    }
+
     @GetMapping("/search")
     public String search(@Valid SearchOfferBindingModel searchOfferBindingModel, BindingResult bindingResult, Model model) {
         model.addAttribute("maxQuadratureDefault", this.offerService.findMaxQuadrature());

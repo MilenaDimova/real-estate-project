@@ -199,4 +199,16 @@ public class OfferService {
                 });
 
     }
+
+    public void republishOffer(Long id) {
+        OfferEntity offerEntity = this.offerRepository.findById(id).get();
+        if (offerEntity.getStatus().getStatusType() == StatusTypeEnum.EXPIRED) {
+            offerEntity.setStatus(this.statusService.findStatusActive());
+            offerEntity.setActiveFrom(LocalDate.now());
+
+            this.offerRepository.saveAndFlush(offerEntity);
+        } else {
+            throw new ForbiddenException("You don't have permissions to republish this offer!");
+        }
+    }
 }

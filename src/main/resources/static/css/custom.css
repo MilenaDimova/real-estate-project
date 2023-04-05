@@ -68,3 +68,7 @@ div.back-button {
 .expired-status {
     background: gray;
 }
+
+.inline-form {
+    display: inline;
+}
