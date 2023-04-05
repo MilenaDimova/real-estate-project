@@ -1,5 +1,6 @@
 package bg.softuni.myrealestateproject.service;
 
+import bg.softuni.myrealestateproject.exception.ObjectNotFoundException;
 import bg.softuni.myrealestateproject.model.binding.UpdateProfileBindingModel;
 import bg.softuni.myrealestateproject.model.binding.UserRegisterBindingModel;
 import bg.softuni.myrealestateproject.model.entity.UserEntity;
@@ -128,25 +129,12 @@ public class UserService implements DataBaseInitService {
                 }).orElse(null);
     }
 
-    public OwnerViewModel findById(Long id) {
-        return this.userRepository.findById(id)
-                .map(userEntity -> {
-                    OwnerViewModel ownerViewModel = this.modelMapper.map(userEntity, OwnerViewModel.class);
-                    ownerViewModel.setFirstName(userEntity.getFirstName());
-                    ownerViewModel.setLastName(userEntity.getLastName());
-                    ownerViewModel.setEmail(userEntity.getEmail());
-                    ownerViewModel.setPhoneNumber(ownerViewModel.getPhoneNumber());
-
-                    return ownerViewModel;
-                }).orElse(null);
+    public boolean existUserByEmail(String bindingEmail, String currentUserEmail) {
+        return this.userRepository.existsByEmail(bindingEmail) && !bindingEmail.equals(currentUserEmail);
     }
 
-    public boolean existUserByEmail(String email) {
-        return this.userRepository.existsByEmail(email);
-    }
-
-    public boolean existUserByPhoneNumber(String phoneNumber) {
-        return this.userRepository.existsByPhoneNumber(phoneNumber);
+    public boolean existUserByPhoneNumber(String bindingPhoneNumber, String currentUserPhoneNumber) {
+        return this.userRepository.existsByPhoneNumber(bindingPhoneNumber) && !bindingPhoneNumber.equals(currentUserPhoneNumber);
     }
 
     public void updateProfile(UpdateProfileBindingModel updateProfileBindingModel, Long userDetailsId) {
@@ -174,5 +162,20 @@ public class UserService implements DataBaseInitService {
 
                     return offerViewModel;
                 }).toList();
+    }
+
+    public UpdateProfileBindingModel findUpdateProfileBindingModelByEmail(String email) {
+        Optional<UserEntity> userByEmail = this.userRepository.findByEmail(email);
+        if (userByEmail.isEmpty()) {
+            throw new ObjectNotFoundException("Email " + email + " not found!");
+        }
+
+        UserEntity userEntity = userByEmail.get();
+
+        return new UpdateProfileBindingModel().setId(userEntity.getId())
+                .setEmail(userEntity.getEmail())
+                .setFirstName(userEntity.getFirstName())
+                .setLastName(userEntity.getLastName())
+                .setPhoneNumber(userEntity.getPhoneNumber());
     }
 }
