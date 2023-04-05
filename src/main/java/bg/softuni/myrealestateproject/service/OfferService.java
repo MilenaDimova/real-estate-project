@@ -1,5 +1,7 @@
 package bg.softuni.myrealestateproject.service;
 
+import bg.softuni.myrealestateproject.exception.ForbiddenException;
+import bg.softuni.myrealestateproject.exception.ObjectNotFoundException;
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
 import bg.softuni.myrealestateproject.model.entity.OfferEntity;
@@ -20,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,8 +53,7 @@ public class OfferService {
         this.modelMapper = modelMapper;
     }
 
-    public Optional<OfferViewModel> findById(Long id) {
-
+    public OfferViewModel findById(Long id) {
         return this.offerRepository.findById(id)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
@@ -62,7 +64,7 @@ public class OfferService {
                     offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
 
                     return offerViewModel;
-                });
+                }).orElseThrow(() -> new ObjectNotFoundException("Offer with id " + id + " was not found!"));
     }
 
     public boolean isOwner(String username, Long offerId) {
@@ -81,7 +83,7 @@ public class OfferService {
     }
 
     public Page<OfferViewModel> findLatestOffers(Pageable pageable) {
-        return this.offerRepository.findAllOffersWithActiveStatus(pageable)
+        return this.offerRepository.findAllActiveOffers(pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
@@ -94,7 +96,7 @@ public class OfferService {
     public Page<OfferViewModel> findByActiveStatusAndOfferType(OfferTypeEnum offerTypeEnum, Pageable pageable) {
         StatusEntity statusApprovedEntity = this.statusService.findStatusActive();
         OfferTypeEntity offerTypeEntity = this.offerTypeService.findOfferType(offerTypeEnum);
-        return this.offerRepository.findAllByStatusAndOfferType(statusApprovedEntity, offerTypeEntity, pageable)
+        return this.offerRepository.findAllByStatusAndOfferTypeAndActiveFromLessThanEqual(statusApprovedEntity, offerTypeEntity, LocalDate.now(), pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
@@ -165,7 +167,6 @@ public class OfferService {
         List<OfferEntity> filteredOffers = this.offerRepository.findAll(specification);
 
         return filteredOffers.stream()
-                .filter(o -> o.getStatus().getStatusType().name().equals("ACTIVE"))
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());

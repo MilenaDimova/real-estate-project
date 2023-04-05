@@ -11,15 +11,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface OfferRepository extends JpaRepository<OfferEntity, Long>, JpaSpecificationExecutor<OfferEntity> {
 
-    @Query("SELECT o FROM OfferEntity as o WHERE o.status.statusType = 'ACTIVE'")
-    Page<OfferEntity> findAllOffersWithActiveStatus(Pageable pageable);
+    @Query("SELECT o FROM OfferEntity as o WHERE o.status.statusType = 'ACTIVE' AND o.activeFrom <= CURRENT_DATE")
+    Page<OfferEntity> findAllActiveOffers(Pageable pageable);
 
-    Page<OfferEntity> findAllByStatusAndOfferType(StatusEntity statusEntity, OfferTypeEntity offerType, Pageable pageable);
+    Page<OfferEntity> findAllByStatusAndOfferTypeAndActiveFromLessThanEqual(StatusEntity statusEntity, OfferTypeEntity offerType, LocalDate date, Pageable pageable);
 
     @Query("SELECT MAX(o.quadrature) FROM OfferEntity as o")
     Float findMaxQuadrature();

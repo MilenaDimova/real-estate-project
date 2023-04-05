@@ -70,18 +70,16 @@ public class OfferController {
 
     @GetMapping("/rents")
     public ModelAndView rents(ModelAndView modelAndView, @PageableDefault(sort = "price", size = 4) Pageable pageable) {
-
         modelAndView.addObject("controllerAction", "rents");
+
         return setModelAndView(modelAndView, OfferTypeEnum.RENT, pageable);
     }
 
     @GetMapping("/details/")
     public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
+        OfferViewModel offer = this.offerService.findById(id);
 
-        OfferViewModel optionalOffer = this.offerService.findById(id)
-                        .orElseThrow(() -> new ObjectNotFoundException("Offer with id " + id + " was not found!"));
-
-        modelAndView.addObject("offer", optionalOffer);
+        modelAndView.addObject("offer", offer);
         modelAndView.setViewName("offer-detail");
 
         return modelAndView;

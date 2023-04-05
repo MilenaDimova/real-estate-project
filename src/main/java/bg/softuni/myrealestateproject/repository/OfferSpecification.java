@@ -2,12 +2,14 @@ package bg.softuni.myrealestateproject.repository;
 
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
 import bg.softuni.myrealestateproject.model.entity.OfferEntity;
+import bg.softuni.myrealestateproject.model.enums.StatusTypeEnum;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +57,10 @@ public class OfferSpecification implements Specification<OfferEntity> {
         if (searchOfferBindingModel.getMaxQuadrature() != null) {
             predicates.add(cb.lessThanOrEqualTo(root.get("quadrature"), searchOfferBindingModel.getMaxQuadrature()));
         }
+
+        //This Shows only active offers which has activeFrom today or in the past
+        predicates.add(cb.lessThanOrEqualTo(root.get("activeFrom"), LocalDate.now()));
+        predicates.add(cb.equal(root.join("status").get("statusType"), StatusTypeEnum.ACTIVE));
 
         return cb.and(predicates.toArray(new Predicate[0]));
     }
