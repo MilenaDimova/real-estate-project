@@ -56,10 +56,10 @@ public class OfferController {
 
     }
 
-    @ModelAttribute
-    public OfferAddBindingModel offerAddBindingModel() {
-        return new OfferAddBindingModel();
-    }
+//    @ModelAttribute
+//    public OfferAddBindingModel offerAddBindingModel() {
+//        return new OfferAddBindingModel();
+//    }
 
     @GetMapping("/sales")
     public ModelAndView sales(ModelAndView modelAndView, @PageableDefault(sort = "price", size = 4) Pageable pageable) {
@@ -102,44 +102,32 @@ public class OfferController {
     }
 
 
-    @PreAuthorize("@offerService.isOwner(#principal.name, #offerAddBindingModel.id) || @offerService.isAdmin(#principal.name)")
+    @PreAuthorize("@offerService.isOwner(#principal.name, #id) || @offerService.isAdmin(#principal.name)")
     @GetMapping("/update/")
-    public ModelAndView update(Principal principal, @RequestParam("id") Long id, ModelAndView modelAndView,
-                               @Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult, Map<String, Object> modelMap) {
-        if (offerAddBindingModel.isHasErrors()) {
-            modelMap.put("offerAddBindingModel", offerAddBindingModel);
-            modelAndView.addObject("property", offerAddBindingModel);
-        } else {
-            var offerAddBindingModelDB = this.offerService.updateOfferById(id);
-            modelMap.put("offerAddBindingModel", offerAddBindingModelDB);
-            modelAndView.addObject("property", offerAddBindingModelDB);
+    public String update(@RequestParam("id") Long id, Model model, Principal principal) {
+        if (!model.containsAttribute("offerAddBindingModel")) {
+            model.addAttribute("offerAddBindingModel", this.offerService.findById(id));
         }
 
-        modelAndView.setViewName("update-offer");
-
-        return modelAndView;
+        return "update-offer";
     }
 
-    @PreAuthorize("@offerService.isOwner(#principal.name, #offerAddBindingModel.id) || @offerService.isAdmin(#principal.name)")
+    @PreAuthorize("@offerService.isOwner(#principal.name, #id) || @offerService.isAdmin(#principal.name)")
     @PutMapping ("/update/")
-    public ModelAndView updateConfirm(Principal principal, @Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes, ModelAndView modelAndView, @AuthenticationPrincipal CurrentUser userDetails) {
+    public String updateConfirm(@Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                                @RequestParam("id") Long id, Principal principal) {
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerAddBindingModel", offerAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerAddBindingModel", bindingResult);
-            offerAddBindingModel.setHasErrors(true);
-            modelAndView.setViewName(String.format("redirect:/offers/update/?id=%d", offerAddBindingModel.getId()));
-            return modelAndView;
-        }
-        offerAddBindingModel.setHasErrors(false);
-        offerAddBindingModel =  this.offerService.updateOffer(offerAddBindingModel, userDetails.isAdmin());
-        if (offerAddBindingModel.isHasErrors()) {
-            //modelAndView.setViewName("Some error page....");
-        } else {
-            modelAndView.setViewName(String.format("redirect:/offers/details/?id=%d", offerAddBindingModel.getId()));
+
+            return "redirect:/offers/update/?id=" + id;
         }
 
-        return modelAndView;
+        boolean isCurrentUserHasAdminRole = this.offerService.isAdmin(principal.getName());
+        this.offerService.updateOffer(offerAddBindingModel, isCurrentUserHasAdminRole);
+
+        return "redirect:/";
     }
 
     @PreAuthorize("@offerService.isOwner(#principal.name, #id) || @offerService.isAdmin(#principal.name)")
