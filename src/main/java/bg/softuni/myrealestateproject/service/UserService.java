@@ -153,7 +153,6 @@ public class UserService implements DataBaseInitService {
         UserEntity userEntity = this.userRepository.findByEmail(email).get();
         return userEntity.getOffers()
                 .stream()
-                .filter(o -> o.getStatus().getStatusType().name().equals("ACTIVE"))
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());

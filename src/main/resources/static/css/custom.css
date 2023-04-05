@@ -35,8 +35,6 @@ div.back-button {
     margin-top: 20px;
 }
 
-
-
 .update-profile-btn {
     background-color: #008CBA;
     border: none;
@@ -47,4 +45,26 @@ div.back-button {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+}
+
+.base-status {
+    color: white;
+    padding: 2px 8px 3px 8px;
+    border-radius: 15px;
+}
+
+.active-status {
+    background: #419841;
+}
+
+.blocked-status {
+    background: #d34238;
+}
+
+.pending-status {
+    background: coral;
+}
+
+.expired-status {
+    background: gray;
 }
