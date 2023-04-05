@@ -35,7 +35,10 @@ public class OfferController {
     }
 
     @GetMapping("/add")
-    public String add() {
+    public String add(Model model) {
+        if (!model.containsAttribute("offerAddBindingModel")) {
+            model.addAttribute("offerAddBindingModel", new OfferAddBindingModel());
+        }
         return "add-offer";
     }
 
@@ -55,11 +58,6 @@ public class OfferController {
         return "add-offer-message";
 
     }
-
-//    @ModelAttribute
-//    public OfferAddBindingModel offerAddBindingModel() {
-//        return new OfferAddBindingModel();
-//    }
 
     @GetMapping("/sales")
     public ModelAndView sales(ModelAndView modelAndView, @PageableDefault(sort = "price", size = 4) Pageable pageable) {

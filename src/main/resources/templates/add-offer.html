@@ -23,7 +23,7 @@
                                 <select class="selectItem" id="statusType" name="statusType">
                                     <option value="">Select Status</option>
                                     <option th:each="s : ${T(bg.softuni.myrealestateproject.model.enums.StatusTypeEnum).values()}" th:text="${s}" th:value="${s}"
-                                            th:selected="${s.equals(offerAddBindingModel.getStatusType())}"></option>
+                                            th:selected="${s == offerAddBindingModel.getStatusType()}"></option>
                                 </select>
                                 <small th:if="${#fields.hasErrors('statusType')}" th:errors="*{statusType}" class="text-danger"></small>
                             </div>
@@ -31,7 +31,8 @@
                                 <label for="city">City <span class="required">*</span></label>
                                 <select class="selectItem" id="city" name="city">
                                     <option value="">Select City</option>
-                                    <option th:each="c : ${T(bg.softuni.myrealestateproject.model.enums.CityNameEnum).values()}" th:text="${c}" th:value="${c}"></option>
+                                    <option th:each="c : ${T(bg.softuni.myrealestateproject.model.enums.CityNameEnum).values()}" th:text="${c}" th:value="${c}"
+                                            th:selected="${c == offerAddBindingModel.city}"></option>
                                 </select>
                                 <small th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="text-danger"></small>
                             </div>
@@ -44,7 +45,8 @@
                                 <label for="offerType">Offer type <span class="required">*</span></label>
                                 <select class="selectItem" id="offerType" name="offerType">
                                     <option value="">Select Offer Type</option>
-                                    <option th:each="o : ${T(bg.softuni.myrealestateproject.model.enums.OfferTypeEnum).values()}" th:text="${o}" th:value="${o}"></option>
+                                    <option th:each="o : ${T(bg.softuni.myrealestateproject.model.enums.OfferTypeEnum).values()}" th:text="${o}" th:value="${o}"
+                                            th:selected="${o == offerAddBindingModel.offerType}"></option>
                                 </select>
                                 <small th:if="${#fields.hasErrors('offerType')}" th:errors="*{offerType}" class="text-danger"></small>
                             </div>
@@ -52,7 +54,8 @@
                                 <label for="estateType">Estate type <span class="required">*</span></label>
                                 <select class="selectItem" id="estateType" name="estateType">
                                     <option value="">Select Estate Type</option>
-                                    <option th:each="e : ${T(bg.softuni.myrealestateproject.model.enums.EstateTypeEnum).values()}" th:text="${e.toString().replaceAll('_', ' ')}" th:value="${e}"></option>
+                                    <option th:each="e : ${T(bg.softuni.myrealestateproject.model.enums.EstateTypeEnum).values()}" th:text="${e.name().replaceAll('_', ' ')}" th:value="${e}"
+                                            th:selected="${e == offerAddBindingModel.estateType}"></option>
                                 </select>
                                 <small th:if="${#fields.hasErrors('estateType')}" th:errors="*{estateType}" class="text-danger"></small>
                             </div>
@@ -60,7 +63,8 @@
                                 <label for="propertyType">Property type <span class="required">*</span></label>
                                 <select class="selectItem" id="propertyType" name="propertyType">
                                     <option value="">Select Property Type</option>
-                                    <option th:each="p : ${T(bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum).values()}" th:text="${p.toString().replaceAll('_', ' ')}" th:value="${p}"></option>
+                                    <option th:each="p : ${T(bg.softuni.myrealestateproject.model.enums.PropertyTypeEnum).values()}" th:text="${p.name().replaceAll('_', ' ')}" th:value="${p}"
+                                            th:selected="${p == offerAddBindingModel.propertyType}"></option>
                                 </select>
                                 <small th:if="${#fields.hasErrors('propertyType')}" th:errors="*{propertyType}" class="text-danger"></small>
                             </div>
