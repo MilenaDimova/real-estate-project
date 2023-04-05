@@ -80,6 +80,7 @@
                     </th:block>
                     <th:block th:if="*{statusType.equals('ACTIVE')}">
                       <span class="base-status active-status" th:text="*{statusType}"></span>
+                      <span th:text="|from *{activeFrom}|"></span>
                     </th:block>
                     <th:block th:if="*{statusType.equals('BLOCKED')}">
                       <span class="base-status blocked-status" th:text="*{statusType}"></span>
