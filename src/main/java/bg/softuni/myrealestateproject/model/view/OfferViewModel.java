@@ -1,15 +1,17 @@
 package bg.softuni.myrealestateproject.model.view;
 
+import bg.softuni.myrealestateproject.model.enums.*;
+
 import java.math.BigDecimal;
 import java.util.List;
 
 public class OfferViewModel {
     private Long id;
-    private String city;
-    private String offerType;
-    private String estateType;
-    private String propertyType;
-    private String statusType;
+    private CityNameEnum city;
+    private OfferTypeEnum offerType;
+    private EstateTypeEnum estateType;
+    private PropertyTypeEnum propertyType;
+    private StatusTypeEnum statusType;
     private String activeFrom;
     private int floor;
     private int bed;
@@ -34,47 +36,47 @@ public class OfferViewModel {
         return this;
     }
 
-    public String getCity() {
+    public CityNameEnum getCity() {
         return city;
     }
 
-    public OfferViewModel setCity(String city) {
+    public OfferViewModel setCity(CityNameEnum city) {
         this.city = city;
         return this;
     }
 
-    public String getOfferType() {
+    public OfferTypeEnum getOfferType() {
         return offerType;
     }
 
-    public OfferViewModel setOfferType(String offerType) {
+    public OfferViewModel setOfferType(OfferTypeEnum offerType) {
         this.offerType = offerType;
         return this;
     }
 
-    public String getEstateType() {
+    public EstateTypeEnum getEstateType() {
         return estateType;
     }
 
-    public OfferViewModel setEstateType(String estateType) {
+    public OfferViewModel setEstateType(EstateTypeEnum estateType) {
         this.estateType = estateType;
         return this;
     }
 
-    public String getPropertyType() {
+    public PropertyTypeEnum getPropertyType() {
         return propertyType;
     }
 
-    public OfferViewModel setPropertyType(String propertyType) {
+    public OfferViewModel setPropertyType(PropertyTypeEnum propertyType) {
         this.propertyType = propertyType;
         return this;
     }
 
-    public String getStatusType() {
+    public StatusTypeEnum getStatusType() {
         return statusType;
     }
 
-    public OfferViewModel setStatusType(String statusType) {
+    public OfferViewModel setStatusType(StatusTypeEnum statusType) {
         this.statusType = statusType;
         return this;
     }

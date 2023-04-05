@@ -75,18 +75,18 @@
                     <span th:text="|*{room} Rooms|">2 Rooms</span>
                     <span th:text="|*{bath} Baths|">3 Baths</span>
                     <span th:text="|*{quadrature} m2|">1100 SQ FT</span>
-                    <th:block th:if="*{statusType.equals('PENDING')}">
-                      <span class="base-status pending-status" th:text="*{statusType}"></span>
+                    <th:block th:if="*{statusType.name().equals('PENDING')}">
+                      <span class="base-status pending-status" th:text="*{statusType.name()}"></span>
                     </th:block>
-                    <th:block th:if="*{statusType.equals('ACTIVE')}">
-                      <span class="base-status active-status" th:text="*{statusType}"></span>
+                    <th:block th:if="*{statusType.name().equals('ACTIVE')}">
+                      <span class="base-status active-status" th:text="*{statusType.name()}"></span>
                       <span th:text="|from *{activeFrom}|"></span>
                     </th:block>
-                    <th:block th:if="*{statusType.equals('BLOCKED')}">
-                      <span class="base-status blocked-status" th:text="*{statusType}"></span>
+                    <th:block th:if="*{statusType.name().equals('BLOCKED')}">
+                      <span class="base-status blocked-status" th:text="*{statusType.name()}"></span>
                     </th:block>
-                    <th:block th:if="*{statusType.equals('EXPIRED')}">
-                      <span class="base-status expired-status" th:text="*{statusType}"></span>
+                    <th:block th:if="*{statusType.name().equals('EXPIRED')}">
+                      <span class="base-status expired-status" th:text="*{statusType.name()}"></span>
                     </th:block>
                   </div>
                   <div class="aa-properties-about">

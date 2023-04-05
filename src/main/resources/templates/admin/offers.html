@@ -43,7 +43,7 @@
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-2xl">
                                         <div>
-                                            <p class="font-semibold" th:text="*{estateType.replaceAll('_', ' ')}"></p>
+                                            <p class="font-semibold" th:text="*{estateType.name().replaceAll('_', ' ')}"></p>
                                             <p class="text-lg text-gray-600 dark:text-gray-400" th:text="*{offerType}"></p>
                                         </div>
                                     </div>
@@ -54,17 +54,17 @@
                                     <span th:text="|*{price} |" ></span><span th:utext="${'&#8364;'}"></span>
                                 </td>
                                 <td class="px-4 py-3 text-lg">
-                                    <th:block th:if="*{statusType.equals('PENDING')}">
-                                        <span class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600" th:text="*{statusType}"></span>
+                                    <th:block th:if="*{statusType.name().equals('PENDING')}">
+                                        <span class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600" th:text="*{statusType.name()}"></span>
                                     </th:block>
-                                    <th:block th:if="*{statusType.equals('ACTIVE')}">
-                                        <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100" th:text="*{statusType}"></span>
+                                    <th:block th:if="*{statusType.name().equals('ACTIVE')}">
+                                        <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100" th:text="*{statusType.name()}"></span>
                                     </th:block>
-                                    <th:block th:if="*{statusType.equals('BLOCKED')}">
-                                        <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700" th:text="*{statusType}"></span>
+                                    <th:block th:if="*{statusType.name().equals('BLOCKED')}">
+                                        <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700" th:text="*{statusType.name()}"></span>
                                     </th:block>
-                                    <th:block th:if="*{statusType.equals('EXPIRED')}">
-                                        <span class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700" th:text="*{statusType}"></span>
+                                    <th:block th:if="*{statusType.name().equals('EXPIRED')}">
+                                        <span class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700" th:text="*{statusType.name()}"></span>
                                     </th:block>
                                 </td>
                                 <td class="px-4 py-3 text-2xl" th:text="*{activeFrom}">

@@ -57,9 +57,11 @@ public class OfferService {
         return this.offerRepository.findById(id)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
-                    offerViewModel.setCity(offerEntity.getCity().getCity().name());
-                    offerViewModel.setEstateType(offerEntity.getEstateType().getEstateType().name());
-                    offerViewModel.setPropertyType(offerEntity.getPropertyType().getPropertyType().name());
+                    offerViewModel.setStatusType(offerEntity.getStatus().getStatusType());
+                    offerViewModel.setCity(offerEntity.getCity().getCity());
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType());
+                    offerViewModel.setEstateType(offerEntity.getEstateType().getEstateType());
+                    offerViewModel.setPropertyType(offerEntity.getPropertyType().getPropertyType());
                     offerViewModel.setOwner(this.modelMapper.map(offerEntity.getOwner(), OwnerViewModel.class));
                     offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
 
@@ -86,7 +88,7 @@ public class OfferService {
         return this.offerRepository.findAllActiveOffers(pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
-                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType());
                     offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
 
                     return offerViewModel;
@@ -99,7 +101,7 @@ public class OfferService {
         return this.offerRepository.findAllByStatusAndOfferTypeAndActiveFromLessThanEqual(statusApprovedEntity, offerTypeEntity, LocalDate.now(), pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
-                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType());
                     offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
 
                     return offerViewModel;
@@ -125,19 +127,6 @@ public class OfferService {
         OfferEntity offerEntity = this.offerRepository.save(offer);
         offer.setImages(this.imageService.saveImageToDB(offerAddBindingModel.getUploadedImages(), offerEntity));
     }
-
-
-    public OfferAddBindingModel updateOfferById(Long id) {
-        return this.offerRepository.findById(id)
-                .map(offerEntity -> {
-                    OfferAddBindingModel offerAddBindingModel = this.modelMapper.map(offerEntity, OfferAddBindingModel.class);
-                    offerAddBindingModel.setOfferType(offerEntity.getOfferType().getOfferType());
-                    offerAddBindingModel.setEstateType(offerEntity.getEstateType().getEstateType());
-                    offerAddBindingModel.setPropertyType(offerEntity.getPropertyType().getPropertyType());
-                    return offerAddBindingModel;
-                }).orElse(null);
-    }
-
 
     public OfferAddBindingModel updateOffer(OfferAddBindingModel offerAddBindingModel, boolean isAdmin) {
         Optional<OfferEntity> offerEntity = this.offerRepository.findById(offerAddBindingModel.getId());
@@ -169,7 +158,7 @@ public class OfferService {
         return filteredOffers.stream()
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
-                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType());
                     offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
 
                     return offerViewModel;
@@ -189,10 +178,10 @@ public class OfferService {
         return this.offerRepository.findAll(pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
-                    offerViewModel.setCity(offerEntity.getCity().getCity().name());
-                    offerViewModel.setEstateType(offerEntity.getEstateType().getEstateType().name());
-                    offerViewModel.setStatusType(offerEntity.getStatus().getStatusType().name());
-                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+                    offerViewModel.setCity(offerEntity.getCity().getCity());
+                    offerViewModel.setEstateType(offerEntity.getEstateType().getEstateType());
+                    offerViewModel.setStatusType(offerEntity.getStatus().getStatusType());
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType());
                     offerViewModel.setActiveFrom(offerEntity.getActiveFrom().toString());
 
                     return offerViewModel;

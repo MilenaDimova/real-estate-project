@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="aa-properties-info">
-                            <h2 th:text="|${offer.estateType.replaceAll('_', ' ')} in ${offer.city}|"></h2>
+                            <h2 th:text="|${offer.estateType.name().replaceAll('_', ' ')} in ${offer.city}|"></h2>
                             <span class="aa-price" th:text="*{price}"></span><span class="aa-price" th:utext="${'&#8364;'}"></span>
                             <p th:text="*{description}"></p>
                             <h4>Property Features</h4>
@@ -75,7 +75,7 @@
                                 <li th:text="|*{room} Rooms|">4 Floor</li>
                                 <li th:text="|*{bed} Bedrooms|">4 Bedroom</li>
                                 <li th:text="|*{bath} Baths|">3 Baths</li>
-                                <li th:text="*{propertyType.substring(0, 1) + propertyType.substring(1).toLowerCase().replaceAll('_', ' ')}"></li>
+                                <li th:text="*{propertyType.name().substring(0, 1) + propertyType.name().substring(1).toLowerCase().replaceAll('_', ' ')}"></li>
                             </ul>
                             <th:block sec:authorize="hasRole('USER')">
                                 <h4>Owner Information</h4>

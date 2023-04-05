@@ -155,7 +155,7 @@ public class UserService implements DataBaseInitService {
                 .stream()
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
-                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType().name());
+                    offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType());
                     offerViewModel.setDescription(offerEntity.getDescription());
                     offerViewModel.setImagesIds(this.imageService.getImagesIds(offerEntity.getId()));
 
