@@ -18,10 +18,10 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/profile")
-public class ProfileController {
+public class UserController {
     private final UserService userService;
 
-    public ProfileController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
