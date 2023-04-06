@@ -1,7 +1,6 @@
 package bg.softuni.myrealestateproject.web;
 
-import bg.softuni.myrealestateproject.model.binding.UpdateProfileBindingModel;
-import bg.softuni.myrealestateproject.model.service.CurrentUser;
+import bg.softuni.myrealestateproject.model.binding.AdminUpdateProfileBindingModel;
 import bg.softuni.myrealestateproject.service.ImageService;
 import bg.softuni.myrealestateproject.service.OfferService;
 import bg.softuni.myrealestateproject.service.UserService;
@@ -9,7 +8,6 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -62,8 +60,8 @@ public class AdminController {
     @PreAuthorize("@offerService.isAdmin(#principal.name)")
     @GetMapping("/user/")
     public String update(@RequestParam("id") Long id, Model model, Principal principal) {
-        if (!model.containsAttribute("updateProfileBindingModel")) {
-            model.addAttribute("updateProfileBindingModel", this.userService.findUserById(id));
+        if (!model.containsAttribute("adminUpdateProfileBindingModel")) {
+            model.addAttribute("adminUpdateProfileBindingModel", this.userService.findUserById(id));
         }
 
         return "admin/user-profile";
@@ -72,8 +70,8 @@ public class AdminController {
 
     @GetMapping("/user/update/")
     public String update(@RequestParam("id") Long id, Model model) {
-        if (!model.containsAttribute("updateProfileBindingModel")) {
-            model.addAttribute("updateProfileBindingModel", this.userService.findUserById(id));
+        if (!model.containsAttribute("adminUpdateProfileBindingModel")) {
+            model.addAttribute("adminUpdateProfileBindingModel", this.userService.findUserById(id));
             model.addAttribute("emailExists", false);
             model.addAttribute("phoneNumberExists", false);
         }
@@ -83,31 +81,31 @@ public class AdminController {
 
     @PreAuthorize("@offerService.isAdmin(#principal.name)")
     @PutMapping("/user/update/")
-    public String updateConfirm(@Valid UpdateProfileBindingModel updateProfileBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+    public String updateConfirm(@Valid AdminUpdateProfileBindingModel adminUpdateProfileBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
                                 @RequestParam("id") Long id, Principal principal) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateProfileBindingModel", bindingResult);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminUpdateProfileBindingModel", bindingResult);
         }
 
-        UpdateProfileBindingModel baseUser = this.userService.findUserById(id);
-        boolean existEmail = this.userService.existUserByEmail(updateProfileBindingModel.getEmail(), baseUser.getEmail());
+        AdminUpdateProfileBindingModel baseUser = this.userService.findUserById(id);
+        boolean existEmail = this.userService.existUserByEmail(adminUpdateProfileBindingModel.getEmail(), baseUser.getEmail());
         if (existEmail) {
             redirectAttributes.addFlashAttribute("emailExists", true);
         }
 
-        boolean existPhone = this.userService.existUserByPhoneNumber(updateProfileBindingModel.getPhoneNumber(), baseUser.getPhoneNumber());
+        boolean existPhone = this.userService.existUserByPhoneNumber(adminUpdateProfileBindingModel.getPhoneNumber(), baseUser.getPhoneNumber());
         if (existPhone) {
             redirectAttributes.addFlashAttribute("phoneNumberExists", true);
         }
 
         if (bindingResult.hasErrors() || existEmail || existPhone) {
-            redirectAttributes.addFlashAttribute("updateProfileBindingModel", updateProfileBindingModel);
+            redirectAttributes.addFlashAttribute("adminUpdateProfileBindingModel", adminUpdateProfileBindingModel);
 
             return "redirect:/admin/user/update/?id=" + id;
         }
 
-        this.userService.adminUpdateProfile(updateProfileBindingModel, baseUser);
+        this.userService.adminUpdateProfile(adminUpdateProfileBindingModel, baseUser);
 
         return "redirect:/admin/user/?id=" + id;
     }

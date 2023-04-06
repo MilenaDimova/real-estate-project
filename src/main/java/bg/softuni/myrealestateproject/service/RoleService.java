@@ -3,10 +3,10 @@ package bg.softuni.myrealestateproject.service;
 import bg.softuni.myrealestateproject.model.entity.RoleEntity;
 import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
 import bg.softuni.myrealestateproject.repository.RoleRepository;
-import bg.softuni.myrealestateproject.service.DataBaseInitService;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class RoleService implements DataBaseInitService {
@@ -30,4 +30,8 @@ public class RoleService implements DataBaseInitService {
     }
 
     public RoleEntity findRoleEntityByRoleType(RoleTypeEnum roleTypeEnum) { return this.roleRepository.findRoleEntityByRoleType(roleTypeEnum); }
+
+    public List<RoleEntity> findAll() {
+        return this.roleRepository.findAll();
+    }
 }

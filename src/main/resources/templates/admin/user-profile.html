@@ -18,7 +18,7 @@
               <a class="aa-property-home" href="/">Hestia MD</a>
               <h4>User Profile</h4>
             </div>
-            <div sec:authorize="hasRole('ADMIN')" th:object="${updateProfileBindingModel}">
+            <div sec:authorize="hasRole('ADMIN')" th:object="${adminUpdateProfileBindingModel}">
               <div class="add-offer-message">
                 <h4 th:text="|First name: *{firstName}|"></h4>
                 <h4 th:text="|Last name: *{lastName}|"></h4>

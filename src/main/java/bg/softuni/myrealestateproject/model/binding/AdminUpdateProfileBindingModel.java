@@ -1,10 +1,11 @@
 package bg.softuni.myrealestateproject.model.binding;
 
+import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-public class UpdateProfileBindingModel {
-
+public class AdminUpdateProfileBindingModel {
     private Long id;
     @NotBlank(message = "First name is required!")
     private String firstName;
@@ -17,14 +18,17 @@ public class UpdateProfileBindingModel {
     @NotBlank(message = "Phone number is required!")
     private String phoneNumber;
 
-    public UpdateProfileBindingModel() {
+    @NotNull(message = "Role is required!")
+    private RoleTypeEnum role;
+
+    public AdminUpdateProfileBindingModel() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public UpdateProfileBindingModel setId(Long id) {
+    public AdminUpdateProfileBindingModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -33,7 +37,7 @@ public class UpdateProfileBindingModel {
         return firstName;
     }
 
-    public UpdateProfileBindingModel setFirstName(String firstName) {
+    public AdminUpdateProfileBindingModel setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -42,7 +46,7 @@ public class UpdateProfileBindingModel {
         return lastName;
     }
 
-    public UpdateProfileBindingModel setLastName(String lastName) {
+    public AdminUpdateProfileBindingModel setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -51,7 +55,7 @@ public class UpdateProfileBindingModel {
         return email;
     }
 
-    public UpdateProfileBindingModel setEmail(String email) {
+    public AdminUpdateProfileBindingModel setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -60,9 +64,17 @@ public class UpdateProfileBindingModel {
         return phoneNumber;
     }
 
-    public UpdateProfileBindingModel setPhoneNumber(String phoneNumber) {
+    public AdminUpdateProfileBindingModel setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
         return this;
     }
 
+    public RoleTypeEnum getRole() {
+        return role;
+    }
+
+    public AdminUpdateProfileBindingModel setRole(RoleTypeEnum role) {
+        this.role = role;
+        return this;
+    }
 }

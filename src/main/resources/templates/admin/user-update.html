@@ -17,7 +17,7 @@
               <a class="aa-property-home" href="/">Hestia MD</a>
               <h4>Update user profile</h4>
             </div>
-            <form class="contactform" th:method="put" th:action="@{/admin/user/update/(id = *{id})}" th:object="${updateProfileBindingModel}">
+            <form class="contactform" th:method="put" th:action="@{/admin/user/update/(id = *{id})}" th:object="${adminUpdateProfileBindingModel}">
               <div class="aa-single-field">
                 <label for="email">Email <span class="required">*</span></label>
                 <input th:field="*{email}" type="email" required="required" aria-required="true"
@@ -50,7 +50,7 @@
                 <select class="selectItem" id="role" name="role">
                   <option value="">Select Role Type</option>
                   <option th:each="r : ${T(bg.softuni.myrealestateproject.model.enums.RoleTypeEnum).values()}" th:text="${r}" th:value="${r}"
-                          th:selected="${r == updateProfileBindingModel.role}"></option>
+                          th:selected="${r == adminUpdateProfileBindingModel.role}"></option>
                 </select>
                 <small th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-danger"></small>
               </div>

@@ -1,6 +1,7 @@
 package bg.softuni.myrealestateproject.service;
 
 import bg.softuni.myrealestateproject.exception.ObjectNotFoundException;
+import bg.softuni.myrealestateproject.model.binding.AdminUpdateProfileBindingModel;
 import bg.softuni.myrealestateproject.model.binding.UpdateProfileBindingModel;
 import bg.softuni.myrealestateproject.model.binding.UserRegisterBindingModel;
 import bg.softuni.myrealestateproject.model.entity.RoleEntity;
@@ -8,7 +9,6 @@ import bg.softuni.myrealestateproject.model.entity.UserEntity;
 import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
 import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.model.view.OwnerViewModel;
-import bg.softuni.myrealestateproject.repository.RoleRepository;
 import bg.softuni.myrealestateproject.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -31,16 +31,14 @@ public class UserService implements DataBaseInitService {
     private final UserRepository userRepository;
     private final UserDetailsService userDetailsService;
     private  final RoleService roleService;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final ImageService imageService;
     private final ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository, UserDetailsService userDetailsService, RoleService roleService, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ImageService imageService, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, UserDetailsService userDetailsService, RoleService roleService, PasswordEncoder passwordEncoder, ImageService imageService, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.userDetailsService = userDetailsService;
         this.roleService = roleService;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.imageService = imageService;
         this.modelMapper = modelMapper;
@@ -55,7 +53,7 @@ public class UserService implements DataBaseInitService {
                 setEmail("admin@example.com").
                 setPassword(passwordEncoder.encode("123")).
                 setPhoneNumber("0899443363").
-                setRoles(roleRepository.findAll());
+                setRoles(this.roleService.findAll());
 
         userRepository.save(admin);
     }
@@ -73,7 +71,7 @@ public class UserService implements DataBaseInitService {
                 .setEmail(userRegisterBindingModel.getEmail())
                 .setPassword(passwordEncoder.encode(userRegisterBindingModel.getPassword()))
                 .setPhoneNumber(userRegisterBindingModel.getPhoneNumber())
-                .setRoles(List.of(roleRepository.findRoleEntityByRoleType(RoleTypeEnum.USER)));
+                .setRoles(List.of(this.roleService.findRoleEntityByRoleType(RoleTypeEnum.USER)));
 
         userRepository.save(userEntity);
 
@@ -181,34 +179,34 @@ public class UserService implements DataBaseInitService {
                 .setPhoneNumber(userEntity.getPhoneNumber());
     }
 
-    public UpdateProfileBindingModel findUserById(Long id) {
+    public AdminUpdateProfileBindingModel findUserById(Long id) {
         return this.userRepository.findById(id)
                 .map(userEntity -> {
-                    UpdateProfileBindingModel updateProfileBindingModel = this.modelMapper.map(userEntity, UpdateProfileBindingModel.class);
+                    AdminUpdateProfileBindingModel adminUpdateProfileBindingModel = this.modelMapper.map(userEntity, AdminUpdateProfileBindingModel.class);
                     List<RoleTypeEnum> userRoles = userEntity.getRoles().stream().map(RoleEntity::getRoleType).toList();
 
-                    updateProfileBindingModel.setEmail(userEntity.getEmail());
-                    updateProfileBindingModel.setFirstName(userEntity.getFirstName());
-                    updateProfileBindingModel.setLastName(userEntity.getLastName());
-                    updateProfileBindingModel.setPhoneNumber(userEntity.getPhoneNumber());
-                    updateProfileBindingModel.setRole(userRoles.contains(RoleTypeEnum.ADMIN) ? RoleTypeEnum.ADMIN : RoleTypeEnum.USER);
+                    adminUpdateProfileBindingModel.setEmail(userEntity.getEmail());
+                    adminUpdateProfileBindingModel.setFirstName(userEntity.getFirstName());
+                    adminUpdateProfileBindingModel.setLastName(userEntity.getLastName());
+                    adminUpdateProfileBindingModel.setPhoneNumber(userEntity.getPhoneNumber());
+                    adminUpdateProfileBindingModel.setRole(userRoles.contains(RoleTypeEnum.ADMIN) ? RoleTypeEnum.ADMIN : RoleTypeEnum.USER);
 
-                    return updateProfileBindingModel;
+                    return adminUpdateProfileBindingModel;
                 }).orElseThrow(() -> new ObjectNotFoundException("User with id " + id + " was not found!"));
     }
 
 
-    public void adminUpdateProfile(UpdateProfileBindingModel updateProfileBindingModel, UpdateProfileBindingModel baseUser) {
+    public void adminUpdateProfile(AdminUpdateProfileBindingModel adminUpdateProfileBindingModel, AdminUpdateProfileBindingModel baseUser) {
         UserEntity userEntity = this.userRepository.findByEmail(baseUser.getEmail()).get();
 
-        userEntity.setEmail(updateProfileBindingModel.getEmail());
-        userEntity.setFirstName(updateProfileBindingModel.getFirstName());
-        userEntity.setLastName(updateProfileBindingModel.getLastName());
-        userEntity.setPhoneNumber(updateProfileBindingModel.getPhoneNumber());
+        userEntity.setEmail(adminUpdateProfileBindingModel.getEmail());
+        userEntity.setFirstName(adminUpdateProfileBindingModel.getFirstName());
+        userEntity.setLastName(adminUpdateProfileBindingModel.getLastName());
+        userEntity.setPhoneNumber(adminUpdateProfileBindingModel.getPhoneNumber());
 
         List<RoleEntity> userRoles = new ArrayList<>();
         userRoles.add(this.roleService.findRoleEntityByRoleType(RoleTypeEnum.USER));
-        if (updateProfileBindingModel.getRole() == RoleTypeEnum.ADMIN) {
+        if (adminUpdateProfileBindingModel.getRole() == RoleTypeEnum.ADMIN) {
             userRoles.add(this.roleService.findRoleEntityByRoleType(RoleTypeEnum.ADMIN));
         }
 
