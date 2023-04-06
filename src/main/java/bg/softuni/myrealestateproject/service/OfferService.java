@@ -96,9 +96,9 @@ public class OfferService {
     }
 
     public Page<OfferViewModel> findByActiveStatusAndOfferType(OfferTypeEnum offerTypeEnum, Pageable pageable) {
-        StatusEntity statusApprovedEntity = this.statusService.findStatusActive();
+        StatusEntity statusActiveEntity = this.statusService.findStatusActive();
         OfferTypeEntity offerTypeEntity = this.offerTypeService.findOfferType(offerTypeEnum);
-        return this.offerRepository.findAllByStatusAndOfferTypeAndActiveFromLessThanEqual(statusApprovedEntity, offerTypeEntity, LocalDate.now(), pageable)
+        return this.offerRepository.findAllByStatusAndOfferTypeAndActiveFromLessThanEqual(statusActiveEntity, offerTypeEntity, LocalDate.now(), pageable)
                 .map(offerEntity -> {
                     OfferViewModel offerViewModel = this.modelMapper.map(offerEntity, OfferViewModel.class);
                     offerViewModel.setOfferType(offerEntity.getOfferType().getOfferType());
@@ -199,5 +199,13 @@ public class OfferService {
         } else {
             throw new ForbiddenException("You don't have permissions to republish this offer!");
         }
+    }
+
+    public void findAllActiveStatusOffersGreaterThanMonth() {
+        List<OfferEntity> allByStatusAndActiveFromBefore = this.offerRepository.findAllActiveStatusOffersGreaterThanMonth();
+        List<OfferEntity> expiredStatusOffers = allByStatusAndActiveFromBefore.stream()
+                .map(offerEntity -> offerEntity.setStatus(this.statusService.findStatusType(StatusTypeEnum.EXPIRED))).toList();
+
+        this.offerRepository.saveAllAndFlush(expiredStatusOffers);
     }
 }
