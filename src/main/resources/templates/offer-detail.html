@@ -89,13 +89,13 @@
 
                         </div>
                         <th:block sec:authorize="hasRole('USER')">
-                            <div class="aa-properties-social" th:if="${(offer.owner.id == #authentication.principal.id && !offer.statusType.equals('BLOCKED')) || #authentication.principal.isAdmin()}">
+                            <div class="aa-properties-social" th:if="${(offer.owner.id == #authentication.principal.id && !offer.statusType.name().equals('BLOCKED')) || #authentication.principal.isAdmin()}">
                                 <th:block>
                                     <form class="inline-form" th:action="@{/offers/delete/(id = *{id})}" th:method="delete">
                                         <input id="UpdateOfferBtn" type="button" value="Edit" class="aa-secondary-btn" th:data="*{id}">
                                         <input class="aa-secondary-btn" type="submit" value="Delete">
                                     </form>
-                                    <form class="inline-form" th:if="${offer.statusType.equals('EXPIRED')}" th:action="@{/offers/republish/(id = *{id})}" th:method="put">
+                                    <form class="inline-form" th:if="${offer.statusType.name().equals('EXPIRED')}" th:action="@{/offers/republish/(id = *{id})}" th:method="put">
                                         <input class="aa-secondary-btn" type="submit" value="Republish" >
                                     </form>
                                 </th:block>
