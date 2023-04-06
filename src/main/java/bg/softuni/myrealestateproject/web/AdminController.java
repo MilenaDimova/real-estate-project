@@ -1,17 +1,21 @@
 package bg.softuni.myrealestateproject.web;
 
+import bg.softuni.myrealestateproject.model.binding.UpdateProfileBindingModel;
+import bg.softuni.myrealestateproject.model.service.CurrentUser;
 import bg.softuni.myrealestateproject.service.ImageService;
 import bg.softuni.myrealestateproject.service.OfferService;
 import bg.softuni.myrealestateproject.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
@@ -54,4 +58,58 @@ public class AdminController {
 
         return modelAndView;
     }
+
+    @PreAuthorize("@offerService.isAdmin(#principal.name)")
+    @GetMapping("/user/")
+    public String update(@RequestParam("id") Long id, Model model, Principal principal) {
+        if (!model.containsAttribute("updateProfileBindingModel")) {
+            model.addAttribute("updateProfileBindingModel", this.userService.findUserById(id));
+        }
+
+        return "admin/user-profile";
+    }
+
+
+    @GetMapping("/user/update/")
+    public String update(@RequestParam("id") Long id, Model model) {
+        if (!model.containsAttribute("updateProfileBindingModel")) {
+            model.addAttribute("updateProfileBindingModel", this.userService.findUserById(id));
+            model.addAttribute("emailExists", false);
+            model.addAttribute("phoneNumberExists", false);
+        }
+
+        return "admin/user-update";
+    }
+
+    @PreAuthorize("@offerService.isAdmin(#principal.name)")
+    @PutMapping("/user/update/")
+    public String updateConfirm(@Valid UpdateProfileBindingModel updateProfileBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                                @RequestParam("id") Long id, Principal principal) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.updateProfileBindingModel", bindingResult);
+        }
+
+        UpdateProfileBindingModel baseUser = this.userService.findUserById(id);
+        boolean existEmail = this.userService.existUserByEmail(updateProfileBindingModel.getEmail(), baseUser.getEmail());
+        if (existEmail) {
+            redirectAttributes.addFlashAttribute("emailExists", true);
+        }
+
+        boolean existPhone = this.userService.existUserByPhoneNumber(updateProfileBindingModel.getPhoneNumber(), baseUser.getPhoneNumber());
+        if (existPhone) {
+            redirectAttributes.addFlashAttribute("phoneNumberExists", true);
+        }
+
+        if (bindingResult.hasErrors() || existEmail || existPhone) {
+            redirectAttributes.addFlashAttribute("updateProfileBindingModel", updateProfileBindingModel);
+
+            return "redirect:/admin/user/update/?id=" + id;
+        }
+
+        this.userService.adminUpdateProfile(updateProfileBindingModel, baseUser);
+
+        return "redirect:/admin/user/?id=" + id;
+    }
+
 }

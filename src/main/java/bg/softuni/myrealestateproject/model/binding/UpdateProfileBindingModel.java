@@ -1,7 +1,11 @@
 package bg.softuni.myrealestateproject.model.binding;
 
+import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 public class UpdateProfileBindingModel {
 
@@ -16,6 +20,9 @@ public class UpdateProfileBindingModel {
 
     @NotBlank(message = "Phone number is required!")
     private String phoneNumber;
+
+    @NotNull(message = "Role is required!")
+    private RoleTypeEnum role;
 
     public UpdateProfileBindingModel() {
     }
@@ -62,6 +69,15 @@ public class UpdateProfileBindingModel {
 
     public UpdateProfileBindingModel setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    public RoleTypeEnum getRole() {
+        return role;
+    }
+
+    public UpdateProfileBindingModel setRole(RoleTypeEnum role) {
+        this.role = role;
         return this;
     }
 }

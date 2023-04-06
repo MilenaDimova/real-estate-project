@@ -1,5 +1,6 @@
 package bg.softuni.myrealestateproject.model.entity;
 
+import bg.softuni.myrealestateproject.model.enums.RoleTypeEnum;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -72,6 +73,11 @@ public class UserEntity extends BaseEntity{
         this.roles = roles;
         return this;
     }
+
+//    public void addAdminRole() {
+//        RoleEntity adminRole = getRoles().get(0);
+//        getRoles().add(adminRole);
+//    }
 
     public List<OfferEntity> getOffers() {
         return offers;

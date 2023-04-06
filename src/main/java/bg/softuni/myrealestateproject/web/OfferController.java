@@ -1,6 +1,5 @@
 package bg.softuni.myrealestateproject.web;
 
-import bg.softuni.myrealestateproject.exception.ObjectNotFoundException;
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/offers")

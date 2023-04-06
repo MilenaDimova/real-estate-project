@@ -29,4 +29,5 @@ public class RoleService implements DataBaseInitService {
         return this.roleRepository.count() == 0;
     }
 
+    public RoleEntity findRoleEntityByRoleType(RoleTypeEnum roleTypeEnum) { return this.roleRepository.findRoleEntityByRoleType(roleTypeEnum); }
 }
