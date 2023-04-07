@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.TestExecutionEvent;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
@@ -105,5 +104,35 @@ public class OfferControllerIT {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("offer-detail"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("offer"));
+    }
+
+
+    @Test
+    @WithUserDetails(
+            value = "admin@example.com",
+            setupBefore = TestExecutionEvent.TEST_EXECUTION
+    )
+    void testSaleOffersGet() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/offers/sales")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("offers"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("controllerAction"))
+                .andExpect(MockMvcResultMatchers.view().name("offers"));
+    }
+
+
+    @Test
+    @WithUserDetails(
+            value = "admin@example.com",
+            setupBefore = TestExecutionEvent.TEST_EXECUTION
+    )
+    void testRentOffersGet() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/offers/rents")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("offers"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("controllerAction"))
+                .andExpect(MockMvcResultMatchers.view().name("offers"));
     }
 }
