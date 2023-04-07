@@ -22,12 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/users")
 public class RegisterController {
     private final UserService userService;
-    private final ModelMapper modelMapper;
     private final SecurityContextRepository securityContextRepository;
 
-    public RegisterController(UserService userService, ModelMapper modelMapper, SecurityContextRepository securityContextRepository) {
+    public RegisterController(UserService userService, SecurityContextRepository securityContextRepository) {
         this.userService = userService;
-        this.modelMapper = modelMapper;
         this.securityContextRepository = securityContextRepository;
     }
 
@@ -39,7 +37,6 @@ public class RegisterController {
     @PostMapping("/register")
     public String registerNewUser(@Valid UserRegisterBindingModel userRegisterBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
                                   HttpServletRequest request, HttpServletResponse response) {
-
         if (bindingResult.hasErrors() || !userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword())) {
             redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
