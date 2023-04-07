@@ -65,7 +65,7 @@
                 <a class="aa-properties-item-img" th:href="@{/offers/details/(id = *{id})}">
                   <img alt="img" width="400" height="280" th:src="*{getHeadingImageUrl()}">
                 </a>
-                <div th:class="'aa-tag ' + ${us.offerType.equals('SALE') ? 'for-sale' : 'for-rent'}"
+                <div th:class="'aa-tag ' + ${us.offerType.name().equals('SALE') ? 'for-sale' : 'for-rent'}"
                      th:text="*{offerType}">
                   For Rent
                 </div>
