@@ -125,7 +125,9 @@ public class OfferService {
         offer.setOwner(owner);
 
         OfferEntity offerEntity = this.offerRepository.save(offer);
-        offer.setImages(this.imageService.saveImageToDB(offerAddBindingModel.getUploadedImages(), offerEntity));
+        if (offerAddBindingModel.getUploadedImages() != null) {
+            offer.setImages(this.imageService.saveImageToDB(offerAddBindingModel.getUploadedImages(), offerEntity));
+        }
     }
 
     public OfferAddBindingModel updateOffer(OfferAddBindingModel offerAddBindingModel, boolean isAdmin) {
