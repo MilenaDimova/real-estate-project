@@ -43,7 +43,6 @@ public class OfferController {
     @PostMapping("/add")
     public String addConfirm(@Valid OfferAddBindingModel offerAddBindingModel, BindingResult bindingResult,
                               RedirectAttributes redirectAttributes, @AuthenticationPrincipal CurrentUser userDetails) {
-
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerAddBindingModel", offerAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerAddBindingModel", bindingResult);
@@ -71,6 +70,13 @@ public class OfferController {
         return setModelAndView(modelAndView, OfferTypeEnum.RENT, pageable);
     }
 
+    private ModelAndView setModelAndView(ModelAndView modelAndView, OfferTypeEnum offerTypeEnum, Pageable pageable) {
+        modelAndView.addObject("offers", this.offerService.findByActiveStatusAndOfferType(offerTypeEnum, pageable));
+        modelAndView.setViewName("offers");
+
+        return modelAndView;
+    }
+
     @GetMapping("/details/")
     public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
         OfferViewModel offer = this.offerService.findById(id);
@@ -89,14 +95,6 @@ public class OfferController {
 
         return "redirect:/";
     }
-
-    private ModelAndView setModelAndView(ModelAndView modelAndView, OfferTypeEnum offerTypeEnum, Pageable pageable) {
-        modelAndView.addObject("offers", this.offerService.findByActiveStatusAndOfferType(offerTypeEnum, pageable));
-        modelAndView.setViewName("offers");
-
-        return modelAndView;
-    }
-
 
     @PreAuthorize("@offerService.isOwner(#principal.name, #id) || @offerService.isAdmin(#principal.name)")
     @GetMapping("/update/")
