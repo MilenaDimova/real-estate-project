@@ -30,9 +30,9 @@ public class Helper {
         this.propertyTypeRepository = propertyTypeRepository;
     }
 
-    public OfferEntity createOfferOne() {
+    public OfferEntity createOfferOne(StatusTypeEnum statusTypeEnum) {
         OfferEntity offerEntity = new OfferEntity()
-                .setStatus(this.statusRepository.findByStatusType(StatusTypeEnum.PENDING))
+                .setStatus(this.statusRepository.findByStatusType(statusTypeEnum))
                 .setArea("Center")
                 .setPrice(BigDecimal.TEN)
                 .setCity(this.cityRepository.findCityEntityByCity(CityNameEnum.SOFIA).get())
