@@ -31,6 +31,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -134,10 +135,12 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:3.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:6.0.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:6.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:6.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:6.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:2.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.hsqldb:hsqldb:2.7.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:6.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:6.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.0.1" level="project" />
   </component>
 </module>
