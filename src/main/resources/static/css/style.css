@@ -1582,6 +1582,7 @@ img {
 }
 
 .aa-properties-content-bottom {
+  text-align: center;
   display: inline;
   float: left;
   width: 100%;
