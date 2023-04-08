@@ -60,7 +60,7 @@
                                 <img th:src="@{/images/no-image.png}" alt="img">
                             </th:block>
                             <div th:each="imgId : ${offer.getImagesIds()}">
-                                <img th:src="@{${'/images/download/' + imgId}}" alt="img">
+                                <img th:src="@{${'/api/images/download/' + imgId}}" alt="img">
                             </div>
                         </div>
                         <div class="aa-properties-info">

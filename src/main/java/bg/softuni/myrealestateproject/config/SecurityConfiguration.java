@@ -27,7 +27,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, SecurityContextRepository securityContextRepository) throws Exception {
         httpSecurity.authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/fonts/**", "/users/signin-error").permitAll()
+                .requestMatchers("/fonts/**", "/users/signin-error", "/api/images/**").permitAll()
                 .requestMatchers("/", "/users/signin", "/users/register", "/offers/sales", "/offers/rents", "/offers/search").permitAll()
                 .requestMatchers("/contact", "/about-us", "/offers/details/**", "/maintenance").permitAll()
                 .requestMatchers("/offers/**", "/profile/**", "/profile").hasRole(RoleTypeEnum.USER.name())
@@ -47,8 +47,11 @@ public class SecurityConfiguration {
                 .logoutSuccessUrl("/")//go to homepage after logout
                 .invalidateHttpSession(true)
                 .and()
+                .csrf().ignoringRequestMatchers("/api/images/**")
+                .and()
                 .securityContext()
-                .securityContextRepository(securityContextRepository);
+                .securityContextRepository(securityContextRepository)
+        ;
 
         return httpSecurity.build();
     }

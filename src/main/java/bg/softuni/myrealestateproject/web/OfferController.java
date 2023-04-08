@@ -2,7 +2,9 @@ package bg.softuni.myrealestateproject.web;
 
 import bg.softuni.myrealestateproject.model.binding.OfferAddBindingModel;
 import bg.softuni.myrealestateproject.model.binding.SearchOfferBindingModel;
+import bg.softuni.myrealestateproject.model.binding.UploadImagesBindingModel;
 import bg.softuni.myrealestateproject.model.enums.OfferTypeEnum;
+import bg.softuni.myrealestateproject.model.enums.StatusTypeEnum;
 import bg.softuni.myrealestateproject.model.service.CurrentUser;
 import bg.softuni.myrealestateproject.model.view.OfferViewModel;
 import bg.softuni.myrealestateproject.service.ImageService;
@@ -50,10 +52,28 @@ public class OfferController {
             return "redirect:add";
         }
 
-        this.offerService.addOffer(offerAddBindingModel, userDetails);
+        Long offerId = this.offerService.addOffer(offerAddBindingModel, userDetails);
 
-        return "add-offer-message";
+        return "redirect:/offers/images/?id=" + offerId;
 
+    }
+
+    @PreAuthorize("@offerService.isOwner(#principal.name, #offerId) || @offerService.isAdmin(#principal.name)")
+    @GetMapping("/images/")
+    public String updateImages(Principal principal, @RequestParam("id") Long offerId, Model model) {
+        model.addAttribute("offer", this.offerService.findById(offerId));
+        return "update-images";
+    }
+
+    @PreAuthorize("@offerService.isOwner(#principal.name, #uploadImagesBindingModel.id) || @offerService.isAdmin(#principal.name)")
+    @PostMapping("/images/upload")
+    public String uploadImages(Principal principal, UploadImagesBindingModel uploadImagesBindingModel) {
+        if (uploadImagesBindingModel.getUploadedImages().size() > 0 &&
+                uploadImagesBindingModel.getUploadedImages().get(0).getSize() != 0) {
+            this.imageService.saveImageToDB(uploadImagesBindingModel.getUploadedImages(), uploadImagesBindingModel.getId());
+        }
+
+        return "redirect:/offers/images/?id=" + uploadImagesBindingModel.getId();
     }
 
     @GetMapping("/sales")
@@ -80,7 +100,11 @@ public class OfferController {
     @GetMapping("/details/")
     public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
         OfferViewModel offer = this.offerService.findById(id);
-
+        if (offer.getStatusType() != StatusTypeEnum.ACTIVE && offer.getStatusType() != StatusTypeEnum.EXPIRED) {
+            modelAndView.addObject("offerStatus", offer.getStatusType());
+            modelAndView.setViewName("offer-message");
+            return modelAndView;
+        }
         modelAndView.addObject("offer", offer);
         modelAndView.setViewName("offer-detail");
 
@@ -100,7 +124,13 @@ public class OfferController {
     @GetMapping("/update/")
     public String update(@RequestParam("id") Long id, Model model, Principal principal) {
         if (!model.containsAttribute("offerAddBindingModel")) {
-            model.addAttribute("offerAddBindingModel", this.offerService.findById(id));
+            OfferViewModel offerViewModel = this.offerService.findById(id);
+            if (offerViewModel.getStatusType() != StatusTypeEnum.ACTIVE && offerViewModel.getStatusType() != StatusTypeEnum.EXPIRED) {
+                model.addAttribute("offerStatus", offerViewModel.getStatusType());
+
+                return "offer-message";
+            }
+            model.addAttribute("offerAddBindingModel", offerViewModel);
         }
 
         return "update-offer";
@@ -121,7 +151,7 @@ public class OfferController {
         boolean isCurrentUserHasAdminRole = this.offerService.isAdmin(principal.getName());
         this.offerService.updateOffer(offerAddBindingModel, isCurrentUserHasAdminRole);
 
-        return "redirect:/";
+        return "redirect:/offers/images/?id=" + id;
     }
 
     @PreAuthorize("@offerService.isOwner(#principal.name, #id) || @offerService.isAdmin(#principal.name)")

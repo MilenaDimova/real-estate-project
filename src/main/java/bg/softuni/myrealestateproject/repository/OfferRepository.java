@@ -30,4 +30,6 @@ public interface OfferRepository extends JpaRepository<OfferEntity, Long>, JpaSp
 
     List<OfferEntity> findAllByStatusAndActiveFromIsBefore(StatusEntity status, LocalDate date);
 
+    @Query("SELECT o FROM OfferEntity as o inner join ImageEntity as i on i.offer.id = o.id WHERE i.id = :imageId")
+    OfferEntity findOfferByImageId(Long imageId);
 }

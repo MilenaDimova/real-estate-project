@@ -27,13 +27,4 @@ public class HomeController {
         return modelAndView;
     }
 
-
-    @GetMapping("/details/")
-    public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
-
-        modelAndView.addObject("offer", this.offerService.findById(id));
-        modelAndView.setViewName("offer-detail");
-        return modelAndView;
-    }
-
 }

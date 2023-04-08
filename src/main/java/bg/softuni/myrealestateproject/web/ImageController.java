@@ -1,19 +1,20 @@
 package bg.softuni.myrealestateproject.web;
 
-import bg.softuni.myrealestateproject.model.entity.ImageEntity;
 import bg.softuni.myrealestateproject.model.view.ImageViewModel;
 import bg.softuni.myrealestateproject.service.ImageService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/images")
+import java.security.Principal;
+
+@CrossOrigin("*")
+@RestController
+@RequestMapping("/api/images")
 public class ImageController {
 
     private final ImageService imageService;
@@ -25,7 +26,7 @@ public class ImageController {
     @GetMapping("/download/{fileId}")
     public HttpEntity<byte[]> download(@PathVariable("fileId") long fileId) {
 
-        ImageViewModel imageViewModel = this.imageService.getFileById(fileId).orElseThrow();
+        ImageViewModel imageViewModel = this.imageService.getFileById(fileId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType(MimeTypeUtils.parseMimeType(imageViewModel.getContentType())));
@@ -33,5 +34,12 @@ public class ImageController {
         headers.setContentLength(imageViewModel.getData().length);
 
         return new HttpEntity<>(imageViewModel.getData(), headers);
+    }
+
+    @PreAuthorize("@imageService.isOwner(#principal.name, #imageId) || @offerService.isAdmin(#principal.name)")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> deleteImageById(Principal principal, @PathVariable("id") Long imageId) {
+        boolean isDeleted = this.imageService.deleteImageById(imageId);
+        return ResponseEntity.ok(isDeleted);
     }
 }

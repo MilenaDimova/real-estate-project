@@ -11,6 +11,9 @@ public class ImageEntity extends BaseEntity{
     @Column
     private String contentType;
 
+    @Column
+    private Integer imageOrder;
+
     @Lob
     @Column(length = Integer.MAX_VALUE)
     private byte[] data;
@@ -36,6 +39,15 @@ public class ImageEntity extends BaseEntity{
 
     public ImageEntity setContentType(String contentType) {
         this.contentType = contentType;
+        return this;
+    }
+
+    public Integer getImageOrder() {
+        return imageOrder;
+    }
+
+    public ImageEntity setImageOrder(Integer imageOrder) {
+        this.imageOrder = imageOrder;
         return this;
     }
 

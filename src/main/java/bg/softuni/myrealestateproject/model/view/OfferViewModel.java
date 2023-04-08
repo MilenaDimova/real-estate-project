@@ -181,7 +181,7 @@ public class OfferViewModel {
     }
 
     public String getHeadingImageUrl() {
-        String url = "/images/download/";
+        String url = "/api/images/download/";
         if (this.getImagesIds() != null && this.getImagesIds().size() > 0) {
             url += this.getImagesIds().get(0).toString();
         } else {

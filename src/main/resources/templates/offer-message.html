@@ -16,8 +16,9 @@
               <a class="aa-property-home" href="/">Hestia MD</a>
             </div>
             <div class="add-offer-message">
-              <h4>Your offer is in "Pending" status.</h4>
-              <h4>Please be patient, our team will approve it as soon as possible.</h4>
+              <h4>The offer is in <span th:text="${offerStatus}"></span> status.</h4>
+              <h4 th:if="${offerStatus.name().equals('PENDING')}">Please be patient, our team will approve it as soon as possible.</h4>
+              <h4 th:if="${offerStatus.name().equals('BLOCKED')}">Please contact us for more information.</h4>
               <h5>Greetings from the Hestia MD team!</h5>
               <div class="back-button"><a href="/">BACK</a></div>
             </div>

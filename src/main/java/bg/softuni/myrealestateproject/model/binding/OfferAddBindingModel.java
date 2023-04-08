@@ -61,8 +61,6 @@ public class OfferAddBindingModel {
 
     private String description;
 
-    private List<MultipartFile> uploadedImages;
-
     private boolean hasErrors;
 
     public OfferAddBindingModel() {
@@ -194,15 +192,6 @@ public class OfferAddBindingModel {
 
     public OfferAddBindingModel setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public List<MultipartFile> getUploadedImages() {
-        return uploadedImages;
-    }
-
-    public OfferAddBindingModel setUploadedImages(List<MultipartFile> images) {
-        this.uploadedImages = images.stream().filter(i -> !i.isEmpty()).collect(Collectors.toList());
         return this;
     }
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <title>Home Property | Update Offer</title>
+  <th:block th:insert="~{fragments/head}"></th:block>
+
+</head>
+<body>
+<section id="aa-signin">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="aa-signin-area">
+          <div class="aa-signin-form">
+            <div class="aa-signin-form-title">
+              <a class="aa-property-home" href="/">Hestia MD</a>
+              <h4>Upload and order images</h4>
+            </div>
+              <h3 th:text="|${offer.getEstateType().name().replaceAll('_', ' ')} in ${offer.area}|"></h3>
+
+              <form id="UploadImagesForm" class="upload-images-form" th:action="@{/offers/images/upload}" th:method="post" enctype="multipart/form-data">
+                  <input th:field="*{offer.id}" hidden>
+                  <div>
+                    <input class="file" type="file" multiple name="uploadedImages" id="uploadedImages">
+                    <input id="UploadImagesBtn" class="aa-secondary-btn" type="submit" value="Upload">
+                  </div>
+                  <div class="aa-single-submit">
+                  </div>
+              </form>
+
+              <span  th:if="${offer.getImagesIds().size() > 0}">
+                <h3>Uploaded Images</h3>
+                <span th:each="oi : ${offer.getImagesIds()}" >
+                  <button class="deleteImageBtn" th:data="${oi}">X</button>
+                  <img class="image-to-update" th:src="@{${'/api/images/download/' + oi}}" alt="img">
+                </span>
+              </span>
+              <div style="text-align: center; margin-top: 50px">
+<!--                  <a class="aa-secondary-btn" th:href="@{/offers/update/(id = *{offer.id})}" >Update Offer</a>-->
+                  <a class="aa-secondary-btn" th:href="@{/offers/details/(id = *{offer.id})}" >View Offer</a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- jQuery library -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<script src="/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/js/bootstrap.js"></script>
+<!-- slick slider -->
+<script type="text/javascript" src="/js/slick.js"></script>
+<!-- Price picker slider -->
+<script type="text/javascript" src="/js/nouislider.js"></script>
+<!-- mixit slider -->
+<script type="text/javascript" src="/js/jquery.mixitup.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>
+<!-- Custom js -->
+<script src="/js/custom.js"></script>
+
+<script src="/js/deleteOfferImage.js"></script>
+
+</body>
+</html>

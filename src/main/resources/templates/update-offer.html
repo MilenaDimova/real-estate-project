@@ -99,17 +99,13 @@
                 <label for="description">Description</label>
                 <textarea th:field="*{description}" name="description" id="description" rows="4" cols="50"></textarea>
               </div>
-              <div>
-                <label for="images">Property Images</label>
-                <input type="file" multiple name="images" id="images">
-              </div>
               <div class="aa-single-field">
                 <label for="activeFrom">Active From <span class="required">*</span></label>
                 <input th:field="*{activeFrom}" type="date" required="required" aria-required="true" th:value="*{activeFrom}" name="activeFrom" id="activeFrom">
                 <small th:if="${#fields.hasErrors('activeFrom')}" th:errors="*{activeFrom}" class="text-danger"></small>
               </div>
               <div class="aa-single-submit">
-                <input class="aa-secondary-btn" type="submit" value="Save">
+                <input class="aa-secondary-btn" type="submit" value="Next Step">
               </div>
             </form>
           </div>

@@ -108,7 +108,7 @@ public class OfferService {
                 });
     }
 
-    public void addOffer(OfferAddBindingModel offerAddBindingModel, UserDetails userDetails) {
+    public Long addOffer(OfferAddBindingModel offerAddBindingModel, UserDetails userDetails) {
         OfferEntity offer = this.modelMapper.map(offerAddBindingModel, OfferEntity.class);
 
         UserEntity owner = this.userService.findByEmail(userDetails.getUsername()).orElse(null);
@@ -125,9 +125,8 @@ public class OfferService {
         offer.setOwner(owner);
 
         OfferEntity offerEntity = this.offerRepository.save(offer);
-        if (offerAddBindingModel.getUploadedImages() != null) {
-            offer.setImages(this.imageService.saveImageToDB(offerAddBindingModel.getUploadedImages(), offerEntity));
-        }
+
+        return offerEntity.getId();
     }
 
     public OfferAddBindingModel updateOffer(OfferAddBindingModel offerAddBindingModel, boolean isAdmin) {

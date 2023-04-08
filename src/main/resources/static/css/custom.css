@@ -72,3 +72,21 @@ div.back-button {
 .inline-form {
     display: inline;
 }
+
+.upload-images-form {
+    margin: 20px 0;
+}
+
+.upload-images-form input[type='file'] {
+    display: inline;
+}
+
+.image-to-update {
+    width: 190px;
+    height: 190px;
+    margin: 0px 2px 10px 0px;
+}
+
+.deleteImageBtn {
+    position: absolute;
+}

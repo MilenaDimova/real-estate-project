@@ -1,9 +1,11 @@
 package bg.softuni.myrealestateproject.service;
 
+import bg.softuni.myrealestateproject.exception.ObjectNotFoundException;
 import bg.softuni.myrealestateproject.model.entity.ImageEntity;
 import bg.softuni.myrealestateproject.model.entity.OfferEntity;
 import bg.softuni.myrealestateproject.model.view.ImageViewModel;
 import bg.softuni.myrealestateproject.repository.ImageRepository;
+import bg.softuni.myrealestateproject.repository.OfferRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,40 +13,49 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ImageService {
 
     private final ImageRepository imageRepository;
+
+    private final OfferRepository offerRepository;
     private final ModelMapper modelMapper;
 
-    public ImageService(ImageRepository imageRepository, ModelMapper modelMapper) {
+    public ImageService(ImageRepository imageRepository, OfferRepository offerRepository, ModelMapper modelMapper) {
         this.imageRepository = imageRepository;
+        this.offerRepository = offerRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<ImageEntity> saveImageToDB(List<MultipartFile> uploadedImages, OfferEntity offer) {
+    public void saveImageToDB(List<MultipartFile> uploadedImages, Long offerId) {
+        OfferEntity offer = this.offerRepository.findById(offerId).get();
+        long imagesCountForOffer = this.imageRepository.findAllImagesByOfferId(offerId).stream().count();
         List<ImageEntity> entities = new ArrayList<>();
-        uploadedImages.forEach(ui -> {
+        for (int i = 0; i < uploadedImages.size(); i++) {
             try {
                 ImageEntity entity = new ImageEntity()
-                    .setFileName(ui.getOriginalFilename())
-                    .setContentType(ui.getContentType())
-                    .setData(ui.getBytes())
-                    .setOffer(offer);
+                        .setFileName(uploadedImages.get(i).getOriginalFilename())
+                        .setContentType(uploadedImages.get(i).getContentType())
+                        .setData(uploadedImages.get(i).getBytes())
+                        .setImageOrder(i + (int)imagesCountForOffer)
+                        .setOffer(offer);
                 entities.add(entity);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }
 
-        return this.imageRepository.saveAllAndFlush(entities);
+        this.imageRepository.saveAllAndFlush(entities);
     }
 
-    public Optional<ImageViewModel> getFileById(Long fileId) {
-        return this.imageRepository.findById(fileId)
-                .map(imageEntity -> this.modelMapper.map(imageEntity, ImageViewModel.class));
+    public ImageEntity getImageEntityById(Long imageId) {
+        return this.imageRepository.findById(imageId)
+                .orElseThrow(() -> new ObjectNotFoundException("Image with id " + imageId + " was not found!"));
+    }
+
+    public ImageViewModel getFileById(Long imageId) {
+        return this.modelMapper.map(this.getImageEntityById(imageId), ImageViewModel.class);
     }
 
     public List<Long> getImagesIds(Long offerId) {
@@ -59,5 +70,20 @@ public class ImageService {
         }
     }
 
+    public boolean deleteImageById(Long imageId) {
+        try {
+            ImageEntity imageEntity = this.getImageEntityById(imageId);
+            this.imageRepository.delete(imageEntity);
+        } catch (Exception ex) {
+            return false;
+        }
 
+        return true;
+    }
+
+    public boolean isOwner(String username, Long imageId) {
+        OfferEntity offer = this.offerRepository.findOfferByImageId(imageId);
+        return this.offerRepository.findById(offer.getId()).filter(o -> o.getOwner().getEmail().equals(username))
+                .isPresent();
+    }
 }
