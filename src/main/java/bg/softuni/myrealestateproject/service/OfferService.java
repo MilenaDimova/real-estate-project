@@ -203,9 +203,11 @@ public class OfferService {
         }
     }
 
-    public void findAllActiveStatusOffersGreaterThanMonth() {
-        List<OfferEntity> allByStatusAndActiveFromBefore = this.offerRepository.findAllActiveStatusOffersGreaterThanMonth();
-        List<OfferEntity> expiredStatusOffers = allByStatusAndActiveFromBefore.stream()
+    public void setAllActiveOffersOlderThanWeekToExpired() {
+        List<OfferEntity> getAllOffersToBeExpired = this.offerRepository
+                .findAllByStatusAndActiveFromIsBefore(this.statusService.findStatusType(StatusTypeEnum.ACTIVE), LocalDate.now().minusDays(6));
+
+        List<OfferEntity> expiredStatusOffers = getAllOffersToBeExpired.stream()
                 .map(offerEntity -> offerEntity.setStatus(this.statusService.findStatusType(StatusTypeEnum.EXPIRED))).toList();
 
         this.offerRepository.saveAllAndFlush(expiredStatusOffers);

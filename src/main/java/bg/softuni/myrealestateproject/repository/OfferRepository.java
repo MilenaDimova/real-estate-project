@@ -28,7 +28,6 @@ public interface OfferRepository extends JpaRepository<OfferEntity, Long>, JpaSp
     @Query("SELECT MAX(o.price) FROM OfferEntity as o")
     BigDecimal findMaxPrice();
 
-    @Query(value = "SELECT o FROM OfferEntity as o WHERE o.status.statusType = 'ACTIVE' AND MONTH (o.activeFrom) <= MONTH(CURRENT_DATE) - 1")
-    List<OfferEntity> findAllActiveStatusOffersGreaterThanMonth();
+    List<OfferEntity> findAllByStatusAndActiveFromIsBefore(StatusEntity status, LocalDate date);
 
 }
