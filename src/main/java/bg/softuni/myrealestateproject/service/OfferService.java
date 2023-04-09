@@ -81,7 +81,8 @@ public class OfferService {
     }
 
     public void deleteOfferById(Long id) {
-        this.offerRepository.deleteById(id);
+        OfferEntity offerToDelete = this.offerRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Offer with id " + id + " was not found!"));
+        this.offerRepository.delete(offerToDelete);
     }
 
     public Page<OfferViewModel> findLatestOffers(Pageable pageable) {

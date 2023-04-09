@@ -50,7 +50,7 @@
                 <select class="selectItem" id="role" name="role">
                   <option value="">Select Role Type</option>
                   <option th:each="r : ${T(bg.softuni.myrealestateproject.model.enums.RoleTypeEnum).values()}" th:text="${r}" th:value="${r}"
-                          th:selected="${r == adminUpdateProfileBindingModel.role.name()}"></option>
+                          th:selected="${r == adminUpdateProfileBindingModel.role}"></option>
                 </select>
                 <small th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-danger"></small>
               </div>

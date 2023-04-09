@@ -23,7 +23,7 @@ public class UserEntity extends BaseEntity{
     @ManyToMany(fetch = FetchType.EAGER)
     private List<RoleEntity> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<OfferEntity> offers;
 
     public UserEntity() {

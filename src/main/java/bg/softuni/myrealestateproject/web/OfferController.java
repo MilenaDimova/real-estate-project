@@ -125,7 +125,7 @@ public class OfferController {
     public String update(@RequestParam("id") Long id, Model model, Principal principal) {
         if (!model.containsAttribute("offerAddBindingModel")) {
             OfferViewModel offerViewModel = this.offerService.findById(id);
-            if (offerViewModel.getStatusType() != StatusTypeEnum.ACTIVE && offerViewModel.getStatusType() != StatusTypeEnum.EXPIRED) {
+            if (offerViewModel.getStatusType() != StatusTypeEnum.ACTIVE && offerViewModel.getStatusType() != StatusTypeEnum.EXPIRED && !offerService.isAdmin(principal.getName())) {
                 model.addAttribute("offerStatus", offerViewModel.getStatusType());
 
                 return "offer-message";
