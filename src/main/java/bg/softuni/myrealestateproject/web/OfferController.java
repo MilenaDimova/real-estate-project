@@ -98,9 +98,9 @@ public class OfferController {
     }
 
     @GetMapping("/details/")
-    public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView) {
+    public ModelAndView details(@RequestParam("id") Long id, ModelAndView modelAndView, Principal principal) {
         OfferViewModel offer = this.offerService.findById(id);
-        if (offer.getStatusType() != StatusTypeEnum.ACTIVE && offer.getStatusType() != StatusTypeEnum.EXPIRED) {
+        if (offer.getStatusType() != StatusTypeEnum.ACTIVE && offer.getStatusType() != StatusTypeEnum.EXPIRED && !this.offerService.isAdmin(principal.getName())) {
             modelAndView.addObject("offerStatus", offer.getStatusType());
             modelAndView.setViewName("offer-message");
             return modelAndView;
