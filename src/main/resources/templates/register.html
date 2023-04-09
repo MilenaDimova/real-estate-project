@@ -24,6 +24,7 @@
                                        value="" name="email" id="email">
                                 <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
                                        class="text-danger"></small>
+                                <small th:if="${emailExists}" class="text-danger">Email is already taken!</small>
                             </div>
                             <div class="aa-single-field">
                                 <label for="firstName">First Name <span class="required">*</span></label>
@@ -42,12 +43,14 @@
                                        value="" name="phoneNumber" id="phoneNumber">
                                 <small th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"
                                        class="text-danger"></small>
+                                <small th:if="${phoneNumberExists}" class="text-danger">Phone number is used!</small>
                             </div>
                             <div class="aa-single-field">
                                 <label for="password">Password <span class="required">*</span></label>
                                 <input th:field="*{password}" type="password" name="password" id="password">
                                 <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
                                        class="text-danger"></small>
+                                <small th:if="${passwordsNotMatched}" class="text-danger">Passwords don't match!</small>
                             </div>
                             <div class="aa-single-field">
                                 <label for="confirm-password">Confirm Password <span class="required">*</span></label>

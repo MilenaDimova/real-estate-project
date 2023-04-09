@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,14 +31,41 @@ public class RegisterController {
     }
 
     @GetMapping("/register")
-    private String register() {
+    private String register(Model model) {
+        if (!model.containsAttribute("userRegisterBindingModel")) {
+            model.addAttribute("userRegisterBindingModel", new UserRegisterBindingModel());
+            model.addAttribute("emailExists", false);
+            model.addAttribute("phoneNumberExists", false);
+            model.addAttribute("passwordsNotMatched", false);
+        }
         return "register";
     }
 
     @PostMapping("/register")
     public String registerNewUser(@Valid UserRegisterBindingModel userRegisterBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes,
                                   HttpServletRequest request, HttpServletResponse response) {
-        if (bindingResult.hasErrors() || !userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword())) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
+
+        }
+
+        boolean passwordsNotMatched = this.userService.passwordsMatcher(userRegisterBindingModel);
+        if (passwordsNotMatched) {
+            redirectAttributes.addFlashAttribute("passwordsNotMatched", true);
+        }
+
+        boolean existEmail = this.userService.existByEmail(userRegisterBindingModel.getEmail());
+        if (existEmail) {
+            redirectAttributes.addFlashAttribute("emailExists", true);
+        }
+
+        boolean existPhoneNumber = this.userService.existByPhoneNumber(userRegisterBindingModel.getPhoneNumber());
+        if (existPhoneNumber) {
+            redirectAttributes.addFlashAttribute("phoneNumberExists", true);
+        }
+
+        if (bindingResult.hasErrors() || existEmail || existPhoneNumber || passwordsNotMatched) {
             redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
 
@@ -58,12 +86,5 @@ public class RegisterController {
 
         return "redirect:/";
     }
-
-    @ModelAttribute
-    private UserRegisterBindingModel userRegisterBindingModel() {
-        return new UserRegisterBindingModel();
-    }
-
-
 
 }

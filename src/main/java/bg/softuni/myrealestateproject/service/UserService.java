@@ -213,4 +213,16 @@ public class UserService implements DataBaseInitService {
         userEntity.setRoles(userRoles);
         this.userRepository.saveAndFlush(userEntity);
     }
+
+    public boolean existByEmail(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
+
+    public boolean existByPhoneNumber(String phoneNumber) {
+        return this.userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    public boolean passwordsMatcher(UserRegisterBindingModel userRegisterBindingModel) {
+        return !userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword());
+    }
 }
